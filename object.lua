@@ -35,13 +35,15 @@ function Object:update()
    if self.rotational_damping > 0 then
       self.rotational_velocity = (1 - self.rotational_damping) * self.rotational_velocity
    end
-   if self.rotation > 1 then
-      self.rotation = self.rotation % 2
-      self.rotation = self.rotation - 2
-   end
-   if self.rotation < -1 then
-      self.rotation = self.rotation % -2
-      self.rotation = self.rotation + 2
+   if false then
+      if self.rotation > 1 then
+         self.rotation = self.rotation % 2
+         self.rotation = self.rotation - 2
+      end
+      if self.rotation < -1 then
+         self.rotation = self.rotation % -2
+         self.rotation = self.rotation + 2
+      end
    end
 end
 

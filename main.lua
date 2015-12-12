@@ -68,6 +68,7 @@ function love.update(dt)
    -- sounds.stop_all()
    stage:update()
    player:update()
+   camera:update()
    key.update_driver_state()
    key.update()
    frame = frame + 1
