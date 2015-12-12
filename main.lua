@@ -1,3 +1,4 @@
+camera = require("camera")
 stage = require("stage")
 Racer = require("racer")
 
@@ -31,8 +32,11 @@ lurker.postswap = load
 
 function love.draw()
    love.graphics.setCanvas()
+   love.graphics.push()
+   camera:apply_transform()
    stage:draw()
    player:draw()
+   love.graphics.pop()
 
    love.graphics.print("state: " .. key.state, 350, 270)
    love.graphics.print("frame: " .. frame, 350, 290)

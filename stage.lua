@@ -1,4 +1,5 @@
 local stage = {}
+local camera = require("camera")
 
 local seed_scale = 8
 
@@ -56,7 +57,7 @@ function stage:update_flowers()
             math.randomseed(y * self.image:getWidth() + x)
             local x_offset = math.random(-4, 4)
             local y_offset = math.random(-4, 4)
-            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset)
+            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset, camera.rotation * math.pi)
          end
       end
    end
