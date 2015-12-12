@@ -7,8 +7,9 @@ local seed_scale = 8
 function stage:load(background_filename)
    self.image = love.graphics.newImage(background_filename)
    -- create a seed map based on this image
-   self.growth_map = love.graphics.newCanvas(256, 256, "rgba8")
-   self.seed_map = love.graphics.newCanvas(256, 256, "rgba8")
+   self.growth_map = love.graphics.newCanvas(512, 512, "rgba8")
+   self.seed_map = love.image.newImageData(512, 512)
+   self.seed_map_image = love.graphics.newImage(self.seed_map)
 
    self.flower_sprite = sprites.new("bad-flowers")
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 256*256, "stream")
@@ -36,7 +37,7 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
    end
    local x = math.floor(x / seed_scale)
    local y = math.floor(y / seed_scale)
-   love.graphics.setCanvas(self.seed_map)
+
    local r = 0
    local g = 0
    local b = 0
@@ -50,12 +51,7 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
       b = growth_rate
    end
 
-   love.graphics.setColor(r, g, b)
-   love.graphics.setPointStyle("rough")
-   love.graphics.point(x, y)
-   --reset the color, because I'm sure I'll forget to do this
-   love.graphics.setColor(255, 255, 255)
-   love.graphics.setCanvas()
+   self.seed_map:setPixel(x, y, r, g, b, 255)
 end
 
 function stage:grow_seeds()
@@ -63,7 +59,8 @@ function stage:grow_seeds()
    local old_blend_mode = love.graphics.getBlendMode()
    love.graphics.setBlendMode("additive")
    love.graphics.setColor(255, 255, 255)
-   love.graphics.draw(self.seed_map)
+   self.seed_map_image:refresh()
+   love.graphics.draw(self.seed_map_image)
    love.graphics.setBlendMode(old_blend_mode)
    love.graphics.setCanvas()
 end
@@ -108,7 +105,7 @@ function stage:update_flowers()
             math.randomseed(y * self.image:getWidth() + x)
             local x_offset = math.random(-4, 4)
             local y_offset = math.random(-4, 4)
-            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset, camera.rotation * math.pi, 2, 2)
+            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset, camera.rotation * math.pi, 2, 2, 4, 4)
          end
       end
    end

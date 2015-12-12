@@ -18,7 +18,7 @@ function load(f)
    key.register_handlers(love)
 
    -- setup game stage and state
-   stage:load("art/bad-track.png")
+   stage:load("art/really-bad-track.png")
    player:load()
 
    --debug

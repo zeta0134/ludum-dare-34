@@ -31,11 +31,11 @@ end
 function Racer:update()
    Object.update(self)
 
-   local speed = 2.0
+   local speed = 4.0
    local flower_here, growth_state, flower_type = stage:flower_at(self.position.x, self.position.y)
    if flower_here then
       if growth_state > 0 then
-         speed = 1.0
+         speed = 3.0
       end
    end
 
