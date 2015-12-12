@@ -2,24 +2,42 @@ local stage = {}
 local camera = require("camera")
 local sprites = require("sprites")
 
-local seed_scale = 8
+local seed_scale = 16
+
+function stage:generate_noise_table()
+   self.noise_table = {}
+   for x = 0, 511 do
+      self.noise_table[x] = {}
+      for y = 0, 511 do
+         local x_offset = math.random(-4, 4)
+         local y_offset = math.random(-4, 4)
+         self.noise_table[x][y] = {x=x_offset,y=y_offset}
+      end
+   end
+end
 
 function stage:load(background_filename)
    self.image = love.graphics.newImage(background_filename)
    -- create a seed map based on this image
-   self.growth_map = love.graphics.newCanvas(256, 256, "rgba8")
-   self.seed_map = love.graphics.newCanvas(256, 256, "rgba8")
+   self.growth_map = love.graphics.newCanvas(512, 512, "rgba8")
+   self.seed_map = love.image.newImageData(512, 512)
+   self.seed_map_image = love.graphics.newImage(self.seed_map)
 
    self.flower_sprite = sprites.new("bad-flowers")
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 256*256, "stream")
+   self.flower_sprite.sheet.image:setFilter("nearest", "nearest")
+   self:generate_noise_table()
 end
 
 function stage:seed_planted_at(x, y)
-   local r, g, b = self.seed_map:getPixel(x, y)
-   if r + g + b > 0 then
-      return true
+   if x < 0 or x >= self.image:getWidth() or y < 0 or y >= self.image:getHeight() then
+      return nil-- seed cannot be planted outside the map
    end
-   return false
+   local r, g, b = self.seed_map:getPixel(math.floor(x / seed_scale), math.floor(y / seed_scale))
+   if r + g + b > 0 then
+      return r, g, b
+   end
+   return nil
 end
 
 function stage:plant_seed(x, y, growth_rate, flower_type)
@@ -28,12 +46,12 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
    if x < 0 or x >= self.image:getWidth() or y < 0 or y >= self.image:getHeight() then
       return -- seed cannot be planted outside the map
    end
-   local x = math.floor(x / seed_scale)
-   local y = math.floor(y / seed_scale)
    if self:seed_planted_at(x, y) then
       return
    end
-   love.graphics.setCanvas(self.seed_map)
+   local x = math.floor(x / seed_scale)
+   local y = math.floor(y / seed_scale)
+
    local r = 0
    local g = 0
    local b = 0
@@ -47,11 +65,7 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
       b = growth_rate
    end
 
-   love.graphics.setColor(r, g, b)
-   love.graphics.setPointStyle("rough")
-   love.graphics.point(x, y)
-   --reset the color, because I'm sure I'll forget to do this
-   love.graphics.setColor(255, 255, 255)
+   self.seed_map:setPixel(x, y, r, g, b, 255)
 end
 
 function stage:grow_seeds()
@@ -59,7 +73,8 @@ function stage:grow_seeds()
    local old_blend_mode = love.graphics.getBlendMode()
    love.graphics.setBlendMode("additive")
    love.graphics.setColor(255, 255, 255)
-   love.graphics.draw(self.seed_map)
+   self.seed_map_image:refresh()
+   love.graphics.draw(self.seed_map_image)
    love.graphics.setBlendMode(old_blend_mode)
    love.graphics.setCanvas()
 end
@@ -81,21 +96,29 @@ function flower_properties(r, g, b)
    return growth_stage, flower_type
 end
 
+function stage:flower_at(x, y)
+   if x < 0 or x >= self.image:getWidth() or y < 0 or y >= self.image:getHeight() then
+      return false-- seed cannot be planted outside the map
+   end
+   local r, g, b = self.image_data:getPixel(math.floor(x / seed_scale), math.floor(y / seed_scale))
+   local growth_stage, flower_type = flower_properties(r, g, b)
+   return true, growth_stage, flower_type
+end
+
 function stage:update_flowers()
-   local image_data = self.growth_map:getImageData()
+   self.image_data = self.growth_map:getImageData()
 
    -- This is bad, but I don't mind so much
    self.flower_batch:clear()
    for x = 0, math.floor(self.image:getWidth() / seed_scale) do
       for y = 0, math.floor(self.image:getHeight() / seed_scale) do
-         local r,g,b = image_data:getPixel(x, y)
+         local r,g,b = self.image_data:getPixel(x, y)
          if r + g + b > 0 then
             local growth_stage, flower_type = flower_properties(r, g, b)
             self.flower_sprite:set_frame(flower_type - 1, growth_stage)
-            math.randomseed(y * self.image:getWidth() + x)
-            local x_offset = math.random(-4, 4)
-            local y_offset = math.random(-4, 4)
-            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset, camera.rotation * math.pi, 2, 2)
+            local x_offset = self.noise_table[x][y].x
+            local y_offset = self.noise_table[x][y].y
+            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset, camera.rotation * math.pi, 4, 4, 4, 4)
          end
       end
    end
@@ -108,16 +131,18 @@ end
 
 function stage:draw()
    love.graphics.draw(self.image)
-   local old_blend_mode = love.graphics.getBlendMode()
    if true then
+      local old_blend_mode = love.graphics.getBlendMode()
       love.graphics.setBlendMode("additive")
       love.graphics.setColor(255, 255, 255)
       love.graphics.push()
       love.graphics.scale(seed_scale)
+      self.growth_map:setFilter("nearest", "nearest")
       love.graphics.draw(self.growth_map)
       love.graphics.pop()
       love.graphics.setBlendMode(old_blend_mode)
    end
+   love.graphics.setColor(255, 255, 255)
    love.graphics.draw(self.flower_batch)
 end
 

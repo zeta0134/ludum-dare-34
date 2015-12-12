@@ -18,7 +18,7 @@ function load(f)
    key.register_handlers(love)
 
    -- setup game stage and state
-   stage:load("art/bad-track.png")
+   stage:load("art/really-bad-track.png")
    player:load()
 
    title_logo = sprites.new "title-logo"
@@ -79,8 +79,9 @@ function love.update(dt)
       -- sounds.play "woosh"
    end
    -- sounds.stop_all()
-   player:update()
    stage:update()
+   player:update()
+   camera:update()
    key.update_driver_state()
    button_update()
    key.update()
