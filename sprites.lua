@@ -26,6 +26,14 @@ function Sprite:draw(...)
    love.graphics.draw(self.sheet.image, self.quad, ...)
 end
 
+function Sprite:getWidth()
+   return self.sheet.frame_width
+end
+
+function Sprite:getHeight()
+   return self.sheet.frame_height
+end
+
 function Sprite.new(sheet)
    local sprite = {}
    setmetatable(sprite, {__index = Sprite})
