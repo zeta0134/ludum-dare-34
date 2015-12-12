@@ -1,10 +1,10 @@
-module(..., package.seeall)
+local sounds = {}
 
 local music_dir = "sounds/music/"
 local sfx_dir = "sounds/sfx/"
 
-music = {}
-sfx = {}
+sounds.music = {}
+sounds.sfx = {}
 
 local function streaming(f)
    return love.audio.newSource(f)
@@ -24,32 +24,32 @@ local function load_into(dir, t)
 end
 
 local function load_music()
-   load_into(music_dir, music)
+   load_into(music_dir, sounds.music)
 
    local title
    local source
-   for title, source in pairs(music) do
+   for title, source in pairs(sounds.music) do
       source:setLooping(true)
    end
 end
 
 local function load_sfx()
-   load_into(sfx_dir, sfx)
+   load_into(sfx_dir, sounds.sfx)
 end
 
-function load()
+function sounds.load()
    load_music()
    load_sfx()
 end
 
-function stop_all()
+function sounds.stop_all()
    love.audio.stop()
 end
 
-function play(source)
+function sounds.play(source)
    local title
    local sound
-   for title, sound in pairs(sfx) do
+   for title, sound in pairs(sounds.sfx) do
       if source == title then
 	 sound:clone():play()
 	 return
@@ -58,7 +58,7 @@ function play(source)
 
    local currently_playing
    local next_playing
-   for title, sound in pairs(music) do
+   for title, sound in pairs(sounds.music) do
       if sound:isPlaying() then currently_playing = title end
       if source == title then
 	 next_playing = title
@@ -68,6 +68,8 @@ function play(source)
    if next_playing == currently_playing then return end
    if next_playing then
       if currently_playing then music[currently_playing]:stop() end
-      music[next_playing]:play()
+      sounds.music[next_playing]:play()
    end
 end
+
+return sounds

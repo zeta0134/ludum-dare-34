@@ -1,19 +1,20 @@
-module(..., package.seeall)
+local sprites = {}
 
-sheets = {}
+sprites.sheets = {}
 
-Sheet = {}
+local Sheet = {}
+sprites.Sheet = Sheet
 function Sheet.new(filename, frame_width, frame_height)
    local sheet = {}
-   setmetatable(sheet, {__index = Sheet})
-   print(filename)
+   setmetatable(sheet, {__index = sprites.Sheet})
    sheet.image = love.graphics.newImage(filename)
    sheet.frame_width = frame_width or sheet.image:getWidth()
    sheet.frame_height = frame_height or sheet.image:getHeight()
    return sheet
 end
 
-Sprite = {}
+local Sprite = {}
+sprites.Sprite = Sprite
 function Sprite:set_frame(x, y)
    x = math.floor(x)
    y = math.floor(y)
@@ -29,7 +30,7 @@ function Sprite.new(sheet)
    local sprite = {}
    setmetatable(sprite, {__index = Sprite})
    if type(sheet) == "string" then
-      sprite.sheet = sheets[sheet]
+      sprite.sheet = sprites.sheets[sheet]
       if not sprite.sheet then error("Unloaded sheet specified: " .. sheet) end
    else
       sprite.sheet = sheet
@@ -38,7 +39,7 @@ function Sprite.new(sheet)
    return sprite
 end
 
-new = Sprite.new
+sprites.new = Sprite.new
 
 local function load_into(dir, t)
    local files = love.filesystem.getDirectoryItems(dir)
@@ -56,8 +57,10 @@ local function load_into(dir, t)
    end
 end
 
-function load()
+function sprites.load()
    -- sheets.test_sheet = Sheet.new("art/sprite-test.png", 32, 32)
-   load_into("art/", sheets)
+   load_into("art/", sprites.sheets)
    -- sheets.test_sheet = love.graphics.newImage("art/sprite-test.png")
 end
+
+return sprites

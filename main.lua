@@ -1,13 +1,12 @@
-camera = require("camera")
-stage = require("stage")
-Racer = require("racer")
+local camera = require("camera")
+local key = require("key")
+local lurker = require("lurker")
+local Racer = require("racer")
+local sounds = require("sounds")
+local sprites = require("sprites")
+local stage = require("stage")
 
 player = Racer.new_racer()
-
-lurker = require "lurker"
-require "key"
-require "sounds"
-require "sprites"
 
 function load(f)
    love.window.setTitle("Tailwind")

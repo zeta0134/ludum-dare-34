@@ -1,6 +1,8 @@
-local Vector = require("vector")
-local Object = require("object")
 local camera = require("camera")
+local key = require("key")
+local Object = require("object")
+local stage = require("stage")
+local Vector = require("vector")
 
 local Racer = {}
 setmetatable(Racer, {__index=Object})
@@ -41,7 +43,7 @@ function Racer:update()
    for i = 1, self.seed_rate do
       local seed_x = self.position.x + math.random(self.seed_spread * -1, self.seed_spread)
       local seed_y = self.position.y + math.random(self.seed_spread * -1, self.seed_spread)
-      stage:plant_seed(math.floor(seed_x), math.floor(seed_y), 255, 255, 255)
+      stage:plant_seed(math.floor(seed_x), math.floor(seed_y), 1, math.random(1,2))
    end
 
    camera.position = racer.position
