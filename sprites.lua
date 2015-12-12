@@ -6,6 +6,7 @@ Sheet = {}
 function Sheet.new(filename, frame_width, frame_height)
    local sheet = {}
    setmetatable(sheet, {__index = Sheet})
+   print(filename)
    sheet.image = love.graphics.newImage(filename)
    sheet.frame_width = frame_width or sheet.image:getWidth()
    sheet.frame_height = frame_height or sheet.image:getHeight()

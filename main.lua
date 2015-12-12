@@ -9,13 +9,17 @@ require "sounds"
 require "sprites"
 
 function load(f)
+   -- load and initialize resources
+   sprites.load()
+   sounds.load()
+   sounds.stop_all()
+   key.register_handlers(love)
+
+   -- setup game stage and state
    stage:load("art/bad-track.png")
    player:load()
 
-   key.register_handlers(love)
-   sounds.load()
-   sounds.stop_all()
-   sprites.load()
+   --debug
    s = sprites.new("sprite-test2")
 end
 
