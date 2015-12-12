@@ -1,6 +1,5 @@
 -- Sound effects/music
 -- Sprite sheets
--- Input
 
 require "key"
 
@@ -10,12 +9,22 @@ end
 
 function love.draw()
    love.graphics.print("state: " .. key.state, 350, 270)
+   love.graphics.print("frame: " .. frame, 350, 290)
 end
 
 frame = 0
 function love.update(dt)
    require("lurker").update()
-   frame = frame + 1
+   -- love.audio.stop()
+   -- if frame == 0 then
+   --    music = love.audio.newSource('doopadoo.ogg')
+   --    music:setLooping(true)
+   --    music:play()
+   -- end
+   -- if frame % 180 == 0 then
+   --    love.audio.play(love.audio.newSource('woosh.ogg'), 'static')
+   -- end
    key.update_driver_state()
    key.update()
+   frame = frame + 1
 end
