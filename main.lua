@@ -1,6 +1,15 @@
 -- Sound effects/music
 -- Sprite sheets
 -- Input
+stage = require("stage")
+Racer = require("racer")
+
+player = Racer.new_racer()
+
+function love.load()
+  stage:load("art/bad-track.png")
+  player:load()
+end
 
 key_map = {lctrl='left', rctrl='right'}
 keys_down = {left=false, right=false}
@@ -21,6 +30,8 @@ function love.keyreleased(key, is_repeat)
 end
 
 function love.draw()
+   stage:draw()
+   player:draw()
    if keys_down.left then
       love.graphics.print("left", 300, 300)
    end
@@ -34,4 +45,5 @@ end
 
 function love.update()
    require("lurker").update()
+   player:update()
 end
