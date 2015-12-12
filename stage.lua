@@ -1,6 +1,6 @@
 local stage = {}
 
-local seed_scale = 4
+local seed_scale = 8
 
 function stage:load(background_filename)
    self.image = love.graphics.newImage(background_filename)
@@ -53,7 +53,10 @@ function stage:update_flowers()
          if average > 0 then
             local growth_stage = math.floor(average / 64)
             self.flower_sprite:set_frame(0, growth_stage)
-            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale, y * seed_scale)
+            math.randomseed(y * self.image:getWidth() + x)
+            local x_offset = math.random(-4, 4)
+            local y_offset = math.random(-4, 4)
+            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset)
          end
       end
    end
