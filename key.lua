@@ -1,8 +1,8 @@
-module(..., package.seeall)
+local key = {}
 
 local map = {lctrl='left', rctrl='right'}
 local keys_down = {left=false, right=false}
-function down()
+function key.down()
    if keys_down.left and keys_down.right then return 'both'
    elseif keys_down.left then return 'left'
    elseif keys_down.right then return 'right'
@@ -10,18 +10,18 @@ function down()
 end
 
 local last_keys_down = nil
-function hit()
-   if down() ~= last_keys_down then
-      return down()
+function key.hit()
+   if key.down() ~= last_keys_down then
+      return key.down()
    end
    return nil
 end
 
-function update()
-   last_keys_down = down()
+function key.update()
+   last_keys_down = key.down()
 end
 
-local function keypressed(key, is_repeat)
+function key.keypressed(key, is_repeat)
    for physical_key, virtual_key in pairs(map) do
       if key == physical_key then
 	 keys_down[virtual_key] = true
@@ -29,7 +29,7 @@ local function keypressed(key, is_repeat)
    end
 end
 
-local function keyreleased(key, is_repeat)
+function key.keyreleased(key, is_repeat)
    for physical_key, virtual_key in pairs(map) do
       if key == physical_key then
 	 keys_down[virtual_key] = false
@@ -37,32 +37,34 @@ local function keyreleased(key, is_repeat)
    end
 end
 
-function register_handlers(l)
-   l.keypressed = keypressed
-   l.keyreleased = keyreleased
+function key.register_handlers(l)
+   l.keypressed = key.keypressed
+   l.keyreleased = key.keyreleased
 end
 
-state = 'straight'
-function update_driver_state()
-   if state == 'straight' then
-      if down() == 'left' then state = 'left'
-      elseif down() == 'right' then state = 'right'
+key.state = 'straight'
+function key.update_driver_state()
+   if key.state == 'straight' then
+      if key.down() == 'left' then key.state = 'left'
+      elseif key.down() == 'right' then key.state = 'right'
       end
-   elseif state == 'left' then
-      if not down() then state = 'straight'
-      elseif hit() == 'both' then state = 'slide-left'
+   elseif key.state == 'left' then
+      if not key.down() then key.state = 'straight'
+      elseif key.hit() == 'both' then key.state = 'slide-left'
       end
-   elseif state == 'right' then
-      if not down() then state = 'straight'
-      elseif hit() == 'both' then state = 'slide-right'
+   elseif key.state == 'right' then
+      if not key.down() then key.state = 'straight'
+      elseif key.hit() == 'both' then key.state = 'slide-right'
       end
-   elseif state == 'slide-left' then
-      if not down() then state = 'straight'
-      elseif hit() == 'both' then state = 'straight'
+   elseif key.state == 'slide-left' then
+      if not key.down() then key.state = 'straight'
+      elseif key.hit() == 'both' then key.state = 'straight'
       end
-   elseif state == 'slide-right' then
-      if not down() then state = 'straight'
-      elseif hit() == 'both' then state = 'straight'
+   elseif key.state == 'slide-right' then
+      if not key.down() then key.state = 'straight'
+      elseif key.hit() == 'both' then key.state = 'straight'
       end
    end
 end
+
+return key

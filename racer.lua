@@ -1,6 +1,8 @@
-local Vector = require("vector")
-local Object = require("object")
 local camera = require("camera")
+local key = require("key")
+local Object = require("object")
+local stage = require("stage")
+local Vector = require("vector")
 
 local Racer = {}
 setmetatable(Racer, {__index=Object})

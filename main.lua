@@ -1,13 +1,13 @@
-camera = require("camera")
-stage = require("stage")
-Racer = require("racer")
-
-player = Racer.new_racer()
+local camera = require("camera")
+local stage = require("stage")
+local Racer = require("racer")
 
 lurker = require "lurker"
-require "key"
+local key = require("key")
 require "sounds"
 require "sprites"
+
+player = Racer.new_racer()
 
 function load(f)
    -- load and initialize resources
