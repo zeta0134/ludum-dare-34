@@ -58,11 +58,11 @@ function update_driver_state()
       end
    elseif state == 'slide-left' then
       if not down() then state = 'straight'
-      elseif hit() == 'both' then state = 'left'
+      elseif hit() == 'both' then state = 'straight'
       end
    elseif state == 'slide-right' then
       if not down() then state = 'straight'
-      elseif hit() == 'both' then state = 'right'
+      elseif hit() == 'both' then state = 'straight'
       end
    end
 end
