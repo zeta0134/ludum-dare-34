@@ -9,6 +9,8 @@ local stage = require("stage")
 player = Racer.new_racer()
 
 function load(f)
+   love.window.setTitle("Tailwind")
+
    -- load and initialize resources
    sprites.load()
    sounds.load()
