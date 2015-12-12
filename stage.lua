@@ -4,6 +4,18 @@ local sprites = require("sprites")
 
 local seed_scale = 8
 
+function stage:generate_noise_table()
+   self.noise_table = {}
+   for x = 0, 511 do
+      self.noise_table[x] = {}
+      for y = 0, 511 do
+         local x_offset = math.random(-4, 4)
+         local y_offset = math.random(-4, 4)
+         self.noise_table[x][y] = {x=x_offset,y=y_offset}
+      end
+   end
+end
+
 function stage:load(background_filename)
    self.image = love.graphics.newImage(background_filename)
    -- create a seed map based on this image
@@ -13,6 +25,7 @@ function stage:load(background_filename)
 
    self.flower_sprite = sprites.new("bad-flowers")
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 256*256, "stream")
+   self:generate_noise_table()
 end
 
 function stage:seed_planted_at(x, y)
@@ -102,9 +115,8 @@ function stage:update_flowers()
          if r + g + b > 0 then
             local growth_stage, flower_type = flower_properties(r, g, b)
             self.flower_sprite:set_frame(flower_type - 1, growth_stage)
-            math.randomseed(y * self.image:getWidth() + x)
-            local x_offset = math.random(-4, 4)
-            local y_offset = math.random(-4, 4)
+            local x_offset = self.noise_table[x][y].x
+            local y_offset = self.noise_table[x][y].y
             self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset, camera.rotation * math.pi, 2, 2, 4, 4)
          end
       end
