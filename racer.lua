@@ -91,7 +91,7 @@ function Racer:update()
       stage:plant_seed(math.floor(seed_x), math.floor(seed_y), 1, math.random(1,2))
    end
 
-   camera.position = racer.position + vector_from_angle(racer.rotation) * 100.0
+   camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
    camera.rotation = racer.rotation + 0.5
    self.boost_timer = self.boost_timer - 1
 end
