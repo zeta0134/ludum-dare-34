@@ -48,15 +48,10 @@ local function load_into(dir, t)
  	 local width = tonumber(name:gsub("(.+)%.(%d+)x(%d+)", "%2"), 10)
 	 local height = tonumber(name:gsub("(.+)%.(%d+)x(%d+)", "%3"), 10)
          name = name:gsub("(.+)%..+", "%1")
-	 print(name, width, height)
 	 t[name] = Sheet.new(dir .. filename, width, height)
       else
-	 print(name, width, height)
 	 t[name] = Sheet.new(dir .. filename)
       end
-   end
-   for name, sheet in pairs(t) do
-      print(name)
    end
 end
 
