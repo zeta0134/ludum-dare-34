@@ -15,11 +15,14 @@ function stage:load(background_filename)
 end
 
 function stage:seed_planted_at(x, y)
-   local r, g, b = self.seed_map:getPixel(x, y)
-   if r + g + b > 0 then
-      return true
+   if x < 0 or x >= self.image:getWidth() or y < 0 or y >= self.image:getHeight() then
+      return nil-- seed cannot be planted outside the map
    end
-   return false
+   local r, g, b = self.seed_map:getPixel(math.floor(x / seed_scale), math.floor(y / seed_scale))
+   if r + g + b > 0 then
+      return r, g, b
+   end
+   return nil
 end
 
 function stage:plant_seed(x, y, growth_rate, flower_type)
@@ -28,11 +31,11 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
    if x < 0 or x >= self.image:getWidth() or y < 0 or y >= self.image:getHeight() then
       return -- seed cannot be planted outside the map
    end
-   local x = math.floor(x / seed_scale)
-   local y = math.floor(y / seed_scale)
    if self:seed_planted_at(x, y) then
       return
    end
+   local x = math.floor(x / seed_scale)
+   local y = math.floor(y / seed_scale)
    love.graphics.setCanvas(self.seed_map)
    local r = 0
    local g = 0
@@ -52,6 +55,7 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
    love.graphics.point(x, y)
    --reset the color, because I'm sure I'll forget to do this
    love.graphics.setColor(255, 255, 255)
+   love.graphics.setCanvas()
 end
 
 function stage:grow_seeds()
@@ -81,14 +85,23 @@ function flower_properties(r, g, b)
    return growth_stage, flower_type
 end
 
+function stage:flower_at(x, y)
+   if x < 0 or x >= self.image:getWidth() or y < 0 or y >= self.image:getHeight() then
+      return false-- seed cannot be planted outside the map
+   end
+   local r, g, b = self.image_data:getPixel(math.floor(x / seed_scale), math.floor(y / seed_scale))
+   local growth_stage, flower_type = flower_properties(r, g, b)
+   return true, growth_stage, flower_type
+end
+
 function stage:update_flowers()
-   local image_data = self.growth_map:getImageData()
+   self.image_data = self.growth_map:getImageData()
 
    -- This is bad, but I don't mind so much
    self.flower_batch:clear()
    for x = 0, math.floor(self.image:getWidth() / seed_scale) do
       for y = 0, math.floor(self.image:getHeight() / seed_scale) do
-         local r,g,b = image_data:getPixel(x, y)
+         local r,g,b = self.image_data:getPixel(x, y)
          if r + g + b > 0 then
             local growth_stage, flower_type = flower_properties(r, g, b)
             self.flower_sprite:set_frame(flower_type - 1, growth_stage)
@@ -108,8 +121,8 @@ end
 
 function stage:draw()
    love.graphics.draw(self.image)
-   local old_blend_mode = love.graphics.getBlendMode()
    if true then
+      local old_blend_mode = love.graphics.getBlendMode()
       love.graphics.setBlendMode("additive")
       love.graphics.setColor(255, 255, 255)
       love.graphics.push()

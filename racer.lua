@@ -17,7 +17,7 @@ end
 function Racer:load()
    Object.load(self)
 
-   self:set_image("art/bad-racer.png", true)
+   self:set_sprite("bad-racer", true)
 
    self.position.x = 0
    self.position.y = 0
@@ -31,7 +31,15 @@ end
 function Racer:update()
    Object.update(self)
 
-   self.velocity = vector_from_angle(self.rotation) * 0.5
+   local speed = 2.0
+   local flower_here, growth_state, flower_type = stage:flower_at(self.position.x, self.position.y)
+   if flower_here then
+      if growth_state > 0 then
+         speed = 1.0
+      end
+   end
+
+   self.velocity = vector_from_angle(self.rotation) * speed
 
    if key.state == "left" or key.state == "slide-left" then
       self.rotational_velocity = -0.01

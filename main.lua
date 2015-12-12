@@ -54,8 +54,8 @@ function love.update(dt)
       -- sounds.play "woosh"
    end
    -- sounds.stop_all()
-   player:update()
    stage:update()
+   player:update()
    key.update_driver_state()
    key.update()
    frame = frame + 1
