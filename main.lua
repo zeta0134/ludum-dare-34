@@ -1,4 +1,3 @@
--- Sprite sheets
 stage = require("stage")
 Racer = require("racer")
 
