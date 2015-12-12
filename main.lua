@@ -22,6 +22,9 @@ function load(f)
    player:load()
 
    title_logo = sprites.new "title-logo"
+   stage_select_plains = sprites.new "stage-select-plains"
+   -- love.window.setMode(1920, 1080)
+   -- love.window.setHeight(1080)
 end
 
 function love.load()
@@ -42,13 +45,16 @@ function game_draw()
 end
 
 function title_draw()
-   title_logo:draw(love.window.getWidth() / 2, love.window.getHeight() / 4, nil, nil, nil, title_logo.sheet.image:getWidth() / 2, title_logo.sheet.image:getHeight() / 2)
+   x_center = love.window.getWidth() / 2
+   y_center = love.window.getHeight() / 2
+   stage_select_plains:draw(x_center, y_center, nil, nil, nil, stage_select_plains.sheet.image:getWidth() / 2, stage_select_plains.sheet.image:getHeight() / 2)
+   title_logo:draw(x_center, y_center / 2, nil, nil, nil, title_logo.sheet.image:getWidth() / 2, title_logo.sheet.image:getHeight() / 2)
 end
 
 function love.draw()
-   game_draw()
    title_draw()
-   love.graphics.print("frame: " .. frame, 20, 570)
+   game_draw()
+   love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 30)
 end
 
 frame = 0
