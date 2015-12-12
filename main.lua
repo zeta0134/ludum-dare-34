@@ -7,19 +7,22 @@ player = Racer.new_racer()
 
 lurker = require "lurker"
 require "key"
+require "sounds"
 
-function init(f)
+function load(f)
    stage:load("art/bad-track.png")
    player:load()
 
    key.register_handlers(love)
+   sounds.load()
+   sounds.stop_all()
 end
 
 function love.load()
-   init(nil)
+   load(nil)
 end
 
-lurker.postswap = init
+lurker.postswap = load
 
 function love.draw()
    stage:draw()
@@ -32,15 +35,12 @@ end
 frame = 0
 function love.update(dt)
    require("lurker").update()
-   -- love.audio.stop()
-   -- if frame == 0 then
-   --    music = love.audio.newSource('doopadoo.ogg')
-   --    music:setLooping(true)
-   --    music:play()
-   -- end
-   -- if frame % 180 == 0 then
-   --    love.audio.play(love.audio.newSource('woosh.ogg'), 'static')
-   -- end
+
+   -- sounds.play "doopadoo"
+   if frame % 180 == 0 then
+      -- sounds.play "woosh"
+   end
+   -- sounds.stop_all()
    player:update()
    key.update_driver_state()
    key.update()
