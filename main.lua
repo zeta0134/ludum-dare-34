@@ -5,14 +5,21 @@ Racer = require("racer")
 
 player = Racer.new_racer()
 
+lurker = require "lurker"
 require "key"
 
-function love.load()
+function init(f)
    stage:load("art/bad-track.png")
    player:load()
 
    key.register_handlers(love)
 end
+
+function love.load()
+   init(nil)
+end
+
+lurker.postswap = init
 
 function love.draw()
    stage:draw()
