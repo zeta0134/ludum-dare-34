@@ -6,44 +6,27 @@ Racer = require("racer")
 
 player = Racer.new_racer()
 
+require "key"
+
 function love.load()
-  stage:load("art/bad-track.png")
-  player:load()
-end
+   stage:load("art/bad-track.png")
+   player:load()
 
-key_map = {lctrl='left', rctrl='right'}
-keys_down = {left=false, right=false}
-function love.keypressed(key, is_repeat)
-   for input, output in pairs(key_map) do
-      if key == input then
-	 keys_down[output] = true
-      end
-   end
-end
-
-function love.keyreleased(key, is_repeat)
-   for input, output in pairs(key_map) do
-      if key == input then
-	 keys_down[output] = false
-      end
-   end
+   key.register_handlers(love)
 end
 
 function love.draw()
    stage:draw()
    player:draw()
-   if keys_down.left then
-      love.graphics.print("left", 300, 300)
-   end
-   if keys_down.right then
-      love.graphics.print("right", 400, 300)
-   end
-   if keys_down.left and keys_down.right then
-      love.graphics.print("both", 350, 300)
-   end
+   
+   love.graphics.print("state: " .. key.state, 350, 270)
 end
 
-function love.update()
+frame = 0
+function love.update(dt)
    require("lurker").update()
    player:update()
+   frame = frame + 1
+   key.update_driver_state()
+   key.update()
 end
