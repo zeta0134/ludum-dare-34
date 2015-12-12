@@ -19,14 +19,20 @@ function Racer:load()
    self.position.x = 320
    self.position.y = 240
 
-   self.rotational_velocity = 0.01
-   --self.rotational_damping = 0.01
+   self.rotational_damping = 0.1
 end
 
 function Racer:update()
    Object.update(self)
 
-   self.velocity = vector_from_angle(self.rotation) * 3
+   self.velocity = vector_from_angle(self.rotation) * 2
+
+   if key.state == "left" or key.state == "slide-left" then
+      self.rotational_velocity = -0.01
+   end
+   if key.state == "right" or key.state == "slide-right" then
+      self.rotational_velocity = 0.01
+   end
 end
 
 function Racer.new_racer()
