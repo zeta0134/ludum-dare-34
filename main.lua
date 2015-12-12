@@ -1,11 +1,10 @@
 local camera = require("camera")
-local stage = require("stage")
-local Racer = require("racer")
-
-local lurker = require("lurker")
 local key = require("key")
+local lurker = require("lurker")
+local Racer = require("racer")
 local sounds = require("sounds")
-require "sprites"
+local sprites = require("sprites")
+local stage = require("stage")
 
 player = Racer.new_racer()
 
