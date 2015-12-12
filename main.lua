@@ -1,3 +1,4 @@
+camera = require("camera")
 stage = require("stage")
 Racer = require("racer")
 
@@ -11,13 +12,17 @@ require "sprites"
 function load(f)
    love.window.setTitle("Tailwind")
 
+   -- load and initialize resources
+   sprites.load()
+   sounds.load()
+   sounds.stop_all()
+   key.register_handlers(love)
+
+   -- setup game stage and state
    stage:load("art/bad-track.png")
    player:load()
 
-   key.register_handlers(love)
-   sounds.load()
-   sounds.stop_all()
-   sprites.load()
+   --debug
    s = sprites.new("sprite-test2")
 end
 
@@ -28,9 +33,13 @@ end
 lurker.postswap = load
 
 function love.draw()
+   love.graphics.setCanvas()
+   love.graphics.push()
+   camera:apply_transform()
    stage:draw()
    player:draw()
-   
+   love.graphics.pop()
+
    love.graphics.print("state: " .. key.state, 350, 270)
    love.graphics.print("frame: " .. frame, 350, 290)
    s:draw(0, 0)
@@ -47,6 +56,7 @@ function love.update(dt)
    end
    -- sounds.stop_all()
    player:update()
+   stage:update()
    key.update_driver_state()
    key.update()
    frame = frame + 1

@@ -45,7 +45,9 @@ function Object:update()
 end
 
 function Object:draw()
+   love.graphics.push()
    love.graphics.draw(self.image, self.position.x, self.position.y, self.rotation * math.pi, nil, nil, self.origin.x, self.origin.y)
+   love.graphics.pop()
 end
 
 return Object
