@@ -15,9 +15,10 @@ function love.load()
 end
 
 function love.draw()
+   love.graphics.setCanvas()
    stage:draw()
    player:draw()
-   
+
    love.graphics.print("state: " .. key.state, 350, 270)
    love.graphics.print("frame: " .. frame, 350, 290)
 end
@@ -35,6 +36,7 @@ function love.update(dt)
    --    love.audio.play(love.audio.newSource('woosh.ogg'), 'static')
    -- end
    player:update()
+   stage:update()
    key.update_driver_state()
    key.update()
    frame = frame + 1

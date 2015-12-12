@@ -20,6 +20,9 @@ function Racer:load()
    self.position.y = 240
 
    self.rotational_damping = 0.1
+
+   self.seed_spread = 20
+   self.seed_rate = 10
 end
 
 function Racer:update()
@@ -32,6 +35,12 @@ function Racer:update()
    end
    if key.state == "right" or key.state == "slide-right" then
       self.rotational_velocity = 0.01
+   end
+
+   for i = 1, self.seed_rate do
+      local seed_x = self.position.x + math.random(self.seed_spread * -1, self.seed_spread)
+      local seed_y = self.position.y + math.random(self.seed_spread * -1, self.seed_spread)
+      stage:plant_seed(math.floor(seed_x), math.floor(seed_y), 255, 255, 255)
    end
 end
 
