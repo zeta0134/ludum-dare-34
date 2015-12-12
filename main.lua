@@ -9,6 +9,8 @@ require "sounds"
 require "sprites"
 
 function load(f)
+   love.window.setTitle("Tailwind")
+
    stage:load("art/bad-track.png")
    player:load()
 
