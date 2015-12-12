@@ -2,7 +2,7 @@ local stage = {}
 local camera = require("camera")
 local sprites = require("sprites")
 
-local seed_scale = 8
+local seed_scale = 16
 
 function stage:generate_noise_table()
    self.noise_table = {}
@@ -25,6 +25,7 @@ function stage:load(background_filename)
 
    self.flower_sprite = sprites.new("bad-flowers")
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 256*256, "stream")
+   self.flower_sprite.sheet.image:setFilter("nearest", "nearest")
    self:generate_noise_table()
 end
 
@@ -117,7 +118,7 @@ function stage:update_flowers()
             self.flower_sprite:set_frame(flower_type - 1, growth_stage)
             local x_offset = self.noise_table[x][y].x
             local y_offset = self.noise_table[x][y].y
-            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset, camera.rotation * math.pi, 2, 2, 4, 4)
+            self.flower_batch:add(self.flower_sprite.quad, x * seed_scale + x_offset, y * seed_scale + y_offset, camera.rotation * math.pi, 4, 4, 4, 4)
          end
       end
    end
@@ -136,10 +137,12 @@ function stage:draw()
       love.graphics.setColor(255, 255, 255)
       love.graphics.push()
       love.graphics.scale(seed_scale)
+      self.growth_map:setFilter("nearest", "nearest")
       love.graphics.draw(self.growth_map)
       love.graphics.pop()
       love.graphics.setBlendMode(old_blend_mode)
    end
+   love.graphics.setColor(255, 255, 255)
    love.graphics.draw(self.flower_batch)
 end
 

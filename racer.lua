@@ -24,8 +24,8 @@ function Racer:load()
 
    self.rotational_damping = 0.1
 
-   self.seed_spread = 20
-   self.seed_rate = 10
+   self.seed_spread = 15
+   self.seed_rate = 1
 end
 
 function Racer:update()
