@@ -1,6 +1,6 @@
 local key = {}
 
-local map = {lctrl='left', rctrl='right'}
+local map = {lctrl='left', rctrl='right', lshift='left', rshift='right'}
 local keys_down = {left=false, right=false}
 function key.down()
    if keys_down.left and keys_down.right then return 'both'
