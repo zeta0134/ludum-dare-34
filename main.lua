@@ -25,11 +25,16 @@ function load(f)
    player.rotation = -0.5
 
    title_logo = sprites.new "title-logo"
-   stage_select_plains = sprites.new "stage-select-plains"
+   stage_select = {}
+   stage_select.plains = sprites.new "stage-select-plains"
+   stage_select.desert = sprites.new "stage-select-desert"
+   stage_select.volcano = sprites.new "stage-select-volcano"
+   stage_select.exit = sprites.new "exit"
    left_button = sprites.new "buttons"
    right_button = sprites.new "buttons"
    both_buttons = sprites.new "buttons"
-   -- love.window.setMode(800, 600, {resizable = true})
+   love.window.setIcon(sprites.sheets["icon"].image:getData())
+   love.window.setMode(800, 600, {resizable = true})
 end
 
 function love.load()
@@ -47,13 +52,13 @@ function game_draw()
    love.graphics.pop()
 
    love.graphics.print("state: " .. key.state, 350, 270)
-   love.graphics.print("state: " .. key.title_state, 350, 290)
 end
 
 function title_draw()
    x_center = love.window.getWidth() / 2
    y_center = love.window.getHeight() / 2
-   stage_select_plains:draw(x_center, y_center, nil, nil, nil, stage_select_plains:getWidth() / 2, stage_select_plains:getHeight() / 2)
+   local background = stage_select[key.title_state]
+   background:draw(x_center, y_center, nil, nil, nil, background:getWidth() / 2, background:getHeight() / 2)
    title_logo:draw(x_center, y_center / 2, nil, nil, nil, title_logo:getWidth() / 2, title_logo:getHeight() / 2)
    if key.title_state ~= 'help' then
       left_button:draw(20, y_center * 1.5, nil, nil, nil, nil, left_button:getHeight() / 2)
@@ -64,6 +69,7 @@ function title_draw()
    if key.title_state ~= 'help' then
       both_buttons:draw(x_center, y_center / 4 * 7, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
    end
+   love.graphics.print("state: " .. key.title_state, 350, 290)
 end
 
 function button_update()

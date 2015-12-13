@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="256"
+   height="256"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="title-logo.svg"
+   inkscape:export-filename="/home/cromo/projects/ludum-dare-34/art/title-logo.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8601362"
+     inkscape:cx="226.36648"
+     inkscape:cy="115.39326"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3798"
+     showgrid="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:snap-grids="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4735"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="16px"
+       spacingy="16px" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(122.96674,-84.548407)">
+    <g
+       id="g3798"
+       transform="matrix(3.3277346,0,0,3.3277346,-172.32936,-531.22851)">
+      <g
+         id="g4737"
+         transform="matrix(0.1795967,0.98374032,0.98374032,-0.1795967,-187.02055,200.00065)">
+        <path
+           style="fill:#2a7e10;fill-opacity:1;stroke:none"
+           d="m 28.270005,211.0008 c -1.810876,-0.11047 -1.55825,2.00784 -1.977827,3.62671 -0.732971,2.82806 6.030028,1.07149 6.094738,4.05181 0.05433,2.50249 0.17069,16.25607 11.113187,22.55757 5.251964,3.02447 14.012154,4.90225 23.543101,3.8749 6.433027,-0.69343 13.319777,-0.17177 22.482293,4.72039 4.935927,2.63545 5.684432,3.15146 15.278843,11.51051 -1.36638,-24.48863 -8.857097,-37.80068 -14.534464,-43.66896 -8.657525,-8.94866 -18.789329,-16.57632 -26.237731,-17.80794 -21.1152,-3.49147 -27.420085,8.37906 -29.420174,12.46678 -1.210974,2.47497 -3.442026,-1.15486 -6.341966,-1.33177 z"
+           id="path3794"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="sssssscssss" />
+        <path
+           style="fill:#3a630f;fill-opacity:1;stroke:none"
+           d="m 29.114096,211.2514 c 22.902982,8.37204 7.005653,3.98357 31.606767,8.00716 31.443757,5.14271 37.852389,22.4766 43.088337,40.43994 -13.624028,-32.46052 -27.006026,-34.7016 -43.335565,-36.97874 -21.376781,-2.98098 -11.810753,-0.53648 -34.923142,-6.50879 0.809436,-1.94406 0.859023,-5.75293 3.563603,-4.95957 z"
+           id="path3796"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cscscc" />
+      </g>
+      <g
+         transform="matrix(0.90706616,0,0,0.90706616,-2.8404468,-13.144076)"
+         id="text3753"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#a0e88a;fill-opacity:1;stroke:none;font-family:FreeSans;-inkscape-font-specification:FreeSans Semi-Bold">
+        <path
+           style="fill:#a0e88a;fill-opacity:1;stroke:none"
+           sodipodi:nodetypes="csssssssc"
+           inkscape:connector-curvature="0"
+           id="path3760"
+           d="m 56.824028,250.8831 0,24.16 c 0,7.07391 -6,4.44875 -6,0 l 0,-24.16 c 0,-2.31306 -2.961221,-0.81845 -8.84,0 -3.429944,0.47752 -2.749306,-3.34161 0,-5 6.407883,-3.86526 15.071566,-3.55383 23.36,0 2.515621,1.07862 9.504568,5.0289 0,5 -3.312325,-0.0101 -6.389339,-1.77335 -8.52,0" />
+      </g>
+    </g>
+  </g>
+</svg>
