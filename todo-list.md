@@ -1,9 +1,9 @@
 In the level loader:
 --------------------
-- [*] Base name of the stage, from which it finds all art assets for stitching
+- [x] Base name of the stage, from which it finds all art assets for stitching
 - [ ] Actual level stitching, respecting the maximum texture size of 1024
       (but no limit on number of loaded textures?)
-- [*] Level attributes (plant types? growth rate? starting positions?)
+- [x] Level attributes (plant types? growth rate? starting positions?)
 - [ ] Out of Bounds texture (No no no! Wrong way!)
 - [ ] Going out of bounds (like, OFF the map) should teleport the player to the last
       known good position before they left the map (ie, back on the track)
