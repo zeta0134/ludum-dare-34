@@ -27,6 +27,7 @@ function load(f)
    stage_select.plains = sprites.new "stage-select-plains"
    stage_select.desert = sprites.new "stage-select-desert"
    stage_select.volcano = sprites.new "stage-select-volcano"
+   stage_select.exit = sprites.new "exit"
    left_button = sprites.new "buttons"
    right_button = sprites.new "buttons"
    both_buttons = sprites.new "buttons"
