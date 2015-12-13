@@ -100,6 +100,9 @@ function stage:properties_at(x, y)
       if b == 30 then
          properties.lava = true
       end
+      if b == 40 then
+         properties.water = true
+      end
    end
    return properties
 end

@@ -133,13 +133,17 @@ function Racer:update()
 
 
    local thrust = vector_from_angle(self.rotation)
+   local slide_vector = self.slide_vector
+   if pixel_properties.water then
+      slide_vector = slide_vector * 1.5
+   end
    if key.state == "slide-left" then
-      thrust = vector_from_angle(self.rotation + self.slide_vector)
+      thrust = vector_from_angle(self.rotation + slide_vector)
       self.spray_direction = 1.0 - 0.5
       self.spray_offset = 50.0
       self.drag = self.drag + 1
    elseif key.state == "slide-right" then
-      thrust = vector_from_angle(self.rotation - self.slide_vector)
+      thrust = vector_from_angle(self.rotation - slide_vector)
       self.spray_direction = -1.0 + 0.5
       self.spray_offset = 50.0
       self.drag = self.drag + 1
