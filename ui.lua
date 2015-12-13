@@ -2,6 +2,14 @@ local stage = require("stage")
 
 local ui = {}
 
+local function lap_time_to_string(time_in_frames)
+   local minutes = math.floor(time_in_frames / (60 * 60))
+   local seconds = math.floor(time_in_frames / 60) - (minutes * 60)
+   local hundredths = math.floor((time_in_frames % 60) * 100 / 60)
+
+   return string.format("%02d:%02d:%02d", minutes, seconds, hundredths)
+end
+
 function ui.draw()
    -- draw a boost meter!
    love.graphics.setColor(32, 32, 32)
@@ -20,6 +28,12 @@ function ui.draw()
    love.graphics.setColor(255, 255, 255)
    love.graphics.print("LAP: " .. player.lap, 40, 10)
    love.graphics.print("CHECKPOINT: " .. player.checkpoint, 40, 30)
+
+   -- draw timers
+   love.graphics.print("RACE TIME: " .. lap_time_to_string(player.race_timer), 40, 70)
+   for i = 1, #player.lap_times do
+      love.graphics.print("LAP ".. i .." TIME: " .. lap_time_to_string(player.lap_times[i]), 40, 70 + i * 20)
+   end
 
    -- handle race pre-fade happiness
    if stage.race_stages[stage.race_stage].name == "prefade" then
