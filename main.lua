@@ -19,7 +19,7 @@ function load(f)
 
    -- setup game stage and state
    stage:load("art/really-bad-track.png")
-   player:load({top_speed=20})
+   player:load({normal_speed=10, boost_speed=10, max_drag=1, normal_turn_rate=0, slide_turn_rate=0.012})
 
    title_logo = sprites.new "title-logo"
    stage_select_plains = sprites.new "stage-select-plains"

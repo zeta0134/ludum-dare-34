@@ -33,12 +33,13 @@ function Racer:load(options)
 
    self.previous_state = nil
 
-   self.top_speed = 5.0
+   self.normal_speed = 5.0
    self.boost_speed = 8.0
    self.plant_drag = 0.75 -- percent, applied to current speed.
 
    self.slide_vector = 0.25
-   self.turning_speed = 0.006
+   self.normal_turn_rate = 0.006
+   self.slide_turn_rate = 0.009
 
    self.spray_direction = 1.0
    self.spray_offset = 5.0
@@ -52,7 +53,7 @@ end
 function Racer:update()
    Object.update(self)
 
-   local speed = self.top_speed
+   local speed = self.normal_speed
    if self.boost_timer > 0 then
       speed = self.boost_speed
       self.seed_spread = 5
@@ -89,17 +90,20 @@ function Racer:update()
       self.drag = self.max_drag
    end
 
-   speed = math.max(speed - self.drag * (self.top_speed / self.max_drag), 0)
+   speed = math.max(speed - self.drag * (self.normal_speed / self.max_drag), 0)
    self.velocity = thrust * speed
 
-   if key.state == "left" or key.state == "slide-left" then
-      self.rotational_velocity = self.turning_speed * -1
+   if key.state == "left" then
+      self.rotational_velocity = self.normal_turn_rate * -1
    end
-   if key.state == "right" or key.state == "slide-right" then
-      self.rotational_velocity = self.turning_speed
+   if key.state == "right" then
+      self.rotational_velocity = self.normal_turn_rate
    end
-   if key.state == "slide-left" or key.state == "slide-right" then
-      self.rotational_velocity = self.rotational_velocity * 1.5
+   if key.state == "slide-left" then
+      self.rotational_velocity = self.slide_turn_rate * -1
+   end
+   if key.state == "slide-right" then
+      self.rotational_velocity = self.slide_turn_rate
    end
 
    for i = 1, self.seed_rate do
