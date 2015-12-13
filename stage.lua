@@ -94,6 +94,12 @@ function stage:properties_at(x, y)
       if b == 10 then
          properties.offroad = true
       end
+      if b == 20 then
+         properties.zipper = true
+      end
+      if b == 30 then
+         properties.lava = true
+      end
    end
    return properties
 end
@@ -235,8 +241,8 @@ function stage:draw()
       love.graphics.setBlendMode(old_blend_mode)
    end
    -- debug!
-   --love.graphics.setColor(255, 255, 255, 128)
-   --love.graphics.draw(self.debug_control_map)
+   love.graphics.setColor(255, 255, 255, 128)
+   love.graphics.draw(self.debug_control_map)
 
    love.graphics.setColor(255, 255, 255)
    love.graphics.draw(self.flower_batch)

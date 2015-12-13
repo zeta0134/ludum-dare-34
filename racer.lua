@@ -51,6 +51,9 @@ function Racer:load(options)
    self.lap_timer = 0
    self.lap_times = {}
 
+   self.zipper_timer = 0
+   self.on_fire_timer = 0
+
    options = options or {}
    for k,v in pairs(options) do
       self[k] = v
@@ -84,6 +87,18 @@ function Racer:update()
       end
    end
 
+   if self.zipper_timer > 0 then
+      local zip_factor = math.min(0.5, (0.5 * self.zipper_timer * 4 / 60))
+      -- WHEEEEEE
+      speed = speed * (1.0 + zip_factor)
+      self.zipper_timer = self.zipper_timer - 1
+   end
+
+   if self.on_fire_timer > 0 then
+      speed = speed * 0.5
+      self.on_fire_timer = self.on_fire_timer - 1
+   end
+
    -- deal with checkpoints and lap counters
    local pixel_properties = stage:properties_at(self.position.x, self.position.y)
    if pixel_properties.checkpoint then
@@ -106,6 +121,14 @@ function Racer:update()
 
    if pixel_properties.offroad then
       speed = speed * self.offroad_drag
+   end
+
+   if pixel_properties.zipper then
+      self.zipper_timer = 60
+   end
+
+   if pixel_properties.lava and (key.state == "slide-left" or key.state == "slide-right") then
+      self.on_fire_timer = 120 -- 2 seconds worth of PAIN!
    end
 
 
