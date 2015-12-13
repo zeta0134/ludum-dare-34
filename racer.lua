@@ -57,6 +57,13 @@ end
 function Racer:update()
    Object.update(self)
 
+   camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
+   camera.rotation = racer.rotation + 0.5
+
+   if not stage.race_active then
+      return --STAHP
+   end
+
    local speed = self.normal_speed
    if self.boost_timer > 0 then
       -- give about a 25% falloff toward the end of the boost
@@ -139,8 +146,6 @@ function Racer:update()
       stage:plant_seed(math.floor(seed_x), math.floor(seed_y), 1, math.random(1,2))
    end
 
-   camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
-   camera.rotation = racer.rotation + 0.5
    self.boost_timer = math.max(self.boost_timer - 1, 0)
 end
 

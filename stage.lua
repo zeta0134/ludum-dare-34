@@ -3,6 +3,7 @@ local camera = require("camera")
 local sounds = require("sounds")
 local sprites = require("sprites")
 
+--Size of the seed grid, in map pixels
 local seed_scale = 8
 
 function stage:generate_noise_table()
@@ -17,8 +18,21 @@ function stage:generate_noise_table()
    end
 end
 
-function stage:load(background_filename, control_filename)
-   self.image = love.graphics.newImage(background_filename)
+stage.race_stages = {
+   {name="prefade", duration=60},
+   {name="fadein", duration=120},
+   {name="warmup", duration=60},
+   {name="3", duration=60},
+   {name="2", duration=60},
+   {name="1", duration=60},
+   {name="GO", active=true},
+   {name="results", duration=60*10},
+   {name="postfade", duration=120},
+}
+
+function stage:load(level_properties)
+   self.properties = level_properties
+   self.image = love.graphics.newImage("levels/".. level_properties.image_name ..".png")
 
    self.flower_sprite = sprites.new("brush")
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 1024*1024)
@@ -26,14 +40,24 @@ function stage:load(background_filename, control_filename)
    self:generate_noise_table()
 
    --attempt to load a control layer
-   self.control_map = love.image.newImageData(control_filename)
-   self.num_checkpoints = 18
+   self.control_map = love.image.newImageData("levels/".. level_properties.image_name ..".control.png")
+   self.num_checkpoints = level_properties.checkpoints
 
    --create a seed map
    self.seed_map = {}
    self.active_seeds = {}
 
    self.seed_sound_delay = 0
+
+   -- relocate the player (later: players?) to the start of the level
+   player.position.x = level_properties.starting_position.x
+   player.position.y = level_properties.starting_position.y
+   player.rotation = level_properties.starting_rotation
+
+   -- setup the start of race timing
+   self.race_stage = 1
+   self.race_active = false
+   self.stage_timer = 0
 end
 
 function stage:properties_at(x, y)
@@ -158,9 +182,25 @@ function stage:update_flowers()
 end
 
 function stage:update()
-   self:grow_seeds()
-   if self.seed_sound_delay > 0 then
-      self.seed_sound_delay = self.seed_sound_delay - 1
+   if self.race_active then
+      self:grow_seeds()
+      if self.seed_sound_delay > 0 then
+         self.seed_sound_delay = self.seed_sound_delay - 1
+      end
+   else
+      if stage.race_stages[self.race_stage].duration then
+         -- this is an auto-advancing race stage; handle its timer and promote
+         -- if necessary
+         if self.stage_timer > stage.race_stages[self.race_stage].duration then
+            self.race_stage = self.race_stage + 1
+            self.stage_timer = 0
+            if stage.race_stages[self.race_stage].active then
+               self.race_active = true
+            end
+         else
+            self.stage_timer = self.stage_timer + 1
+         end
+      end
    end
 end
 
@@ -180,6 +220,8 @@ function stage:draw()
    end
    love.graphics.setColor(255, 255, 255)
    love.graphics.draw(self.flower_batch)
+
+
 end
 
 return stage

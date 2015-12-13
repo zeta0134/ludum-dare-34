@@ -1,6 +1,7 @@
 local camera = require("camera")
 local key = require("key")
 local leaf_types = require("leaf_types")
+local levels = require("levels")
 local lurker = require("lurker")
 local Racer = require("racer")
 local sounds = require("sounds")
@@ -19,10 +20,9 @@ function load(f)
    key.register_handlers(love)
 
    -- setup game stage and state
-   stage:load("art/slightly-better-track.png", "art/really-bad-track-control.png")
+   --stage:load("art/slightly-better-track.png", "art/really-bad-track-control.png")
+   stage:load(levels["plains"])
    player:load(leaf_types["Oak"])
-   player.position = Vector.new(351,888)
-   player.rotation = -0.5
 
    title_logo = sprites.new "title-logo"
    stage_select = {}
@@ -84,8 +84,10 @@ function game_update()
    if game_state == 'title' and key.title_state:find("-selected") then
       key.title_state = key.title_state:gsub("(.+)-selected", "%1")
       if key.title_state == 'exit' then
-	 love.event.push('quit')
+	      love.event.push('quit')
+         return
       end
+      stage:load(levels[key.title_state])
       game_state = 'playing'
    end
 end
