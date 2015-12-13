@@ -34,7 +34,7 @@ function Racer:load(options)
    self.previous_state = nil
 
    self.normal_speed = 5.0
-   self.boost_speed = 8.0
+   self.boost_speed = 3.0
    self.plant_drag = 0.75 -- percent, applied to current speed.
 
    self.slide_vector = 0.25
@@ -55,7 +55,9 @@ function Racer:update()
 
    local speed = self.normal_speed
    if self.boost_timer > 0 then
-      speed = self.boost_speed
+      -- give about a 25% falloff toward the end of the boost
+      boost_speed = math.min(self.boost_speed, (self.boost_speed * self.boost_timer * 4 / self.max_drag))
+      speed = speed + boost_speed
       self.seed_spread = 5
    else
       self.seed_spread = 15
@@ -79,7 +81,7 @@ function Racer:update()
       self.spray_offset = 50.0
       self.drag = self.drag + 1
    else
-      if self.drag > 5 then
+      if self.drag > 0 then
          self.boost_timer = self.drag
       end
       self.drag = 0
@@ -90,6 +92,7 @@ function Racer:update()
       self.drag = self.max_drag
    end
 
+   -- Account for drag
    speed = math.max(speed - self.drag * (self.normal_speed / self.max_drag), 0)
    self.velocity = thrust * speed
 
@@ -117,7 +120,11 @@ function Racer:update()
 
    camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
    camera.rotation = racer.rotation + 0.5
-   self.boost_timer = self.boost_timer - 1
+   self.boost_timer = math.max(self.boost_timer - 1, 0)
+end
+
+function Racer:draw()
+   Object.draw(self)
 end
 
 function Racer.new_racer()
