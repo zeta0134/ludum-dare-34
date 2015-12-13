@@ -15,6 +15,7 @@ function ui.draw()
    end
 
    -- draw lap and checkpoint data
+   love.graphics.setColor(255, 255, 255)
    love.graphics.print("LAP: " .. player.lap, 40, 10)
    love.graphics.print("CHECKPOINT: " .. player.checkpoint, 40, 30)
 end
