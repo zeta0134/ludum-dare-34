@@ -13,6 +13,10 @@ function ui.draw()
       end
       love.graphics.rectangle("fill", 10, 10 + 200 - height, 20, height)
    end
+
+   -- draw lap and checkpoint data
+   love.graphics.print("LAP: " .. player.lap, 40, 10)
+   love.graphics.print("CHECKPOINT: " .. player.checkpoint, 40, 30)
 end
 
 return ui

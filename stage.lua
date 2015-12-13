@@ -16,7 +16,7 @@ function stage:generate_noise_table()
    end
 end
 
-function stage:load(background_filename)
+function stage:load(background_filename, control_filename)
    self.image = love.graphics.newImage(background_filename)
    -- create a seed map based on this image
    self.growth_map = love.graphics.newCanvas(512, 512, "rgba8")
@@ -27,6 +27,31 @@ function stage:load(background_filename)
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 256*256, "stream")
    self.flower_sprite.sheet.image:setFilter("nearest", "nearest")
    self:generate_noise_table()
+
+   --attempt to load a control layer
+   self.control_map = love.image.newImageData(control_filename)
+   self.num_checkpoints = 18
+end
+
+function stage:properties_at(x, y)
+   x = math.floor(x)
+   y = math.floor(y)
+   local properties = {}
+   if x < 0 or x >= self.control_map:getWidth() or y < 0 or y >= self.control_map:getHeight() then
+      return {} -- outside the bounds of the map
+   end
+   local r, g, b = stage.control_map:getPixel(x, y)
+   if r > 0 then
+      properties.checkpoint = math.floor(r / 10)
+   end
+   properties.plantable = true
+   if b > 0 then
+      properties.plantable = false
+      if b == 255 then
+         properties.finish_line = true
+      end
+   end
+   return properties
 end
 
 function stage:seed_planted_at(x, y)
@@ -51,6 +76,10 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
    end
    local x = math.floor(x / seed_scale)
    local y = math.floor(y / seed_scale)
+   local pixel_properties = self:properties_at(x * seed_scale, y * seed_scale)
+   if not pixel_properties.plantable then
+      return -- map does not support planting seeds at this location
+   end
 
    local r = 0
    local g = 0
@@ -143,7 +172,7 @@ function stage:draw()
       love.graphics.setBlendMode(old_blend_mode)
    end
    love.graphics.setColor(255, 255, 255)
-   love.graphics.draw(self.flower_batch)
+   --love.graphics.draw(self.flower_batch)
 end
 
 return stage

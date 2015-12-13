@@ -44,6 +44,9 @@ function Racer:load(options)
    self.spray_direction = 1.0
    self.spray_offset = 5.0
 
+   self.lap = 1
+   self.checkpoint = 1
+
    options = options or {}
    for k,v in pairs(options) do
       self[k] = v
@@ -121,6 +124,18 @@ function Racer:update()
    camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
    camera.rotation = racer.rotation + 0.5
    self.boost_timer = math.max(self.boost_timer - 1, 0)
+
+   -- deal with checkpoints and lap counters
+   local pixel_properties = stage:properties_at(self.position.x, self.position.y)
+   if pixel_properties.checkpoint then
+      if pixel_properties.checkpoint > self.checkpoint and pixel_properties.checkpoint <= self.checkpoint + 2 then
+         self.checkpoint = pixel_properties.checkpoint
+      end
+   end
+   if pixel_properties.finish_line and self.checkpoint >= stage.num_checkpoints then
+      self.lap = self.lap + 1
+      self.checkpoint = 1
+   end
 end
 
 function Racer:draw()

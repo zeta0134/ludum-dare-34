@@ -20,7 +20,7 @@ function load(f)
    key.register_handlers(love)
 
    -- setup game stage and state
-   stage:load("art/really-bad-track.png")
+   stage:load("art/really-bad-track.png", "art/really-bad-track-control.png")
    player:load(leaf_types["Oak"])
 
    title_logo = sprites.new "title-logo"
