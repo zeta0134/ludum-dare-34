@@ -11,8 +11,8 @@ In the level loader:
 Level Hazards:
 --------------
 - [ ] Invisi-radius that knocks you back towards the track from whence you came
-- [ ] Lava: Seeds do not grow here. Attempting to drag results in slowdowns and pain
-- [ ] Zippers: Tapping (including a drag) over a zipper gives you a boost.
+- [x] Lava: Seeds do not grow here. Attempting to drag results in slowdowns and pain
+- [x] Zippers: Tapping (including a drag) over a zipper gives you a boost.
 - [ ] Water: Increases drag slide (more angled toward the side, same speed), no
       seeds can be planted here. Not even water lilies. (see: feature creep.)
 
