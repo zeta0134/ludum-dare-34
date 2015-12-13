@@ -14,7 +14,7 @@ function vector_from_angle(angle)
    return Vector.new(x, y)
 end
 
-function Racer:load()
+function Racer:load(options)
    Object.load(self)
 
    self:set_sprite("bad-racer", true)
@@ -39,6 +39,14 @@ function Racer:load()
 
    self.slide_vector = 0.25
    self.turning_speed = 0.006
+
+   self.spray_direction = 1.0
+   self.spray_offset = 5.0
+
+   options = options or {}
+   for k,v in pairs(options) do
+      self[k] = v
+   end
 end
 
 function Racer:update()
@@ -47,6 +55,9 @@ function Racer:update()
    local speed = self.top_speed
    if self.boost_timer > 0 then
       speed = self.boost_speed
+      self.seed_spread = 5
+   else
+      self.seed_spread = 15
    end
    local flower_here, growth_state, flower_type = stage:flower_at(self.position.x, self.position.y)
    if flower_here then
@@ -58,15 +69,21 @@ function Racer:update()
    local thrust = vector_from_angle(self.rotation)
    if key.state == "slide-left" then
       thrust = vector_from_angle(self.rotation + self.slide_vector)
+      self.spray_direction = 1.0 - 0.5
+      self.spray_offset = 50.0
       self.drag = self.drag + 1
    elseif key.state == "slide-right" then
       thrust = vector_from_angle(self.rotation - self.slide_vector)
+      self.spray_direction = -1.0 + 0.5
+      self.spray_offset = 50.0
       self.drag = self.drag + 1
    else
       if self.drag > 5 then
          self.boost_timer = self.drag
       end
       self.drag = 0
+      self.spray_direction = 1.0
+      self.spray_offset = 5.0
    end
    if self.drag > self.max_drag then
       self.drag = self.max_drag
@@ -88,6 +105,9 @@ function Racer:update()
    for i = 1, self.seed_rate do
       local seed_x = self.position.x + math.random(self.seed_spread * -1, self.seed_spread)
       local seed_y = self.position.y + math.random(self.seed_spread * -1, self.seed_spread)
+      local seed_throw = vector_from_angle(self.rotation + self.spray_direction)
+      seed_x = seed_x + self.spray_offset * seed_throw.x
+      seed_y = seed_y + self.spray_offset * seed_throw.y
       stage:plant_seed(math.floor(seed_x), math.floor(seed_y), 1, math.random(1,2))
    end
 
