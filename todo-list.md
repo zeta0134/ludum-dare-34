@@ -1,4 +1,4 @@
-In the level editor:
+In the level loader:
 --------------------
 - [ ] Base name of the stage, from which it finds all art assets for stitching
 - [ ] Actual level stitching, respecting the maximum texture size of 1024
@@ -37,3 +37,5 @@ Feature Creep:
 - [ ] Completing a lap causes all of your plants to bloom at once
 - [ ] Split-screen multiplayer
 - [ ] AI Riders
+- [ ] Particles! (Love has these built in)
+- [ ] Speed Lines when boosting! So it feels faster
