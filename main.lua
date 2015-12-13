@@ -9,20 +9,21 @@ local sprites = require("sprites")
 local stage = require("stage")
 local ui = require("ui")
 
+function init_stage(stage_name, leaf_type)
+   player = Racer.new_racer()
+   player:load(leaf_types[leaf_type])
+   stage:load(levels[stage_name])
+   print("Loaded stage: " .. stage_name)
+end
+
 function load(f)
    love.window.setTitle("Tailwind")
-   player = Racer.new_racer()
 
    -- load and initialize resources
    sprites.load()
    sounds.load()
    sounds.stop_all()
    key.register_handlers(love)
-
-   -- setup game stage and state
-   --stage:load("art/slightly-better-track.png", "art/really-bad-track-control.png")
-   stage:load(levels["plains"])
-   player:load(leaf_types["Oak"])
 
    title_logo = sprites.new "title-logo"
    stage_select = {}
@@ -87,7 +88,7 @@ function game_update()
 	      love.event.push('quit')
          return
       end
-      stage:load(levels[key.title_state])
+      init_stage(key.title_state, "Oak")
       game_state = 'playing'
    end
 end

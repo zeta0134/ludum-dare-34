@@ -25,9 +25,10 @@ stage.race_stages = {
    {name="3", duration=60},
    {name="2", duration=60},
    {name="1", duration=60},
-   {name="GO", active=true},
+   {name="GO", active=true, duration=10},
    {name="results", duration=60*10},
    {name="postfade", duration=120},
+   {name="returntotitle", exit=true}
 }
 
 function stage:load(level_properties)
@@ -43,6 +44,9 @@ function stage:load(level_properties)
    self.control_map = love.image.newImageData("levels/".. level_properties.image_name ..".control.png")
    self.num_checkpoints = level_properties.checkpoints
 
+   -- debug
+   self.debug_control_map = love.graphics.newImage(self.control_map)
+
    --create a seed map
    self.seed_map = {}
    self.active_seeds = {}
@@ -54,10 +58,19 @@ function stage:load(level_properties)
    player.position.y = level_properties.starting_position.y
    player.rotation = level_properties.starting_rotation
 
+   -- reset the player's lap timers
+   player.race_timer = 0
+   player.lap_timer = 0
+   player.lap_times = {}
+
    -- setup the start of race timing
    self.race_stage = 1
    self.race_active = false
    self.stage_timer = 0
+
+   if level_properties.clear_color then
+      love.graphics.setBackgroundColor(level_properties.clear_color.r, level_properties.clear_color.g, level_properties.clear_color.b)
+   end
 end
 
 function stage:properties_at(x, y)
@@ -188,6 +201,9 @@ function stage:update()
          self.seed_sound_delay = self.seed_sound_delay - 1
       end
    else
+      if stage.race_stages[self.race_stage].exit then
+         game_state = "title"
+      end
       if stage.race_stages[self.race_stage].duration then
          -- this is an auto-advancing race stage; handle its timer and promote
          -- if necessary
@@ -218,10 +234,12 @@ function stage:draw()
       love.graphics.pop()
       love.graphics.setBlendMode(old_blend_mode)
    end
+   -- debug!
+   --love.graphics.setColor(255, 255, 255, 128)
+   --love.graphics.draw(self.debug_control_map)
+
    love.graphics.setColor(255, 255, 255)
    love.graphics.draw(self.flower_batch)
-
-
 end
 
 return stage

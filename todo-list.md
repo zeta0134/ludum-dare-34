@@ -1,9 +1,9 @@
 In the level loader:
 --------------------
-- [ ] Base name of the stage, from which it finds all art assets for stitching
+- [x] Base name of the stage, from which it finds all art assets for stitching
 - [ ] Actual level stitching, respecting the maximum texture size of 1024
       (but no limit on number of loaded textures?)
-- [ ] Level attributes (plant types? growth rate? starting positions?)
+- [x] Level attributes (plant types? growth rate? starting positions?)
 - [ ] Out of Bounds texture (No no no! Wrong way!)
 - [ ] Going out of bounds (like, OFF the map) should teleport the player to the last
       known good position before they left the map (ie, back on the track)
@@ -21,6 +21,7 @@ Nice to have:
 - [ ] Jump: Similar to a zipper, but causes the rider to rise into the sky! No seeds
       are planted while jumping, and no level hazards are considered at all until
       the player lands, including plants and things that would slow you down.
+- [ ] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
 
 Seed Placement and Growth:
 --------------------------
@@ -39,3 +40,4 @@ Feature Creep:
 - [ ] AI Riders
 - [ ] Particles! (Love has these built in)
 - [ ] Speed Lines when boosting! So it feels faster
+- [ ] Ghosts. (STAFF Ghosts?)

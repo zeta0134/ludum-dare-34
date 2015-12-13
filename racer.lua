@@ -19,8 +19,7 @@ function Racer:load(options)
 
    self:set_sprite("oak-player", true)
 
-   self.position.x = 0
-   self.position.y = 0
+   self.velocity = self.velocity * 0
 
    self.rotational_damping = 0.2
 
@@ -48,6 +47,10 @@ function Racer:load(options)
    self.lap = 1
    self.checkpoint = 1
 
+   self.race_timer = 0
+   self.lap_timer = 0
+   self.lap_times = {}
+
    options = options or {}
    for k,v in pairs(options) do
       self[k] = v
@@ -61,6 +64,7 @@ function Racer:update()
    camera.rotation = racer.rotation + 0.5
 
    if not stage.race_active then
+      self.velocity = self.velocity * 0.95
       return --STAHP
    end
 
@@ -88,8 +92,16 @@ function Racer:update()
       end
    end
    if pixel_properties.finish_line and self.checkpoint >= stage.num_checkpoints then
-      self.lap = self.lap + 1
-      self.checkpoint = 1
+      -- lap complete!
+      self.lap_times[self.lap] = self.lap_timer
+      self.lap_timer = 0
+      if self.lap == stage.properties.laps then
+         -- time trial complete!!
+         stage.race_active = false
+      else
+         self.lap = self.lap + 1
+         self.checkpoint = 1
+      end
    end
 
    if pixel_properties.offroad then
@@ -147,6 +159,9 @@ function Racer:update()
    end
 
    self.boost_timer = math.max(self.boost_timer - 1, 0)
+
+   self.race_timer = self.race_timer + 1
+   self.lap_timer = self.lap_timer + 1
 end
 
 function Racer:draw()
