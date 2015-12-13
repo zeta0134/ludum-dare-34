@@ -1,10 +1,12 @@
 local camera = require("camera")
 local key = require("key")
+local leaf_types = require("leaf_types")
 local lurker = require("lurker")
 local Racer = require("racer")
 local sounds = require("sounds")
 local sprites = require("sprites")
 local stage = require("stage")
+local ui = require("ui")
 
 player = Racer.new_racer()
 
@@ -19,7 +21,7 @@ function load(f)
 
    -- setup game stage and state
    stage:load("art/really-bad-track.png")
-   player:load({normal_speed=10, boost_speed=10, max_drag=1, normal_turn_rate=0, slide_turn_rate=0.012})
+   player:load(leaf_types["Oak"])
 
    title_logo = sprites.new "title-logo"
    stage_select_plains = sprites.new "stage-select-plains"
@@ -73,6 +75,7 @@ end
 function love.draw()
    title_draw()
    game_draw()
+   ui.draw()
    love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 30)
 end
 
