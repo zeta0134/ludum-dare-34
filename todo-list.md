@@ -1,4 +1,4 @@
-In the level editor:
+In the level loader:
 --------------------
 - [ ] Base name of the stage, from which it finds all art assets for stitching
 - [ ] Actual level stitching, respecting the maximum texture size of 1024
