@@ -21,6 +21,7 @@ Nice to have:
 - [ ] Jump: Similar to a zipper, but causes the rider to rise into the sky! No seeds
       are planted while jumping, and no level hazards are considered at all until
       the player lands, including plants and things that would slow you down.
+- [ ] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
 
 Seed Placement and Growth:
 --------------------------
