@@ -31,6 +31,7 @@ function load(f)
    left_button = sprites.new "buttons"
    right_button = sprites.new "buttons"
    both_buttons = sprites.new "buttons"
+   love.window.setIcon(sprites.sheets["icon"].image:getData())
    love.window.setMode(800, 600, {resizable = true})
 end
 
