@@ -35,7 +35,8 @@ function Racer:load(options)
 
    self.normal_speed = 5.0
    self.boost_speed = 3.0
-   self.plant_drag = 0.75 -- percent, applied to current speed.
+   self.offroad_drag = 0.20 -- percent, applied to current speed.
+   self.plant_drag = 0.60 -- percent, applied to current speed.
 
    self.slide_vector = 0.25
    self.normal_turn_rate = 0.006
@@ -43,6 +44,9 @@ function Racer:load(options)
 
    self.spray_direction = 1.0
    self.spray_offset = 5.0
+
+   self.lap = 1
+   self.checkpoint = 1
 
    options = options or {}
    for k,v in pairs(options) do
@@ -68,6 +72,23 @@ function Racer:update()
          speed = speed * self.plant_drag
       end
    end
+
+   -- deal with checkpoints and lap counters
+   local pixel_properties = stage:properties_at(self.position.x, self.position.y)
+   if pixel_properties.checkpoint then
+      if pixel_properties.checkpoint > self.checkpoint and pixel_properties.checkpoint <= self.checkpoint + 2 then
+         self.checkpoint = pixel_properties.checkpoint
+      end
+   end
+   if pixel_properties.finish_line and self.checkpoint >= stage.num_checkpoints then
+      self.lap = self.lap + 1
+      self.checkpoint = 1
+   end
+
+   if pixel_properties.offroad then
+      speed = speed * self.offroad_drag
+   end
+
 
    local thrust = vector_from_angle(self.rotation)
    if key.state == "slide-left" then
