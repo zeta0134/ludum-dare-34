@@ -14,7 +14,19 @@ function key.hit()
    if key.down() ~= last_keys_down then
       return key.down()
    end
-   return nil
+end
+
+function key.release()
+   if key.down() ~= last_keys_down then
+      if last_keys_down == 'both' then
+	 if key.down() == 'left' then return 'right'
+	 elseif key.down() == 'right' then return 'left'
+	 else return 'both'
+	 end
+      elseif key.down() ~= 'both' then
+	 return last_keys_down
+      end
+   end
 end
 
 function key.update()
@@ -64,6 +76,43 @@ function key.update_driver_state()
       if not key.down() then key.state = 'straight'
       elseif key.hit() == 'both' then key.state = 'straight'
       end
+   end
+end
+
+key.title_state = 'plains'
+-- TODO: load in the list of stages from somewhere else
+key.title_stages = {'plains', 'desert', 'volcano'}
+function key.update_title_state(dt)
+   if key.hit() == 'both' and key.title_state ~= 'help' then
+      key.title_state = key.title_state .. '-selected'
+      return
+   end
+
+   if key.title_state == 'help' and last_keys_down ~= 'both' and key.release() == 'right' then
+      key.title_state = key.title_stages[1]
+      return
+   end
+   if key.title_state == 'exit' and key.release() == 'left' then
+      key.title_state = key.title_stages[#key.title_stages]
+      return
+   end
+
+   local current_stage, i, stage
+   for i, stage in ipairs(key.title_stages) do
+      if key.title_state == stage then current_stage = i end
+   end
+   if not current_stage then return end
+   if current_stage == 1 and key.release() == 'left' then
+      key.title_state = 'help'
+      return
+   end
+   if current_stage == #key.title_stages and key.release() == 'right' then
+      key.title_state = 'exit'
+      return
+   end
+
+   if key.release() == 'left' then key.title_state = key.title_stages[current_stage - 1]
+   elseif key.release() == 'right' then key.title_state = key.title_stages[current_stage + 1]
    end
 end
 

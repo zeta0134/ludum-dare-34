@@ -26,8 +26,7 @@ function load(f)
    left_button = sprites.new "buttons"
    right_button = sprites.new "buttons"
    both_buttons = sprites.new "buttons"
-   love.window.setMode(800, 600, {resizable = true})
-   -- love.window.setHeight(1080)
+   -- love.window.setMode(800, 600, {resizable = true})
 end
 
 function love.load()
@@ -45,6 +44,7 @@ function game_draw()
    love.graphics.pop()
 
    love.graphics.print("state: " .. key.state, 350, 270)
+   love.graphics.print("state: " .. key.title_state, 350, 290)
 end
 
 function title_draw()
@@ -52,9 +52,15 @@ function title_draw()
    y_center = love.window.getHeight() / 2
    stage_select_plains:draw(x_center, y_center, nil, nil, nil, stage_select_plains:getWidth() / 2, stage_select_plains:getHeight() / 2)
    title_logo:draw(x_center, y_center / 2, nil, nil, nil, title_logo:getWidth() / 2, title_logo:getHeight() / 2)
-   left_button:draw(20, y_center * 1.5, nil, nil, nil, nil, left_button:getHeight() / 2)
-   right_button:draw(love.window.getWidth() - 20, y_center * 1.5, nil, nil, nil, right_button:getWidth(), left_button:getHeight() / 2)
-   both_buttons:draw(x_center, y_center / 4 * 7, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
+   if key.title_state ~= 'help' then
+      left_button:draw(20, y_center * 1.5, nil, nil, nil, nil, left_button:getHeight() / 2)
+   end
+   if key.title_state ~= 'exit' then
+      right_button:draw(love.window.getWidth() - 20, y_center * 1.5, nil, nil, nil, right_button:getWidth(), left_button:getHeight() / 2)
+   end
+   if key.title_state ~= 'help' then
+      both_buttons:draw(x_center, y_center / 4 * 7, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
+   end
 end
 
 function button_update()
@@ -83,6 +89,7 @@ function love.update(dt)
    player:update()
    camera:update()
    key.update_driver_state()
+   key.update_title_state()
    button_update()
    key.update()
    frame = frame + 1
