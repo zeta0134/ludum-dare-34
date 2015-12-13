@@ -138,11 +138,14 @@ function stage:plant_seed(x, y, flower_type)
    seed.flower_type = flower_type
    seed.age = 0
    seed.growth_stage = 0
+   seed.growth_period = self.properties.growth_period + math.random(-10,10)
+   seed.brightness = 255 - math.random(0,50)
    -- Add this new seed to the spritebatch, and set a reference to the new
    -- sprite into it for future modification during its growth stages
    self.flower_sprite:set_frame(seed.flower_type - 1, seed.growth_stage)
    seed.x_pos = x * seed_scale + self.noise_table[x][y].x
    seed.y_pos = y * seed_scale + self.noise_table[x][y].y
+   self.flower_batch:setColor(seed.brightness, seed.brightness, seed.brightness)
    seed.sprite_id = self.flower_batch:add(self.flower_sprite.quad, seed.x_pos, seed.y_pos, nil, 2, 2, 4, 4)
    self.seed_map[x][y] = seed
    table.insert(self.active_seeds, self.seed_map[x][y])
@@ -160,9 +163,10 @@ function stage:grow_seeds()
    while i < #self.active_seeds do
       local current_seed = self.active_seeds[i]
       current_seed.age = current_seed.age + 1
-      if current_seed.age > (current_seed.growth_stage + 1) * self.properties.growth_rate then
+      if current_seed.age > (current_seed.growth_stage + 1) * current_seed.growth_period then
          current_seed.growth_stage = current_seed.growth_stage + 1
          self.flower_sprite:set_frame(current_seed.flower_type - 1, current_seed.growth_stage)
+         self.flower_batch:setColor(current_seed.brightness, current_seed.brightness, current_seed.brightness)
          self.flower_batch:set(current_seed.sprite_id, self.flower_sprite.quad, current_seed.x_pos, current_seed.y_pos, nil, 2, 2, 4, 4)
       end
       -- if we are done updating this sprite forever, rejoice! remove it from the list
