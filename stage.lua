@@ -118,7 +118,7 @@ function stage:seed_planted_at(x, y)
    return false
 end
 
-function stage:plant_seed(x, y, growth_rate, flower_type)
+function stage:plant_seed(x, y, flower_type)
    if x < 0 or x >= self.image:getWidth() or y < 0 or y >= self.image:getHeight() then
       return -- outside the bounds of the map
    end
@@ -135,7 +135,6 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
       return --already a seed here!
    end
    local seed = {}
-   seed.growth_rate = 64
    seed.flower_type = flower_type
    seed.age = 0
    seed.growth_stage = 0
@@ -161,7 +160,7 @@ function stage:grow_seeds()
    while i < #self.active_seeds do
       local current_seed = self.active_seeds[i]
       current_seed.age = current_seed.age + 1
-      if current_seed.age > (current_seed.growth_stage + 1) * current_seed.growth_rate then
+      if current_seed.age > (current_seed.growth_stage + 1) * self.properties.growth_rate then
          current_seed.growth_stage = current_seed.growth_stage + 1
          self.flower_sprite:set_frame(current_seed.flower_type - 1, current_seed.growth_stage)
          self.flower_batch:set(current_seed.sprite_id, self.flower_sprite.quad, current_seed.x_pos, current_seed.y_pos, nil, 2, 2, 4, 4)

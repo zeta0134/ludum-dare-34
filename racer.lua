@@ -35,7 +35,7 @@ function Racer:load(options)
    self.normal_speed = 5.0
    self.boost_speed = 3.0
    self.offroad_drag = 0.20 -- percent, applied to current speed.
-   self.plant_drag = 0.60 -- percent, applied to current speed.
+   self.plant_drag = 0.50 -- percent, applied to current speed.
 
    self.slide_vector = 0.25
    self.normal_turn_rate = 0.006
@@ -83,7 +83,7 @@ function Racer:update()
    local flower_here, growth_state, flower_type = stage:flower_at(self.position.x, self.position.y)
    if flower_here then
       if growth_state > 0 then
-         speed = speed * self.plant_drag
+         speed = speed * (1.0 - (self.plant_drag * (growth_state / 3.0)))
       end
    end
 
