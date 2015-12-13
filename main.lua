@@ -75,6 +75,9 @@ game_state = 'title'
 function game_update()
    if game_state == 'title' and key.title_state:find("-selected") then
       key.title_state = key.title_state:gsub("(.+)-selected", "%1")
+      if key.title_state == 'exit' then
+	 love.event.push('quit')
+      end
       game_state = 'playing'
    end
 end
