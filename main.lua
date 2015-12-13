@@ -8,10 +8,9 @@ local sprites = require("sprites")
 local stage = require("stage")
 local ui = require("ui")
 
-player = Racer.new_racer()
-
 function load(f)
    love.window.setTitle("Tailwind")
+   player = Racer.new_racer()
 
    -- load and initialize resources
    sprites.load()
@@ -28,8 +27,7 @@ function load(f)
    left_button = sprites.new "buttons"
    right_button = sprites.new "buttons"
    both_buttons = sprites.new "buttons"
-   love.window.setMode(800, 600, {resizable = true})
-   -- love.window.setHeight(1080)
+   -- love.window.setMode(800, 600, {resizable = true})
 end
 
 function love.load()
@@ -47,6 +45,7 @@ function game_draw()
    love.graphics.pop()
 
    love.graphics.print("state: " .. key.state, 350, 270)
+   love.graphics.print("state: " .. key.title_state, 350, 290)
 end
 
 function title_draw()
@@ -54,9 +53,15 @@ function title_draw()
    y_center = love.window.getHeight() / 2
    stage_select_plains:draw(x_center, y_center, nil, nil, nil, stage_select_plains:getWidth() / 2, stage_select_plains:getHeight() / 2)
    title_logo:draw(x_center, y_center / 2, nil, nil, nil, title_logo:getWidth() / 2, title_logo:getHeight() / 2)
-   left_button:draw(20, y_center * 1.5, nil, nil, nil, nil, left_button:getHeight() / 2)
-   right_button:draw(love.window.getWidth() - 20, y_center * 1.5, nil, nil, nil, right_button:getWidth(), left_button:getHeight() / 2)
-   both_buttons:draw(x_center, y_center / 4 * 7, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
+   if key.title_state ~= 'help' then
+      left_button:draw(20, y_center * 1.5, nil, nil, nil, nil, left_button:getHeight() / 2)
+   end
+   if key.title_state ~= 'exit' then
+      right_button:draw(love.window.getWidth() - 20, y_center * 1.5, nil, nil, nil, right_button:getWidth(), left_button:getHeight() / 2)
+   end
+   if key.title_state ~= 'help' then
+      both_buttons:draw(x_center, y_center / 4 * 7, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
+   end
 end
 
 function button_update()
@@ -66,10 +71,24 @@ function button_update()
    both_buttons:set_frame(0, math.floor(frame / period) % 2 * 3)
 end
 
+game_state = 'title'
+function game_update()
+   if game_state == 'title' and key.title_state:find("-selected") then
+      key.title_state = key.title_state:gsub("(.+)-selected", "%1")
+      if key.title_state == 'exit' then
+	 love.event.push('quit')
+      end
+      game_state = 'playing'
+   end
+end
+
 function love.draw()
-   title_draw()
-   game_draw()
-   ui.draw()
+   if game_state == 'title' then
+      title_draw()
+   elseif game_state == 'playing' then
+      game_draw()
+      ui.draw()
+   end
    love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 30)
 end
 
@@ -82,11 +101,16 @@ function love.update(dt)
       -- sounds.play "woosh"
    end
    -- sounds.stop_all()
-   stage:update()
-   player:update()
-   camera:update()
-   key.update_driver_state()
+   if game_state == 'title' then
+      key.update_title_state()
+   elseif game_state == 'playing' then
+      stage:update()
+      player:update()
+      camera:update()
+      key.update_driver_state()
+   end
    button_update()
+   game_update()
    key.update()
    frame = frame + 1
 end
