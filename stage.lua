@@ -1,5 +1,6 @@
 local stage = {}
 local camera = require("camera")
+local sounds = require("sounds")
 local sprites = require("sprites")
 
 local seed_scale = 8
@@ -31,6 +32,8 @@ function stage:load(background_filename, control_filename)
    --create a seed map
    self.seed_map = {}
    self.active_seeds = {}
+
+   self.seed_sound_delay = 0
 end
 
 function stage:properties_at(x, y)
@@ -98,6 +101,11 @@ function stage:plant_seed(x, y, growth_rate, flower_type)
    seed.sprite_id = self.flower_batch:add(self.flower_sprite.quad, seed.x_pos, seed.y_pos, nil, 2, 2, 4, 4)
    self.seed_map[x][y] = seed
    table.insert(self.active_seeds, self.seed_map[x][y])
+
+   if self.seed_sound_delay == 0 then
+      -- sounds.play "seeds-popping"
+      self.seed_sound_delay = 30
+   end
 end
 
 function stage:grow_seeds()
@@ -151,6 +159,9 @@ end
 
 function stage:update()
    self:grow_seeds()
+   if self.seed_sound_delay > 0 then
+      self.seed_sound_delay = self.seed_sound_delay - 1
+   end
 end
 
 function stage:draw()

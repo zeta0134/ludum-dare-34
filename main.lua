@@ -21,6 +21,8 @@ function load(f)
    -- setup game stage and state
    stage:load("art/really-bad-track.png", "art/really-bad-track-control.png")
    player:load(leaf_types["Oak"])
+   player.position = Vector.new(351,888)
+   player.rotation = -0.5
 
    title_logo = sprites.new "title-logo"
    stage_select_plains = sprites.new "stage-select-plains"
