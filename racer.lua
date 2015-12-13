@@ -17,7 +17,7 @@ end
 function Racer:load(options)
    Object.load(self)
 
-   self:set_sprite("bad-racer", true)
+   self:set_sprite("oak-player", true)
 
    self.position.x = 0
    self.position.y = 0
