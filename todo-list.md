@@ -15,6 +15,9 @@ Level Hazards:
 - [ ] Zippers: Tapping (including a drag) over a zipper gives you a boost.
 - [ ] Water: Increases drag slide (more angled toward the side, same speed), no
       seeds can be planted here. Not even water lilies. (see: feature creep.)
+
+Nice to have:
+-------------
 - [ ] Jump: Similar to a zipper, but causes the rider to rise into the sky! No seeds
       are planted while jumping, and no level hazards are considered at all until
       the player lands, including plants and things that would slow you down.
