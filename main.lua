@@ -8,10 +8,9 @@ local sprites = require("sprites")
 local stage = require("stage")
 local ui = require("ui")
 
-player = Racer.new_racer()
-
 function load(f)
    love.window.setTitle("Tailwind")
+   player = Racer.new_racer()
 
    -- load and initialize resources
    sprites.load()
@@ -72,10 +71,21 @@ function button_update()
    both_buttons:set_frame(0, math.floor(frame / period) % 2 * 3)
 end
 
+game_state = 'title'
+function game_update()
+   if game_state == 'title' and key.title_state:find("-selected") then
+      key.title_state = key.title_state:gsub("(.+)-selected", "%1")
+      game_state = 'playing'
+   end
+end
+
 function love.draw()
-   title_draw()
-   game_draw()
-   ui.draw()
+   if game_state == 'title' then
+      title_draw()
+   elseif game_state == 'playing' then
+      game_draw()
+      ui.draw()
+   end
    love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 30)
 end
 
@@ -88,12 +98,16 @@ function love.update(dt)
       -- sounds.play "woosh"
    end
    -- sounds.stop_all()
-   stage:update()
-   player:update()
-   camera:update()
-   key.update_driver_state()
-   key.update_title_state()
+   if game_state == 'title' then
+      key.update_title_state()
+   elseif game_state == 'playing' then
+      stage:update()
+      player:update()
+      camera:update()
+      key.update_driver_state()
+   end
    button_update()
+   game_update()
    key.update()
    frame = frame + 1
 end
