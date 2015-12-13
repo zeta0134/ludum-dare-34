@@ -38,3 +38,4 @@ Feature Creep:
 - [ ] Split-screen multiplayer
 - [ ] AI Riders
 - [ ] Particles! (Love has these built in)
+- [ ] Speed Lines when boosting! So it feels faster
