@@ -19,7 +19,7 @@ function load(f)
    key.register_handlers(love)
 
    -- setup game stage and state
-   stage:load("art/really-bad-track.png", "art/really-bad-track-control.png")
+   stage:load("art/slightly-better-track.png", "art/really-bad-track-control.png")
    player:load(leaf_types["Oak"])
    player.position = Vector.new(351,888)
    player.rotation = -0.5

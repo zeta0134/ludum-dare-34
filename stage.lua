@@ -20,7 +20,7 @@ end
 function stage:load(background_filename, control_filename)
    self.image = love.graphics.newImage(background_filename)
 
-   self.flower_sprite = sprites.new("bad-flowers")
+   self.flower_sprite = sprites.new("brush")
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 1024*1024)
    self.flower_sprite.sheet.image:setFilter("nearest", "nearest")
    self:generate_noise_table()
