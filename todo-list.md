@@ -37,3 +37,4 @@ Feature Creep:
 - [ ] Completing a lap causes all of your plants to bloom at once
 - [ ] Split-screen multiplayer
 - [ ] AI Riders
+- [ ] Particles! (Love has these built in)
