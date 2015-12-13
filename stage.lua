@@ -67,6 +67,10 @@ function stage:load(level_properties)
    self.race_stage = 1
    self.race_active = false
    self.stage_timer = 0
+
+   if level_properties.clear_color then
+      love.graphics.setBackgroundColor(level_properties.clear_color.r, level_properties.clear_color.g, level_properties.clear_color.b)
+   end
 end
 
 function stage:properties_at(x, y)
