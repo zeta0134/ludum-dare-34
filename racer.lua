@@ -137,6 +137,8 @@ function Racer:update()
 
    if pixel_properties.lava and (key.state == "slide-left" or key.state == "slide-right") then
       self.on_fire_timer = 120 -- 2 seconds worth of PAIN!
+      self.boost_timer = 0
+      self.drag = 0
    end
 
    if pixel_properties.out_of_bounds and self.warp_timer == 0 then
