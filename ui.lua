@@ -1,5 +1,6 @@
 local Font = require("font")
 local stage = require("stage")
+local sprites = require("sprites")
 
 local ui = {}
 ui.speed_multiplier = 3.14159265358979
@@ -23,6 +24,8 @@ function ui.init()
 
    ui.charge_meter = love.graphics.newImage("art/charge_meter_empty.png")
    ui.charge_meter_filled = love.graphics.newImage("art/charge_meter_full.png")
+
+   ui.wrong_way_sprite = sprites.new("wrong-way")
 end
 
 function ui.draw()
@@ -99,7 +102,7 @@ function ui.draw()
 
    if player.wrong_way then
       if math.floor((ui.frame % 60) / 30) == 0 then
-         love.graphics.printf("!!! WRONG WAY !!!", 0, 100, love.graphics.getWidth(), "center")
+	 ui.wrong_way_sprite:draw(love.graphics.getWidth() / 2, 0.25 * love.graphics.getHeight(), nil, nil, nil, ui.wrong_way_sprite:getWidth() / 2, ui.wrong_way_sprite:getHeight() / 2)
       end
    end
 
