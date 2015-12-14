@@ -17,7 +17,7 @@ levels["desert"] = {
    starting_rotation=0.0,
    checkpoints=14,
    laps=3,
-   clear_color={r=226,g=154,b=32},
+   clear_color={r=195,g=132,b=25},
    growth_period=1600
 }
 

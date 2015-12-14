@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="oak-player.svg"
-   inkscape:export-filename="/home/cromo/projects/ludum-dare-34/art/oak-player.48x48.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/cromo/projects/ludum-dare-34/art/oak-player.64x64.png"
+   inkscape:export-xdpi="120"
+   inkscape:export-ydpi="120">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -27,11 +27,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="9.8333333"
-     inkscape:cx="103.88513"
-     inkscape:cy="52.297295"
+     inkscape:zoom="6.9532167"
+     inkscape:cx="78.388785"
+     inkscape:cy="49.056191"
      inkscape:document-units="px"
-     inkscape:current-layer="g5455"
+     inkscape:current-layer="g5453"
      showgrid="true"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -61,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
