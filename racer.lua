@@ -217,6 +217,7 @@ function Racer:update()
          -- time trial complete!!
          stage.race_active = false
          highscores:addScore(key.title_state, self.race_timer, self.lap_times)
+         return
       else
          self.lap = self.lap + 1
          self.checkpoint = 1
