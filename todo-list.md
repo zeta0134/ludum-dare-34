@@ -51,7 +51,7 @@ Nice to have:
 - [x] A help screen
 - [x] Redo the Plains. Or, adjust the starting position.
 - [x] Add out of bounds regions (and hazards?) to the desert.
-- [ ] Text for the title screen selections.
+- [x] Text for the title screen selections.
 - [ ] Bitmap font for times/laps/hud.
 
 Seed Placement and Growth:
@@ -63,7 +63,7 @@ Riders:
 -------
 - [x] Different sprites for turning, sliding, and boosting
 - [ ] HUD
-- [ ] Acceleration! You shouldn't instantly go top speed, nor should you instantly drop speed going over rough terrain!
+- [x] Acceleration! You shouldn't instantly go top speed, nor should you instantly drop speed going over rough terrain!
 
 Feature Creep:
 --------------
