@@ -1,3 +1,15 @@
+Sounds
+------
+- [ ] Music: Title Screen and Menus
+- [ ] Music: Racing (bonus: themes for each stage)
+- [ ] SFX: Charging Up (loops near the top; can we frequency slide with code?)
+- [ ] SFX: Boost
+- [ ] SFX: Miss! (Out of Bounds / Warped backwards)
+- [ ] SFX: On fire!
+- [ ] SFX: Sliding. Bonus: per material (dirt, grass, sand, water, rocks)
+- [ ] SFX: Lap Clear
+- [ ] SFX: Race Clear (music here too?)
+
 In the level loader:
 --------------------
 - [x] Base name of the stage, from which it finds all art assets for stitching
