@@ -1,3 +1,4 @@
 - [ ] quantize the collision maps
 - [ ] remove all debug drawing
 - [ ] remove debug printing to console
+- [ ] export all svgs through pinta to remove the "fade to white" alpha
