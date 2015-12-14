@@ -52,7 +52,7 @@ function Racer:load(options)
    self.lap_times = {}
 
    self.zipper_timer = 0
-   self.on_fire_timer = 240
+   self.on_fire_timer = 0
 
    self.last_known_good = {}
    self.last_known_good.position = Vector.new()
@@ -89,6 +89,48 @@ function Racer:load(options)
    self.particles.dust_cloud:setSizes(0.5, 0.8, 0)
    self.particles.dust_cloud:stop()
 
+   -- For boosting and generally being FAST
+   self.particle_speedlines = love.graphics.newImage("art/particle-speed-lines.png")
+   self.particles.boost_lines = love.graphics.newParticleSystem(self.particle_speedlines, 1024)
+   self.particles.boost_lines:setParticleLifetime(0.15,0.20)
+   self.particles.boost_lines:setEmissionRate(120)
+   self.particles.boost_lines:setSizes(1.0, 1.0)
+   self.particles.boost_lines:setColors(192, 192, 192, 128, 128, 128, 128, 128)
+   self.particles.boost_lines:setAreaSpread("normal", 300, 300)
+   self.particles.boost_lines:stop()
+
+   self.particles.boost_exhaust = love.graphics.newParticleSystem(self.particle_disc, 1024)
+   self.particles.boost_exhaust:setParticleLifetime(0.20,0.25)
+   self.particles.boost_exhaust:setEmissionRate(120)
+   self.particles.boost_exhaust:setSpread(0.50 * math.pi)
+   self.particles.boost_exhaust:setSizes(0.4, 0.5, 0.6, 0.0)
+   self.particles.boost_exhaust:setSpeed(10, 20)
+   self.particles.boost_exhaust:stop()
+end
+
+function Racer:start_boost_effect(r1, g1, b1, r2, g2, b2)
+   local current_speed = self.velocity:length() * 60
+   self.particles.boost_lines:setSpeed(current_speed * -1.6, current_speed * -1.8)
+   local particle_rotation = (self.rotation) * math.pi
+   self.particles.boost_lines:setDirection(particle_rotation, particle_rotation)
+   self.particles.boost_lines:setRotation(particle_rotation, particle_rotation)
+   self.particles.boost_lines:start()
+
+   -- invert direction for the exhaust
+   self.particles.boost_exhaust:setDirection(particle_rotation)
+   self.particles.boost_exhaust:setSpeed(current_speed * 0.5, current_speed * 0.6)
+   self.particles.boost_exhaust:setColors(r1, g1, b1, 255, r2, g2, b2, 255)
+   self.particles.boost_exhaust:start()
+
+   camera.zoom = 0.9
+   camera.drag = 0.025
+end
+
+function Racer:stop_boost_effect()
+   self.particles.boost_lines:stop()
+   self.particles.boost_exhaust:stop()
+   camera.zoom = 1.0
+   camera.drag = 0.04
 end
 
 function Racer:update()
@@ -113,6 +155,8 @@ function Racer:update()
       boost_speed = math.min(self.boost_speed, (self.boost_speed * self.boost_timer * 4 / self.max_drag))
       speed = speed + boost_speed
       self.seed_spread = 5
+
+      self:start_boost_effect(224, 224, 255, 64, 64, 128)
    else
       self.seed_spread = 15
    end
@@ -128,6 +172,11 @@ function Racer:update()
       -- WHEEEEEE
       speed = speed * (1.0 + zip_factor)
       self.zipper_timer = self.zipper_timer - 1
+      self:start_boost_effect(255, 255, 128, 192, 128, 16)
+   end
+
+   if self.boost_timer == 0 and self.zipper_timer == 0 then
+      self:stop_boost_effect()
    end
 
    if self.on_fire_timer > 0 then
@@ -290,10 +339,12 @@ function Racer:draw()
    end
    -- under-character effects
    love.graphics.draw(self.particles.dust_cloud, 0, 0)
+   love.graphics.draw(self.particles.boost_exhaust, 0, 0)
    Object.draw(self)
    love.graphics.setColor(255, 255, 255)
    -- on-character effects
    love.graphics.draw(self.particles.fire, 0, 0)
+   love.graphics.draw(self.particles.boost_lines, 0, 0)
 end
 
 function Racer.new_racer()

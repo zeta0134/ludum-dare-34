@@ -19,15 +19,15 @@ function stage:generate_noise_table()
 end
 
 stage.race_stages = {
-   {name="prefade", duration=60},
-   {name="fadein", duration=120},
-   {name="warmup", duration=60},
+   {name="prefade", duration=20},
+   {name="fadein", duration=30},
+   {name="warmup", duration=30},
    {name="3", duration=60},
    {name="2", duration=60},
    {name="1", duration=60},
    {name="GO", active=true, duration=10},
    {name="results", duration=60*10},
-   {name="postfade", duration=120},
+   {name="postfade", duration=30},
    {name="returntotitle", exit=true}
 }
 
