@@ -76,7 +76,7 @@ function Racer:load(options)
    self.particle_emitter:setEmissionRate(60)
    self.particle_emitter:setSpeed(80,100)
    self.particle_emitter:setLinearDamping(0, 0)
-   self.particle_emitter:emit(0)
+   self.particle_emitter:stop()
 end
 
 function Racer:update()
@@ -215,18 +215,25 @@ function Racer:update()
    -- Account for drag
    speed = math.max(speed - self.drag * (self.normal_speed / self.max_drag), 0)
    self.velocity = thrust * speed
-
+   self.sprite:set_frame(0, 0)
+   if self.boost_timer > 0 then
+      self.sprite:set_frame(0, 1)
+   end
    if key.state == "left" then
       self.rotational_velocity = self.normal_turn_rate * -1
+      self.sprite:set_frame(1, 1)
    end
    if key.state == "right" then
       self.rotational_velocity = self.normal_turn_rate
+      self.sprite:set_frame(1, 0)
    end
    if key.state == "slide-left" then
       self.rotational_velocity = self.slide_turn_rate * -1
+      self.sprite:set_frame(2, 1)
    end
    if key.state == "slide-right" then
       self.rotational_velocity = self.slide_turn_rate
+      self.sprite:set_frame(2, 0)
    end
 
    for i = 1, self.seed_rate do
