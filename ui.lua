@@ -97,7 +97,7 @@ function ui.draw()
    love.graphics.setColor(255, 255, 255)
    love.graphics.print("Stage: " .. stage.race_stages[stage.race_stage].name, 300, 10)
 
-   ui.bad_font:draw_text("42-100", 100, 100)
+   --ui.bad_font:draw_text("42-100", 100, 100)
 end
 
 return ui
