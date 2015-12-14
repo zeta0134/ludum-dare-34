@@ -18,7 +18,7 @@ function ui.init()
    ui.frame = 0
 
    ui.font = Font.new()
-   ui.font:load("font", "0123456789:/.")
+   ui.font:load("font", "0123456789:/.!acdeghilnoprstvwxy")
 
    ui.charge_meter = love.graphics.newImage("art/charge_meter_empty.png")
    ui.charge_meter_filled = love.graphics.newImage("art/charge_meter_full.png")
