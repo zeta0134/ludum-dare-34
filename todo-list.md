@@ -13,7 +13,7 @@ Level Hazards:
 --------------
 - [x] Invisi-radius that knocks you back towards the track from whence you came
 - [x] Lava: Seeds do not grow here. Attempting to drag results in slowdowns and pain
-   - [ ] Sliding over lava should empty the boost charge
+   - [x] Sliding over lava should empty the boost charge
 - [x] Zippers: Tapping (including a drag) over a zipper gives you a boost.
 - [x] Water: Increases drag slide (more angled toward the side, same speed), no
       seeds can be planted here. Not even water lilies. (see: feature creep.)
@@ -23,7 +23,7 @@ Nice to have:
 - [ ] Jump: Similar to a zipper, but causes the rider to rise into the sky! No seeds
       are planted while jumping, and no level hazards are considered at all until
       the player lands, including plants and things that would slow you down.
-- [ ] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
+- [x] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
 - [ ] Wrong way notifier, for helping people realize they're going backwards
 - [ ] A help screen
 - [ ] Redo the Plains. Or, adjust the starting position.
