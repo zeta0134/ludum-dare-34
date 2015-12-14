@@ -38,7 +38,7 @@ Riders:
 
 Feature Creep:
 --------------
-- [ ] Minimap
+- [x] Minimap
 - [ ] Completing a lap causes all of your plants to bloom at once
 - [ ] Split-screen multiplayer
 - [ ] AI Riders
