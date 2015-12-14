@@ -27,6 +27,9 @@ Nice to have:
 - [ ] Wrong way notifier, for helping people realize they're going backwards
 - [ ] A help screen
 - [ ] Redo the Plains. Or, adjust the starting position.
+- [ ] Add out of bounds regions (and hazards?) to the desert.
+- [ ] Text for the title screen selections.
+- [ ] Bitmap font for tims/laps/hud.
 
 Seed Placement and Growth:
 --------------------------
@@ -36,10 +39,12 @@ Seed Placement and Growth:
 Riders:
 -------
 - [x] Different sprites for turning, sliding, and boosting
+- [ ] HUD
 
 Feature Creep:
 --------------
 - [x] Minimap
+   - [ ] minimap from svg
 - [ ] Completing a lap causes all of your plants to bloom at once
 - [ ] Split-screen multiplayer
 - [ ] AI Riders
