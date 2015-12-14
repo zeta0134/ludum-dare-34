@@ -68,13 +68,8 @@ function key.update_driver_state()
       if not key.down() then key.state = 'straight'
       elseif key.hit() == 'both' then key.state = 'slide-right'
       end
-   elseif key.state == 'slide-left' then
-      if not key.down() then key.state = 'straight'
-      elseif key.hit() == 'both' then key.state = 'straight'
-      end
-   elseif key.state == 'slide-right' then
-      if not key.down() then key.state = 'straight'
-      elseif key.hit() == 'both' then key.state = 'straight'
+   elseif key.state == 'slide-left' or key.state == 'slide-right' then
+      if key.down() ~= 'both' then key.state = 'straight'
       end
    end
 end
