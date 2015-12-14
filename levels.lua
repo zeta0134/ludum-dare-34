@@ -28,7 +28,7 @@ levels["volcano"] = {
    checkpoints=11,
    laps=3,
    clear_color={r=26,g=22,b=26},
-   growth_period=256
+   growth_period=1200
 }
 
 return levels
