@@ -38,8 +38,8 @@ Nice to have:
       the player lands, including plants and things that would slow you down.
 - [x] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
 - [ ] Wrong way notifier (image), for helping people realize they're going backwards
-- [ ] A help screen
-- [ ] Redo the Plains. Or, adjust the starting position.
+- [x] A help screen
+- [x] Redo the Plains. Or, adjust the starting position.
 - [x] Add out of bounds regions (and hazards?) to the desert.
 - [ ] Text for the title screen selections.
 - [ ] Bitmap font for tims/laps/hud.
@@ -57,7 +57,7 @@ Riders:
 Feature Creep:
 --------------
 - [x] Minimap
-   - [ ] minimap from svg
+   - [x] minimap from svg
 - [ ] Completing a lap causes all of your plants to bloom at once
 - [ ] Split-screen multiplayer
 - [ ] AI Riders
