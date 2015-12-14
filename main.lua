@@ -13,7 +13,6 @@ function init_stage(stage_name, leaf_type)
    player = Racer.new_racer()
    player:load(leaf_types[leaf_type])
    stage:load(levels[stage_name])
-   print("Loaded stage: " .. stage_name)
 end
 
 function load(f)
@@ -40,6 +39,7 @@ end
 
 function love.load()
    load(nil)
+   ui.init()
 end
 
 lurker.postswap = load

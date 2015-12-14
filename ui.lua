@@ -10,7 +10,13 @@ local function lap_time_to_string(time_in_frames)
    return string.format("%02d:%02d:%02d", minutes, seconds, hundredths)
 end
 
+function ui.init()
+   ui.minimap_icon = love.graphics.newImage("art/minimap-icon.png")
+   ui.frame = 0
+end
+
 function ui.draw()
+   ui.frame = ui.frame + 1
    -- draw a boost meter!
    love.graphics.setColor(32, 32, 32)
    love.graphics.rectangle("fill", 10,10,20,200)
@@ -34,6 +40,18 @@ function ui.draw()
    for i = 1, #player.lap_times do
       love.graphics.print("LAP ".. i .." TIME: " .. lap_time_to_string(player.lap_times[i]), 40, 70 + i * 20)
    end
+
+   -- minimap!
+   love.graphics.setColor(255, 255, 255)
+   local minimap_x = love.graphics.getWidth() - stage.minimap_image:getWidth() - 10
+   local minimap_y = 10
+   love.graphics.draw(stage.minimap_image, minimap_x, minimap_y)
+   local icon_x = (player.position.x / 10) + minimap_x
+   local icon_y = (player.position.y / 10) + minimap_y
+   love.graphics.setColor(64, 255, 64)
+   love.graphics.draw(ui.minimap_icon, icon_x, icon_y, nil, nil, nil, 8, 8)
+   love.graphics.setColor(255, 255, 255)
+
 
    -- handle race pre-fade happiness
    if stage.race_stages[stage.race_stage].name == "prefade" then
@@ -59,6 +77,12 @@ function ui.draw()
       local fade_amount = math.abs(player.warp_timer - 30)
       love.graphics.setColor(0, 0, 0, (30 - fade_amount) * 255 / 30)
       love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+   end
+
+   if player.wrong_way then
+      if math.floor((ui.frame % 60) / 30) == 0 then
+         love.graphics.printf("!!! WRONG WAY !!!", 0, 100, love.graphics.getWidth(), "center")
+      end
    end
 
    love.graphics.setColor(255, 255, 255)

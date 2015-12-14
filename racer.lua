@@ -62,14 +62,28 @@ function Racer:load(options)
 
    self.warp_timer = 0
 
+   self.wrong_way = false
+
    options = options or {}
    for k,v in pairs(options) do
       self[k] = v
    end
+
+   -- particles!!
+   self.particle_glow = love.graphics.newImage("art/particle-glow.png")
+   self.particle_emitter = love.graphics.newParticleSystem(self.particle_glow, 1024)
+   self.particle_emitter:setParticleLifetime(1.5,2)
+   self.particle_emitter:setEmissionRate(60)
+   self.particle_emitter:setSpeed(80,100)
+   self.particle_emitter:setLinearDamping(0, 0)
+   self.particle_emitter:stop()
 end
 
 function Racer:update()
    Object.update(self)
+
+   self.particle_emitter:setPosition(self.position.x, self.position.y)
+   self.particle_emitter:update(1.0/60.0)
 
    camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
    camera.rotation = racer.rotation + 0.5
@@ -137,17 +151,26 @@ function Racer:update()
 
    if pixel_properties.lava and (key.state == "slide-left" or key.state == "slide-right") then
       self.on_fire_timer = 120 -- 2 seconds worth of PAIN!
+      self.boost_timer = 0
+      self.drag = 0
    end
 
    if pixel_properties.out_of_bounds and self.warp_timer == 0 then
       self.warp_timer = 60
-      --print("Oh noes!")
    end
 
    if (not pixel_properties.out_of_bounds) and (not pixel_properties.offroad) then
       self.last_known_good.position.x = self.position.x
       self.last_known_good.position.y = self.position.y
       self.last_known_good.rotation = self.rotation
+   end
+
+   if pixel_properties.checkpoint then
+      if pixel_properties.checkpoint < self.checkpoint or pixel_properties.checkpoint > self.checkpoint + 2 then
+         self.wrong_way = true
+      else
+         self.wrong_way = false
+      end
    end
 
    -- handle out of bounds warping
@@ -157,7 +180,6 @@ function Racer:update()
          self.position.x = self.last_known_good.position.x
          self.position.y = self.last_known_good.position.y
          self.rotation = self.last_known_good.rotation
-         print("Warped out!")
       end
       self.warp_timer = self.warp_timer - 1
       speed = 0
@@ -193,18 +215,25 @@ function Racer:update()
    -- Account for drag
    speed = math.max(speed - self.drag * (self.normal_speed / self.max_drag), 0)
    self.velocity = thrust * speed
-
+   self.sprite:set_frame(0, 0)
+   if self.boost_timer > 0 then
+      self.sprite:set_frame(0, 1)
+   end
    if key.state == "left" then
       self.rotational_velocity = self.normal_turn_rate * -1
+      self.sprite:set_frame(1, 1)
    end
    if key.state == "right" then
       self.rotational_velocity = self.normal_turn_rate
+      self.sprite:set_frame(1, 0)
    end
    if key.state == "slide-left" then
       self.rotational_velocity = self.slide_turn_rate * -1
+      self.sprite:set_frame(2, 1)
    end
    if key.state == "slide-right" then
       self.rotational_velocity = self.slide_turn_rate
+      self.sprite:set_frame(2, 0)
    end
 
    for i = 1, self.seed_rate do
@@ -224,6 +253,9 @@ end
 
 function Racer:draw()
    Object.draw(self)
+   love.graphics.setBlendMode("additive")
+   love.graphics.draw(self.particle_emitter, 0, 0)
+   love.graphics.setBlendMode("alpha")
 end
 
 function Racer.new_racer()
