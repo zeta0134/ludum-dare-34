@@ -43,11 +43,12 @@ function ui.draw()
 
    -- minimap!
    love.graphics.setColor(255, 255, 255)
+   local minimap_scale = 2048 / 100
    local minimap_x = love.graphics.getWidth() - stage.minimap_image:getWidth() - 10
    local minimap_y = 10
    love.graphics.draw(stage.minimap_image, minimap_x, minimap_y)
-   local icon_x = (player.position.x / 10) + minimap_x
-   local icon_y = (player.position.y / 10) + minimap_y
+   local icon_x = (player.position.x / minimap_scale) + minimap_x
+   local icon_y = (player.position.y / minimap_scale) + minimap_y
    love.graphics.setColor(64, 255, 64)
    love.graphics.draw(ui.minimap_icon, icon_x, icon_y, nil, nil, nil, 8, 8)
    love.graphics.setColor(255, 255, 255)
