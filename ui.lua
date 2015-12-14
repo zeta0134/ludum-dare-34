@@ -17,8 +17,6 @@ function ui.init()
    ui.minimap_icon = love.graphics.newImage("art/minimap-icon.png")
    ui.frame = 0
 
-   ui.bad_font = Font.new()
-   ui.bad_font:load("reallybad_font", "0123456789")
    ui.font = Font.new()
    ui.font:load("font", "0123456789:/.")
 
@@ -108,8 +106,6 @@ function ui.draw()
 
    love.graphics.setColor(255, 255, 255)
    love.graphics.print("Stage: " .. stage.race_stages[stage.race_stage].name, 300, 10)
-
-   ui.font:draw_text("42-100", 100, 100)
 end
 
 return ui
