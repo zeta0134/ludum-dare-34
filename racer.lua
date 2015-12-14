@@ -292,7 +292,9 @@ function Racer:update()
       if self.drag > 0 then
          self.boost_timer = self.drag
       end
-      self.drag = 0
+      if self.drag > 0 then
+         self.drag = self.drag - 1
+      end
       self.spray_direction = 1.0
       self.spray_offset = 5.0
    end
@@ -300,8 +302,13 @@ function Racer:update()
       self.drag = self.max_drag
    end
 
+   local top_speed = speed
+
    -- Account for drag
-   local top_speed = math.max(speed - self.drag * (self.normal_speed / self.max_drag), 0)
+   if key.state == "slide-left" or key.state == "slide-right" then
+      top_speed = math.max(speed - self.drag * (self.normal_speed / self.max_drag), 0)
+   end
+
    --self.velocity = thrust * speed
    if self.velocity:length() > top_speed then
       local new_speed = top_speed * 0.6 + self.velocity:length() * 0.4

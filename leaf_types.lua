@@ -13,7 +13,7 @@ leaf_types["Clover"] = {
 
 leaf_types["Aloe"] = {
    normal_speed=0,
-   boost_speed=8.5,
+   boost_speed=7.0,
    max_drag=60 * 10,
    color={255,255,128}
 }
