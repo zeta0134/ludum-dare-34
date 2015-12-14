@@ -2,6 +2,7 @@ local Font = require("font")
 local stage = require("stage")
 
 local ui = {}
+ui.speed_multiplier = 3.14159265358979
 
 local function lap_time_to_string(time_in_frames)
    local minutes = math.floor(time_in_frames / (60 * 60))
@@ -17,6 +18,8 @@ function ui.init()
 
    ui.bad_font = Font.new()
    ui.bad_font:load("reallybad_font", "0123456789")
+   ui.font = Font.new()
+   ui.font:load("font", "0123456789:/.")
 
    ui.charge_meter = love.graphics.newImage("art/charge_meter_empty.png")
    ui.charge_meter_filled = love.graphics.newImage("art/charge_meter_full.png")
@@ -38,15 +41,21 @@ function ui.draw()
       love.graphics.draw(ui.charge_meter_filled, quad, love.graphics.getWidth() - 54 - 10, love.graphics.getHeight() - height - 10)
    end
 
+   -- draw speed!
+   love.graphics.setColor(255, 255, 255)
+   local display_speed = string.format("%.1f", ui.speed_multiplier * player.velocity:length())
+   display_speed = string.rep(" ", 5 - display_speed:len()) .. display_speed
+   ui.font:draw_text(display_speed, love.graphics.getWidth() - 120, love.graphics.getHeight() - 50)
+
    -- draw lap and checkpoint data
    love.graphics.setColor(255, 255, 255)
-   love.graphics.print("LAP: " .. player.lap, 40, 10)
+   ui.font:draw_text(tostring(player.lap) .. "/" .. stage.properties.laps, 40, 10)
    love.graphics.print("CHECKPOINT: " .. player.checkpoint, 40, 30)
 
    -- draw timers
-   love.graphics.print("RACE TIME: " .. lap_time_to_string(player.race_timer), 40, 70)
+   ui.font:draw_text(lap_time_to_string(player.race_timer), 40, 70)
    for i = 1, #player.lap_times do
-      love.graphics.print("LAP ".. i .." TIME: " .. lap_time_to_string(player.lap_times[i]), 40, 70 + i * 20)
+      ui.font:draw_text(tostring(i) ..": " .. lap_time_to_string(player.lap_times[i]), 40, 120 + i * 28)
    end
 
    -- minimap!
@@ -97,7 +106,7 @@ function ui.draw()
    love.graphics.setColor(255, 255, 255)
    love.graphics.print("Stage: " .. stage.race_stages[stage.race_stage].name, 300, 10)
 
-   --ui.bad_font:draw_text("42-100", 100, 100)
+   ui.font:draw_text("42-100", 100, 100)
 end
 
 return ui
