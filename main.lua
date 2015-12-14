@@ -40,6 +40,7 @@ end
 
 function love.load()
    load(nil)
+   ui.init()
 end
 
 lurker.postswap = load

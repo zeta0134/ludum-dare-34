@@ -47,6 +47,9 @@ function stage:load(level_properties)
    -- debug
    self.debug_control_map = love.graphics.newImage(self.control_map)
 
+   -- minimap!
+   self.minimap_image = love.graphics.newImage("levels/" .. level_properties.image_name .. ".minimap.png")
+
    --create a seed map
    self.seed_map = {}
    self.active_seeds = {}
