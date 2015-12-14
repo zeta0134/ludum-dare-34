@@ -39,7 +39,7 @@ function Racer:load(options)
 
    self.slide_vector = 0.25
    self.normal_turn_rate = 0.006
-   self.slide_turn_rate = 0.009
+   self.slide_turn_rate = 0.012
 
    self.spray_direction = 1.0
    self.spray_offset = 5.0
@@ -263,12 +263,12 @@ function Racer:update()
       slide_vector = slide_vector * 1.5
    end
    if key.state == "slide-left" then
-      thrust = vector_from_angle(self.rotation + slide_vector)
+      --thrust = vector_from_angle(self.rotation + slide_vector)
       self.spray_direction = 1.0 - 0.5
       self.spray_offset = 50.0
       self.drag = self.drag + 1
    elseif key.state == "slide-right" then
-      thrust = vector_from_angle(self.rotation - slide_vector)
+      --thrust = vector_from_angle(self.rotation - slide_vector)
       self.spray_direction = -1.0 + 0.5
       self.spray_offset = 50.0
       self.drag = self.drag + 1
