@@ -7,7 +7,7 @@ levels["plains"] = {
    starting_rotation=-0.5,
    checkpoints=18,
    laps=3,
-   clear_color={r=42,g=126,b=16},
+   clear_color={r=0,g=82,b=9},
    growth_period=1400
 }
 

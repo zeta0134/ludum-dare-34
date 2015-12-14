@@ -54,6 +54,14 @@ function Racer:load(options)
    self.zipper_timer = 0
    self.on_fire_timer = 0
 
+   self.last_known_good = {}
+   self.last_known_good.position = Vector.new()
+   self.last_known_good.position.x = self.position.x
+   self.last_known_good.position.y = self.position.y
+   self.last_known_good.rotation = self.rotation
+
+   self.warp_timer = 0
+
    options = options or {}
    for k,v in pairs(options) do
       self[k] = v
@@ -131,6 +139,29 @@ function Racer:update()
       self.on_fire_timer = 120 -- 2 seconds worth of PAIN!
    end
 
+   if pixel_properties.out_of_bounds and self.warp_timer == 0 then
+      self.warp_timer = 60
+      --print("Oh noes!")
+   end
+
+   if (not pixel_properties.out_of_bounds) and (not pixel_properties.offroad) then
+      self.last_known_good.position.x = self.position.x
+      self.last_known_good.position.y = self.position.y
+      self.last_known_good.rotation = self.rotation
+   end
+
+   -- handle out of bounds warping
+   if self.warp_timer > 0 then
+      if self.warp_timer == 30 then
+         -- Heave! Ho!
+         self.position.x = self.last_known_good.position.x
+         self.position.y = self.last_known_good.position.y
+         self.rotation = self.last_known_good.rotation
+         print("Warped out!")
+      end
+      self.warp_timer = self.warp_timer - 1
+      speed = 0
+   end
 
    local thrust = vector_from_angle(self.rotation)
    local slide_vector = self.slide_vector

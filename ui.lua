@@ -55,6 +55,12 @@ function ui.draw()
       love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
    end
 
+   if player.warp_timer > 0 then
+      local fade_amount = math.abs(player.warp_timer - 30)
+      love.graphics.setColor(0, 0, 0, (30 - fade_amount) * 255 / 30)
+      love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+   end
+
    love.graphics.setColor(255, 255, 255)
    love.graphics.print("Stage: " .. stage.race_stages[stage.race_stage].name, 300, 10)
 end

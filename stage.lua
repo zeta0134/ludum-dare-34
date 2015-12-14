@@ -78,7 +78,7 @@ function stage:properties_at(x, y)
    y = math.floor(y)
    local properties = {}
    if x < 0 or x >= self.control_map:getWidth() or y < 0 or y >= self.control_map:getHeight() then
-      return {} -- outside the bounds of the map
+      return {out_of_bounds=true} -- outside the bounds of the map
    end
    local r, g, b = stage.control_map:getPixel(x, y)
    if r > 0 then
@@ -103,6 +103,10 @@ function stage:properties_at(x, y)
       if b == 40 then
          properties.water = true
       end
+      if b == 50 then
+         properties.out_of_bounds = true
+      end
+      --print(b)
    end
    return properties
 end
@@ -247,8 +251,8 @@ function stage:draw()
       love.graphics.setBlendMode(old_blend_mode)
    end
    -- debug!
-   love.graphics.setColor(255, 255, 255, 128)
-   love.graphics.draw(self.debug_control_map)
+   -- love.graphics.setColor(255, 255, 255, 128)
+   -- love.graphics.draw(self.debug_control_map)
 
    love.graphics.setColor(255, 255, 255)
    love.graphics.draw(self.flower_batch)
