@@ -75,6 +75,7 @@ function key.update_driver_state()
 end
 
 key.title_state = 'plains'
+key.help_frame = 0
 -- TODO: load in the list of stages from somewhere else
 key.title_stages = {'plains', 'desert', 'volcano'}
 function key.update_title_state(dt)
@@ -99,6 +100,7 @@ function key.update_title_state(dt)
    if not current_stage then return end
    if current_stage == 1 and key.release() == 'left' then
       key.title_state = 'help'
+      key.help_frame = 0
       return
    end
    if current_stage == #key.title_stages and key.release() == 'right' then

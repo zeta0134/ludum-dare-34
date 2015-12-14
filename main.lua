@@ -30,6 +30,7 @@ function load(f)
 
    title_logo = sprites.new "title-logo"
    stage_select = {}
+   stage_select.help = sprites.new "help"
    stage_select.plains = sprites.new "stage-select-plains"
    stage_select.desert = sprites.new "stage-select-desert"
    stage_select.volcano = sprites.new "stage-select-volcano"
@@ -37,6 +38,11 @@ function load(f)
    left_button = sprites.new "buttons"
    right_button = sprites.new "buttons"
    both_buttons = sprites.new "buttons"
+
+   help_state = 'straight'
+   help_buttons = sprites.new "buttons"
+   help_animation = sprites.new "oak-player"
+
    love.window.setIcon(sprites.sheets["icon"].image:getData())
    love.window.setMode(800, 600, {resizable = true})
 end
@@ -74,6 +80,11 @@ function title_draw()
    if key.title_state ~= 'help' then
       both_buttons:draw(x_center, y_center / 4 * 7, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
    end
+   if key.title_state == 'help' then
+      help_buttons:draw(x_center - 100, y_center + 50, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
+      help_animation:draw(x_center + 100, y_center + 50, -3.1415 / 2, nil, nil, help_animation:getWidth() / 2, help_animation:getHeight() / 2)
+   end
+
    love.graphics.print("state: " .. key.title_state, 350, 290)
 end
 
@@ -82,6 +93,53 @@ function button_update()
    left_button:set_frame(0, math.floor(frame / period) % 2 + 2)
    right_button:set_frame(0, math.floor(frame / period) % 2 * 2 + 1)
    both_buttons:set_frame(0, math.floor(frame / period) % 2 * 3)
+end
+
+help_keyframes = {
+   {0, 'straight'},
+   {30, 'left'},
+   {60, 'straight'},
+   {90, 'left'},
+   {120, 'straight'},
+   {150, 'right'},
+   {180, 'straight'},
+   {210, 'right'},
+   {240, 'straight'},
+   {270, 'left'},
+   {285, 'left-slide'},
+   {325, 'boost'},
+   {370, 'straight'},
+   {400, 'right'},
+   {415, 'right-slide'},
+   {455, 'boost'},
+   {485, 'loop'}
+}
+
+help_frame_map = {
+   straight = {0, 0, 3},
+   left = {1, 1, 2},
+   right = {1, 0, 1},
+   ['left-slide'] = {2, 1, 0},
+   ['right-slide'] = {2, 0, 0},
+   boost = {0, 1, 3}
+}
+function help_update()
+   local frame = 'straight'
+   local i
+   for i = 1, #help_keyframes do
+      if help_keyframes[i][1] <= key.help_frame then
+	 frame = help_keyframes[i][2]
+      end
+   end
+
+   if frame == 'loop' then
+      key.help_frame = 0
+      frame = help_keyframes[1][2]
+   end
+
+   local mapping = help_frame_map[frame]
+   help_animation:set_frame(mapping[1], mapping[2])
+   help_buttons:set_frame(0, mapping[3])
 end
 
 game_state = 'title'
@@ -126,6 +184,8 @@ function love.update(dt)
    -- sounds.stop_all()
    if game_state == 'title' then
       key.update_title_state()
+      key.help_frame = key.help_frame + 1
+      help_update()
    elseif game_state == 'playing' then
       stage:update()
       player:update()
