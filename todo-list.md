@@ -27,6 +27,7 @@ Nice to have:
 - [ ] Wrong way notifier, for helping people realize they're going backwards
 - [ ] A help screen
 - [ ] Redo the Plains. Or, adjust the starting position.
+- [ ] Add out of bounds regions (and hazards?) to the desert.
 
 Seed Placement and Growth:
 --------------------------
