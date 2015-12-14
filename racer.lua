@@ -246,6 +246,12 @@ function Racer:update()
          self.position.x = self.last_known_good.position.x
          self.position.y = self.last_known_good.position.y
          self.rotation = self.last_known_good.rotation
+
+         -- move the player backwards a little bit
+         self.position = self.position + vector_from_angle(self.rotation + 1.0) * 100
+      end
+      if self.warp_timer == 29 then
+         camera.delayed_position = camera.position
       end
       self.warp_timer = self.warp_timer - 1
       speed = 0
