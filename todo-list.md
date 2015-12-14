@@ -28,6 +28,8 @@ Nice to have:
 - [ ] A help screen
 - [ ] Redo the Plains. Or, adjust the starting position.
 - [ ] Add out of bounds regions (and hazards?) to the desert.
+- [ ] Text for the title screen selections.
+- [ ] Bitmap font for tims/laps/hud.
 
 Seed Placement and Growth:
 --------------------------
@@ -37,6 +39,7 @@ Seed Placement and Growth:
 Riders:
 -------
 - [x] Different sprites for turning, sliding, and boosting
+- [ ] HUD
 
 Feature Creep:
 --------------
