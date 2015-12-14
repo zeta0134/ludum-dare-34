@@ -35,7 +35,7 @@ Seed Placement and Growth:
 
 Riders:
 -------
-- [ ] Different sprites for turning, sliding, and boosting
+- [x] Different sprites for turning, sliding, and boosting
 
 Feature Creep:
 --------------
