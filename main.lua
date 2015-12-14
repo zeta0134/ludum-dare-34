@@ -103,6 +103,12 @@ function love.draw()
    love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 30)
 end
 
+function frame_limit(fps, dt)
+   if dt < 1 / fps then
+      love.timer.sleep(1 / fps - dt)
+   end
+end
+
 frame = 0
 function love.update(dt)
    require("lurker").update()
@@ -124,4 +130,6 @@ function love.update(dt)
    game_update()
    key.update()
    frame = frame + 1
+
+   frame_limit(60, dt)
 end
