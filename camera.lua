@@ -30,4 +30,13 @@ function camera:update()
    camera.delayed_zoom = camera.delayed_zoom * (1.0 - camera.drag) + camera.zoom * camera.drag
 end
 
+function camera:set(x, y, r)
+   camera.position.x = x
+   camera.position.y = y
+   camera.rotation = r
+   camera.delayed_position.x = x
+   camera.delayed_position.y = y
+   camera.delayed_rotation = r
+end
+
 return camera

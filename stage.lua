@@ -48,6 +48,9 @@ function stage:load(level_properties)
    -- debug
    self.debug_control_map = love.graphics.newImage(self.control_map)
 
+   -- reset camera
+   camera:set(self.properties.starting_position.x, self.properties.starting_position.y, self.properties.starting_rotation)
+
    -- minimap!
    self.minimap_image = love.graphics.newImage("levels/" .. level_properties.image_name .. ".minimap.png")
 

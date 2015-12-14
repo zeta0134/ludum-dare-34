@@ -1,6 +1,8 @@
 Known Bugs
 ----------
 - [ ] Upon exiting a race while boosted, the boost meter never depletes, and the boost particles never disappear and look quite strange.
+- [ ] Ending up out of bounds of the map crashes in racer.lua line 325, trying to pick the color of the dust cloud over nonexistant map.
+- [ ] Pressing both keys from going straight on the same frame locks you going straight; it should do a straight slide.
 
 Sounds
 ------
@@ -41,12 +43,12 @@ Nice to have:
       are planted while jumping, and no level hazards are considered at all until
       the player lands, including plants and things that would slow you down.
 - [x] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
-- [ ] Wrong way notifier (image), for helping people realize they're going backwards
+- [x] Wrong way notifier (image), for helping people realize they're going backwards
 - [x] A help screen
 - [x] Redo the Plains. Or, adjust the starting position.
 - [x] Add out of bounds regions (and hazards?) to the desert.
 - [ ] Text for the title screen selections.
-- [ ] Bitmap font for tims/laps/hud.
+- [ ] Bitmap font for times/laps/hud.
 
 Seed Placement and Growth:
 --------------------------
@@ -57,6 +59,7 @@ Riders:
 -------
 - [x] Different sprites for turning, sliding, and boosting
 - [ ] HUD
+- [ ] Acceleration! You shouldn't instantly go top speed, nor should you instantly drop speed going over rough terrain!
 
 Feature Creep:
 --------------

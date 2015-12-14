@@ -81,8 +81,8 @@ function title_draw()
       both_buttons:draw(x_center, y_center / 4 * 7, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
    end
    if key.title_state == 'help' then
-      help_buttons:draw(x_center - 100, y_center + 50, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
-      help_animation:draw(x_center + 100, y_center + 50, -3.1415 / 2, nil, nil, help_animation:getWidth() / 2, help_animation:getHeight() / 2)
+      help_buttons:draw(x_center - 100, y_center + 80, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
+      help_animation:draw(x_center + 50, y_center + 80, -3.1415 / 2, nil, nil, help_animation:getWidth() / 2, help_animation:getHeight() / 2)
    end
 
    love.graphics.print("state: " .. key.title_state, 350, 290)

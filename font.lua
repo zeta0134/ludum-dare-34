@@ -10,7 +10,7 @@ function Font:draw_text(text, x, y)
    for i = 1, #text do
       -- figure out if we can draw this character, and which sprite frame
       -- it is
-      local char_frame = self.characters:find(text:sub(i, i))
+      local char_frame = self.characters:find(text:sub(i, i), nil, true)
       if char_frame then
          self.sprite:set_frame(char_frame - 1, 0)
          self.sprite:draw(x, y)
