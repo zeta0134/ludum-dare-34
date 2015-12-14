@@ -71,6 +71,7 @@ function Racer:load(options)
 
    self.machine_acceleration = 0.2
 
+   self.machine_friction = 0.1
    self.friction = 0.1
 
    options = options or {}
@@ -145,6 +146,8 @@ end
 function Racer:update()
    Object.update(self)
 
+   self.friction = self.machine_friction
+
    for k,_ in pairs(self.particles) do
       self.particles[k]:setPosition(self.position.x, self.position.y)
       self.particles[k]:update(1.0/60.0)
@@ -154,8 +157,9 @@ function Racer:update()
    camera.rotation = racer.rotation + 0.5
 
    if not stage.race_active then
-      self.velocity = self.velocity * 0.95
-      self.acceleration = 0
+      self.acceleration = Vector.new()
+      self.friction = 0.15
+      self:stop_boost_effect()
       return --STAHP
    end
 

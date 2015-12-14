@@ -6,7 +6,7 @@ levels["plains"] = {
    starting_position=Vector.new(453, 225),
    starting_rotation=0.2,
    checkpoints=7,
-   laps=5,
+   laps=1,
    clear_color={r=58,g=99,b=15},
    growth_period=1400
 }
