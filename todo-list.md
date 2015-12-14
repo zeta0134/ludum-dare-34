@@ -7,6 +7,7 @@ In the level loader:
 - [ ] Out of Bounds texture (No no no! Wrong way!)
 - [x] Going out of bounds (like, OFF the map) should teleport the player to the last
       known good position before they left the map (ie, back on the track)
+- [ ] Differnet plant sprites per-level
 
 Level Hazards:
 --------------
@@ -23,6 +24,9 @@ Nice to have:
       are planted while jumping, and no level hazards are considered at all until
       the player lands, including plants and things that would slow you down.
 - [ ] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
+- [ ] Wrong way notifier, for helping people realize they're going backwards
+- [ ] A help screen
+- [ ] Redo the Plains. Or, adjust the starting position.
 
 Seed Placement and Growth:
 --------------------------
@@ -35,7 +39,7 @@ Riders:
 
 Feature Creep:
 --------------
-- [ ] Minimap
+- [x] Minimap
 - [ ] Completing a lap causes all of your plants to bloom at once
 - [ ] Split-screen multiplayer
 - [ ] AI Riders
