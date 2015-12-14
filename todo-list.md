@@ -7,6 +7,7 @@ In the level loader:
 - [ ] Out of Bounds texture (No no no! Wrong way!)
 - [x] Going out of bounds (like, OFF the map) should teleport the player to the last
       known good position before they left the map (ie, back on the track)
+- [ ] Differnet plant sprites per-level
 
 Level Hazards:
 --------------
