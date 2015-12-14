@@ -20,12 +20,12 @@ levels["desert"] = {
 }
 
 levels["volcano"] = {
-   image_name="slightly-better-track",
-   starting_position=Vector.new(351, 888),
-   starting_rotation=-0.5,
-   checkpoints=18,
+   image_name="volcano",
+   starting_position=Vector.new(1153, 120),
+   starting_rotation=0.85,
+   checkpoints=11,
    laps=3,
-   clear_color={r=42,g=126,b=16}
+   clear_color={r=26,g=22,b=26}
 }
 
 return levels
