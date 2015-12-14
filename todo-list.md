@@ -1,6 +1,7 @@
 Known Bugs
 ----------
 - [ ] Upon exiting a race while boosted, the boost meter never depletes, and the boost particles never disappear and look quite strange.
+- [ ] Ending up out of bounds of the map crashes in racer.lua line 325, trying to pick the color of the dust cloud over nonexistant map.
 
 Sounds
 ------
