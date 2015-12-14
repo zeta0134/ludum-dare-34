@@ -35,7 +35,7 @@ function Racer:load(options)
    self.normal_speed = 5.0
    self.boost_speed = 3.0
    self.offroad_drag = 0.20 -- percent, applied to current speed.
-   self.plant_drag = 0.60 -- percent, applied to current speed.
+   self.plant_drag = 0.50 -- percent, applied to current speed.
 
    self.slide_vector = 0.25
    self.normal_turn_rate = 0.006
@@ -50,6 +50,17 @@ function Racer:load(options)
    self.race_timer = 0
    self.lap_timer = 0
    self.lap_times = {}
+
+   self.zipper_timer = 0
+   self.on_fire_timer = 0
+
+   self.last_known_good = {}
+   self.last_known_good.position = Vector.new()
+   self.last_known_good.position.x = self.position.x
+   self.last_known_good.position.y = self.position.y
+   self.last_known_good.rotation = self.rotation
+
+   self.warp_timer = 0
 
    options = options or {}
    for k,v in pairs(options) do
@@ -80,8 +91,20 @@ function Racer:update()
    local flower_here, growth_state, flower_type = stage:flower_at(self.position.x, self.position.y)
    if flower_here then
       if growth_state > 0 then
-         speed = speed * self.plant_drag
+         speed = speed * (1.0 - (self.plant_drag * (growth_state / 3.0)))
       end
+   end
+
+   if self.zipper_timer > 0 then
+      local zip_factor = math.min(0.5, (0.5 * self.zipper_timer * 4 / 60))
+      -- WHEEEEEE
+      speed = speed * (1.0 + zip_factor)
+      self.zipper_timer = self.zipper_timer - 1
+   end
+
+   if self.on_fire_timer > 0 then
+      speed = speed * 0.5
+      self.on_fire_timer = self.on_fire_timer - 1
    end
 
    -- deal with checkpoints and lap counters
@@ -108,15 +131,50 @@ function Racer:update()
       speed = speed * self.offroad_drag
    end
 
+   if pixel_properties.zipper then
+      self.zipper_timer = 60
+   end
+
+   if pixel_properties.lava and (key.state == "slide-left" or key.state == "slide-right") then
+      self.on_fire_timer = 120 -- 2 seconds worth of PAIN!
+   end
+
+   if pixel_properties.out_of_bounds and self.warp_timer == 0 then
+      self.warp_timer = 60
+      --print("Oh noes!")
+   end
+
+   if (not pixel_properties.out_of_bounds) and (not pixel_properties.offroad) then
+      self.last_known_good.position.x = self.position.x
+      self.last_known_good.position.y = self.position.y
+      self.last_known_good.rotation = self.rotation
+   end
+
+   -- handle out of bounds warping
+   if self.warp_timer > 0 then
+      if self.warp_timer == 30 then
+         -- Heave! Ho!
+         self.position.x = self.last_known_good.position.x
+         self.position.y = self.last_known_good.position.y
+         self.rotation = self.last_known_good.rotation
+         print("Warped out!")
+      end
+      self.warp_timer = self.warp_timer - 1
+      speed = 0
+   end
 
    local thrust = vector_from_angle(self.rotation)
+   local slide_vector = self.slide_vector
+   if pixel_properties.water then
+      slide_vector = slide_vector * 1.5
+   end
    if key.state == "slide-left" then
-      thrust = vector_from_angle(self.rotation + self.slide_vector)
+      thrust = vector_from_angle(self.rotation + slide_vector)
       self.spray_direction = 1.0 - 0.5
       self.spray_offset = 50.0
       self.drag = self.drag + 1
    elseif key.state == "slide-right" then
-      thrust = vector_from_angle(self.rotation - self.slide_vector)
+      thrust = vector_from_angle(self.rotation - slide_vector)
       self.spray_direction = -1.0 + 0.5
       self.spray_offset = 50.0
       self.drag = self.drag + 1

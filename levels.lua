@@ -6,8 +6,9 @@ levels["plains"] = {
    starting_position=Vector.new(351, 888),
    starting_rotation=-0.5,
    checkpoints=18,
-   laps=1,
-   clear_color={r=42,g=126,b=16}
+   laps=3,
+   clear_color={r=0,g=82,b=9},
+   growth_period=1400
 }
 
 levels["desert"] = {
@@ -16,7 +17,8 @@ levels["desert"] = {
    starting_rotation=0.0,
    checkpoints=14,
    laps=3,
-   clear_color={r=226,g=154,b=32}
+   clear_color={r=226,g=154,b=32},
+   growth_period=1600
 }
 
 levels["volcano"] = {
@@ -25,7 +27,8 @@ levels["volcano"] = {
    starting_rotation=0.85,
    checkpoints=11,
    laps=3,
-   clear_color={r=26,g=22,b=26}
+   clear_color={r=26,g=22,b=26},
+   growth_period=256
 }
 
 return levels
