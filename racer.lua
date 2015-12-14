@@ -34,7 +34,7 @@ function Racer:load(options)
 
    self.normal_speed = 5.0
    self.boost_speed = 3.0
-   self.offroad_drag = 0.20 -- percent, applied to current speed.
+   self.offroad_drag = 0.40 -- percent, applied to current speed.
    self.plant_drag = 0.50 -- percent, applied to current speed.
 
    self.slide_vector = 0.25
@@ -52,7 +52,7 @@ function Racer:load(options)
    self.lap_times = {}
 
    self.zipper_timer = 0
-   self.on_fire_timer = 0
+   self.on_fire_timer = 240
 
    self.last_known_good = {}
    self.last_known_good.position = Vector.new()
@@ -69,22 +69,35 @@ function Racer:load(options)
       self[k] = v
    end
 
-   -- particles!!
-   self.particle_glow = love.graphics.newImage("art/particle-glow.png")
-   self.fire_emitter = love.graphics.newParticleSystem(self.particle_glow, 1024)
-   self.fire_emitter:setParticleLifetime(1,1.5)
-   self.fire_emitter:setEmissionRate(60)
-   self.fire_emitter:setLinearAcceleration(-30, -30, 30, 30)
-   self.fire_emitter:setAreaSpread("normal", 7, 7)
-   self.fire_emitter:setColors(255, 224, 32, 255, 224, 16, 0, 0)
-   self.fire_emitter:stop()
+   -- For being set on fire
+   self.particles = {}
+   self.particle_disc = love.graphics.newImage("art/particle-disc.png")
+   self.particles.fire = love.graphics.newParticleSystem(self.particle_disc, 1024)
+   self.particles.fire:setParticleLifetime(0.5,0.7)
+   self.particles.fire:setEmissionRate(60)
+   self.particles.fire:setLinearAcceleration(-30, -30, 30, 30)
+   self.particles.fire:setAreaSpread("normal", 7, 7)
+   self.particles.fire:setColors(255, 224, 32, 255, 224, 16, 0, 255)
+   self.particles.fire:setSizes(0.5, 0.5, 0.5, 0)
+   self.particles.fire:stop()
+
+   -- For sliding (dust cloud from the ground)
+   self.particles.dust_cloud = love.graphics.newParticleSystem(self.particle_disc, 1024)
+   self.particles.dust_cloud:setParticleLifetime(0.15,0.20)
+   self.particles.dust_cloud:setEmissionRate(120)
+   self.particles.dust_cloud:setSpread(0.25 * math.pi)
+   self.particles.dust_cloud:setSizes(0.5, 0.8, 0)
+   self.particles.dust_cloud:stop()
+
 end
 
 function Racer:update()
    Object.update(self)
 
-   self.fire_emitter:setPosition(self.position.x, self.position.y)
-   self.fire_emitter:update(1.0/60.0)
+   for k,_ in pairs(self.particles) do
+      self.particles[k]:setPosition(self.position.x, self.position.y)
+      self.particles[k]:update(1.0/60.0)
+   end
 
    camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
    camera.rotation = racer.rotation + 0.5
@@ -120,9 +133,9 @@ function Racer:update()
    if self.on_fire_timer > 0 then
       speed = speed * 0.5
       self.on_fire_timer = self.on_fire_timer - 1
-      self.fire_emitter:start()
+      self.particles.fire:start()
    else
-      self.fire_emitter:stop()
+      self.particles.fire:stop()
    end
 
    -- deal with checkpoints and lap counters
@@ -240,6 +253,20 @@ function Racer:update()
       self.sprite:set_frame(2, 0)
    end
 
+   if key.state == "slide-right" or key.state == "slide-left" then
+      -- for drag colors later
+      local sr, sg, sb = stage.image_data:getPixel(math.floor(self.position.x), math.floor(self.position.y))
+      self.particles.dust_cloud:setColors(
+         sr * 0.9 , sg * 0.9 , sb * 0.9 , 255,
+         sr * 0.8 , sg * 0.8 , sb * 0.8 , 255)
+      self.particles.dust_cloud:setDirection(self.rotation * math.pi + self.spray_direction * 0.6 * math.pi)
+      local particle_speed = self.velocity:length() * 60 * 1.5
+      self.particles.dust_cloud:setSpeed(particle_speed, particle_speed)
+      self.particles.dust_cloud:start()
+   else
+      self.particles.dust_cloud:stop()
+   end
+
    for i = 1, self.seed_rate do
       local seed_x = self.position.x + math.random(self.seed_spread * -1, self.seed_spread)
       local seed_y = self.position.y + math.random(self.seed_spread * -1, self.seed_spread)
@@ -261,11 +288,12 @@ function Racer:draw()
       local variance = math.abs((self.on_fire_timer % 60) - 30)
       love.graphics.setColor(128 + variance * 3, 64 + variance * 2, 32)
    end
+   -- under-character effects
+   love.graphics.draw(self.particles.dust_cloud, 0, 0)
    Object.draw(self)
    love.graphics.setColor(255, 255, 255)
-   love.graphics.setBlendMode("additive")
-   love.graphics.draw(self.fire_emitter, 0, 0)
-   love.graphics.setBlendMode("alpha")
+   -- on-character effects
+   love.graphics.draw(self.particles.fire, 0, 0)
 end
 
 function Racer.new_racer()

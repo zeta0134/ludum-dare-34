@@ -34,6 +34,7 @@ stage.race_stages = {
 function stage:load(level_properties)
    self.properties = level_properties
    self.image = love.graphics.newImage("levels/".. level_properties.image_name ..".png")
+   self.image_data = love.image.newImageData("levels/".. level_properties.image_name ..".png")
 
    self.flower_sprite = sprites.new("brush")
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 1024*1024)
@@ -226,7 +227,7 @@ function stage:update()
       if stage.race_stages[self.race_stage].duration then
          -- this is an auto-advancing race stage; handle its timer and promote
          -- if necessary
-         if self.stage_timer > stage.race_stages[self.race_stage].duration then
+         if self.stage_timer >= stage.race_stages[self.race_stage].duration then
             self.race_stage = self.race_stage + 1
             self.stage_timer = 0
             if stage.race_stages[self.race_stage].active then
