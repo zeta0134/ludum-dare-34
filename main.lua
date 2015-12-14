@@ -179,7 +179,7 @@ function highscores_draw(title_name)
          else
             love.graphics.setColor(255, 255, 255)
          end
-         ui.font:draw_text(i .. ": " .. ui.lap_time_to_string(race_times[i].time), x, y, record_options)
+         ui.font:draw_text(i .. ": " .. ui.lap_time_to_string(lap_times[i].time), x, y, record_options)
          y = y + 35
       end
    end

@@ -248,12 +248,14 @@ function Racer:update()
       self.last_known_good.rotation = self.rotation
    end
 
-   if pixel_properties.checkpoint then
+   if pixel_properties.checkpoint and self.race_active then
       if pixel_properties.checkpoint < self.checkpoint or pixel_properties.checkpoint > self.checkpoint + 2 then
          self.wrong_way = true
       else
          self.wrong_way = false
       end
+   else
+      self.wrong_way = false
    end
 
    -- handle out of bounds warping
