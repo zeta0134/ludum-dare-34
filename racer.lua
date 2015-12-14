@@ -182,9 +182,9 @@ function Racer:update()
    end
 
    if self.zipper_timer > 0 then
-      local zip_factor = math.min(0.5, (0.5 * self.zipper_timer * 4 / 60))
+      local zip_factor = math.min(1, (1 * self.zipper_timer * 4 / 60))
       -- WHEEEEEE
-      speed = speed * (1.0 + zip_factor)
+      speed = speed + zip_factor
       self.zipper_timer = self.zipper_timer - 1
       self:start_boost_effect(255, 255, 128, 192, 128, 16)
    end
@@ -268,7 +268,7 @@ function Racer:update()
          camera.delayed_position = camera.position
       end
       self.warp_timer = self.warp_timer - 1
-      speed = 0
+      self.velocity = Vector.new()
    end
 
    local thrust = vector_from_angle(self.rotation)
@@ -336,7 +336,7 @@ function Racer:update()
    end
 
    if self.drag == self.max_drag then
-      self.rotational_velocity = 0
+      --self.rotational_velocity = 0
       self.seed_timer = self.seed_delay
    end
 
@@ -385,6 +385,11 @@ function Racer:draw()
    -- under-character effects
    love.graphics.draw(self.particles.dust_cloud, 0, 0)
    love.graphics.draw(self.particles.boost_exhaust, 0, 0)
+   if self.color then
+      love.graphics.setColor(unpack(self.color))
+   else
+      love.graphics.setColor(255, 255, 255)
+   end
    Object.draw(self)
    love.graphics.setColor(255, 255, 255)
    -- on-character effects

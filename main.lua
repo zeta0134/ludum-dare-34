@@ -151,7 +151,7 @@ function game_update()
 	      love.event.push('quit')
          return
       end
-      init_stage(key.title_state, "Oak")
+      init_stage(key.title_state, "Clover")
       game_state = 'playing'
    end
 end
