@@ -100,7 +100,8 @@ function love.draw()
       game_draw()
       ui.draw()
    end
-   love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 30)
+   love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 50)
+   love.graphics.print("fps: " .. love.timer.getFPS(), 20, love.window.getHeight() - 30)
 end
 
 function frame_limit(fps, dt)
