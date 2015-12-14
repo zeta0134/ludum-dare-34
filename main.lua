@@ -1,6 +1,6 @@
 local camera = require("camera")
 local Font = require("font")
-local highscores = require("highscores")
+highscores = require("highscores")
 local key = require("key")
 local leaf_types = require("leaf_types")
 local levels = require("levels")
@@ -14,6 +14,8 @@ local ui = require("ui")
 fps = 60
 min_dt = 1 / fps
 next_frame = love.timer.getTime()
+
+player = Racer.new_racer()
 
 function init_stage(stage_name, leaf_type)
    player = Racer.new_racer()
@@ -52,6 +54,7 @@ end
 function love.load()
    load(nil)
    ui.init()
+   highscores:loadFromFile()
 end
 
 lurker.postswap = load
@@ -97,11 +100,59 @@ end
 function highscores_draw(title_name)
    local x_center = love.window.getWidth() / 2
    local y_center = love.window.getHeight() / 2
-   local y = y_center / 2 + (title_logo:getHeight() / 2)
-   ui.font:draw_text("record race:", x_center, y, {centered=true}); y = y + 35
-   ui.font:draw_text(ui.lap_time_to_string(highscores:bestRaceTime(title_name)), x_center, y, {centered=true}); y = y + 35
-   ui.font:draw_text("record lap:", x_center, y, {centered=true}); y = y + 35
-   ui.font:draw_text(ui.lap_time_to_string(highscores:bestLapTime(title_name)), x_center, y, {centered=true})
+   local y_start = y_center / 2 + (title_logo:getHeight() / 2)
+   local header_options = {centered=true,scale=0.8}
+   local record_options = {centered=true,scale=0.7}
+
+   local x = x_center - 150
+   local y = y_start
+
+   local race_times = highscores:bestRaceTimes(title_name)
+   if race_times then
+      love.graphics.setColor(255, 255, 255)
+      ui.font:draw_text("record race:", x, y, header_options)
+      y = y + 35
+      for i = 1, #race_times do
+         if player.race_timer == race_times[i].time then
+            brightness = 127 + math.abs((frame % 128) - 64) * 2
+            love.graphics.setColor(brightness, brightness, brightness)
+         elseif race_times[i].staff then
+            love.graphics.setColor(255, 255, 0)
+         else
+            love.graphics.setColor(255, 255, 255)
+         end
+         ui.font:draw_text(i .. ": " .. ui.lap_time_to_string(race_times[i].time), x, y, record_options)
+         y = y + 35
+      end
+   end
+
+   x = x_center + 150
+   y = y_start
+
+   local lap_times = highscores:bestLapTimes(title_name)
+   if lap_times then
+      love.graphics.setColor(255, 255, 255)
+      ui.font:draw_text("record lap:", x, y, header_options)
+      y = y + 35
+      for i = 1, #lap_times do
+         if highscores.lowest_lap_time == lap_times[i].time then
+            brightness = 127 + math.abs((frame % 128) - 64) * 2
+            love.graphics.setColor(brightness, brightness, brightness)
+         elseif lap_times[i].staff then
+            love.graphics.setColor(255, 255, 0)
+         else
+            love.graphics.setColor(255, 255, 255)
+         end
+         ui.font:draw_text(i .. ": " .. ui.lap_time_to_string(race_times[i].time), x, y, record_options)
+         y = y + 35
+      end
+   end
+
+   love.graphics.setColor(255, 255, 255)
+
+   --y = y_start
+   --ui.font:draw_text("record lap:", x, y, {centered=true,scale=0.8}); y = y + 35
+   --ui.font:draw_text(ui.lap_time_to_string(highscores:bestLapTime(title_name)), x, y, {centered=true,scale=0.7})
 end
 
 function button_update()
