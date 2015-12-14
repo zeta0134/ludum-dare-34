@@ -3,3 +3,5 @@
 - [ ] remove debug printing to console
 - [ ] export all transparent svgs through pinta to remove the "fade to white" alpha
 - [ ] adjust fade in and countdown times
+- [ ] set min and max window size
+- [ ] adjust number of laps and growth rates

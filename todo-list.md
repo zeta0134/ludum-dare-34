@@ -6,6 +6,7 @@ Known Bugs
 - [ ] Wrong way sign is too eager; should pop up after ~1s of going the wrong way
    - [ ] Also prevent this from showing up on race finish
 - [ ] It is possible to go out of bounds backwards; the oob logic will then place you further out of bounds. It should try what it's doing (putting you behind where you went off), infront of that, and straight where you went off.
+- [ ] Final time is one frame too long compared to the lap total.
 
 Sounds
 ------
@@ -50,7 +51,7 @@ Nice to have:
 - [x] A help screen
 - [x] Redo the Plains. Or, adjust the starting position.
 - [x] Add out of bounds regions (and hazards?) to the desert.
-- [ ] Text for the title screen selections.
+- [x] Text for the title screen selections.
 - [ ] Bitmap font for times/laps/hud.
 
 Seed Placement and Growth:
@@ -62,7 +63,7 @@ Riders:
 -------
 - [x] Different sprites for turning, sliding, and boosting
 - [ ] HUD
-- [ ] Acceleration! You shouldn't instantly go top speed, nor should you instantly drop speed going over rough terrain!
+- [x] Acceleration! You shouldn't instantly go top speed, nor should you instantly drop speed going over rough terrain!
 
 Feature Creep:
 --------------
