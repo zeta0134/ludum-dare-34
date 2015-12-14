@@ -9,6 +9,7 @@ Sounds
 - [ ] SFX: Sliding. Bonus: per material (dirt, grass, sand, water, rocks)
 - [ ] SFX: Lap Clear
 - [ ] SFX: Race Clear (music here too?)
+- [ ] SFX: 3... 2... 1... RACE!
 
 In the level loader:
 --------------------
