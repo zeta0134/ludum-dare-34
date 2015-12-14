@@ -6,6 +6,7 @@ Known Bugs
 - [ ] Wrong way sign is too eager; should pop up after ~1s of going the wrong way
    - [ ] Also prevent this from showing up on race finish
 - [ ] It is possible to go out of bounds backwards; the oob logic will then place you further out of bounds. It should try what it's doing (putting you behind where you went off), infront of that, and straight where you went off.
+- [ ] Final time is one frame too long compared to the lap total.
 
 Sounds
 ------
