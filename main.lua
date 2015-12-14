@@ -9,6 +9,10 @@ local sprites = require("sprites")
 local stage = require("stage")
 local ui = require("ui")
 
+fps = 60
+min_dt = 1 / fps
+next_frame = love.timer.getTime()
+
 function init_stage(stage_name, leaf_type)
    player = Racer.new_racer()
    player:load(leaf_types[leaf_type])
@@ -104,15 +108,16 @@ function love.draw()
    love.graphics.print("fps: " .. love.timer.getFPS(), 20, love.window.getHeight() - 30)
 end
 
-function frame_limit(fps, dt)
-   if dt < 1 / fps then
-      love.timer.sleep(1 / fps - dt)
-   end
-end
-
 frame = 0
 function love.update(dt)
    require("lurker").update()
+   next_frame = next_frame + min_dt
+   local current_time = love.timer.getTime()
+   if next_frame <= current_time then
+      next_frame = current_time
+      return
+   end
+   love.timer.sleep(next_frame - current_time)
 
    -- sounds.play "doopadoo"
    if frame % 180 == 0 then
@@ -131,6 +136,4 @@ function love.update(dt)
    game_update()
    key.update()
    frame = frame + 1
-
-   frame_limit(60, dt)
 end
