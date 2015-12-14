@@ -5,12 +5,12 @@ In the level loader:
       (but no limit on number of loaded textures?)
 - [x] Level attributes (plant types? growth rate? starting positions?)
 - [ ] Out of Bounds texture (No no no! Wrong way!)
-- [ ] Going out of bounds (like, OFF the map) should teleport the player to the last
+- [x] Going out of bounds (like, OFF the map) should teleport the player to the last
       known good position before they left the map (ie, back on the track)
 
 Level Hazards:
 --------------
-- [ ] Invisi-radius that knocks you back towards the track from whence you came
+- [x] Invisi-radius that knocks you back towards the track from whence you came
 - [x] Lava: Seeds do not grow here. Attempting to drag results in slowdowns and pain
 - [x] Zippers: Tapping (including a drag) over a zipper gives you a boost.
 - [x] Water: Increases drag slide (more angled toward the side, same speed), no
@@ -25,8 +25,8 @@ Nice to have:
 
 Seed Placement and Growth:
 --------------------------
-- [ ] Pull out growth rate and make it adjustable (per level? per plant type?)
-- [ ] Cause different growth levels (per plant?) to cause different drag percentages
+- [x] Pull out growth rate and make it adjustable (per level? per plant type?)
+- [x] Cause different growth levels (per plant?) to cause different drag percentages
 
 Riders:
 -------
