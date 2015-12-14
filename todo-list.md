@@ -2,6 +2,7 @@ Known Bugs
 ----------
 - [ ] Upon exiting a race while boosted, the boost meter never depletes, and the boost particles never disappear and look quite strange.
 - [ ] Ending up out of bounds of the map crashes in racer.lua line 325, trying to pick the color of the dust cloud over nonexistant map.
+- [ ] Pressing both keys from going straight on the same frame locks you going straight; it should do a straight slide.
 
 Sounds
 ------
@@ -58,6 +59,7 @@ Riders:
 -------
 - [x] Different sprites for turning, sliding, and boosting
 - [ ] HUD
+- [ ] Acceleration! You shouldn't instantly go top speed, nor should you instantly drop speed going over rough terrain!
 
 Feature Creep:
 --------------
