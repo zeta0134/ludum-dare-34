@@ -1,1 +1,3 @@
 - [ ] quantize the collision maps
+- [ ] remove all debug drawing
+- [ ] remove debug printing to console
