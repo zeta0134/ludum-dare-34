@@ -27,6 +27,9 @@ Nice to have:
 - [ ] Wrong way notifier, for helping people realize they're going backwards
 - [ ] A help screen
 - [ ] Redo the Plains. Or, adjust the starting position.
+- [ ] Add out of bounds regions (and hazards?) to the desert.
+- [ ] Text for the title screen selections.
+- [ ] Bitmap font for tims/laps/hud.
 
 Seed Placement and Growth:
 --------------------------
@@ -35,7 +38,8 @@ Seed Placement and Growth:
 
 Riders:
 -------
-- [ ] Different sprites for turning, sliding, and boosting
+- [x] Different sprites for turning, sliding, and boosting
+- [ ] HUD
 
 Feature Creep:
 --------------
