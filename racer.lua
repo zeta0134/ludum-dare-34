@@ -267,7 +267,7 @@ function Racer:update()
          self.rotation = self.last_known_good.rotation
 
          -- move the player backwards a little bit
-         self.position = self.position + vector_from_angle(self.rotation + 1.0) * 100
+         --self.position = self.position + vector_from_angle(self.rotation + 1.0) * 100
       end
       if self.warp_timer == 29 then
          camera.delayed_position = camera.position
@@ -354,7 +354,12 @@ function Racer:update()
 
    if key.state == "slide-right" or key.state == "slide-left" then
       -- for drag colors later
-      local sr, sg, sb = stage.image_data:getPixel(math.floor(self.position.x), math.floor(self.position.y))
+      local sr = 0
+      local sg = 0
+      local sb = 0
+      if self.position.x > 0 and self.position.y > 0 and self.position.x < stage.image_data:getWidth() and self.position.y < stage.image_data:getHeight() then
+         sr, sg, sb = stage.image_data:getPixel(math.floor(self.position.x), math.floor(self.position.y))
+      end
       self.particles.dust_cloud:setColors(
          sr * 0.9 , sg * 0.9 , sb * 0.9 , 255,
          sr * 0.8 , sg * 0.8 , sb * 0.8 , 255)
