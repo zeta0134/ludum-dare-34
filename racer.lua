@@ -71,19 +71,20 @@ function Racer:load(options)
 
    -- particles!!
    self.particle_glow = love.graphics.newImage("art/particle-glow.png")
-   self.particle_emitter = love.graphics.newParticleSystem(self.particle_glow, 1024)
-   self.particle_emitter:setParticleLifetime(1.5,2)
-   self.particle_emitter:setEmissionRate(60)
-   self.particle_emitter:setSpeed(80,100)
-   self.particle_emitter:setLinearDamping(0, 0)
-   self.particle_emitter:stop()
+   self.fire_emitter = love.graphics.newParticleSystem(self.particle_glow, 1024)
+   self.fire_emitter:setParticleLifetime(1,1.5)
+   self.fire_emitter:setEmissionRate(60)
+   self.fire_emitter:setLinearAcceleration(-30, -30, 30, 30)
+   self.fire_emitter:setAreaSpread("normal", 7, 7)
+   self.fire_emitter:setColors(255, 224, 32, 255, 224, 16, 0, 0)
+   self.fire_emitter:stop()
 end
 
 function Racer:update()
    Object.update(self)
 
-   self.particle_emitter:setPosition(self.position.x, self.position.y)
-   self.particle_emitter:update(1.0/60.0)
+   self.fire_emitter:setPosition(self.position.x, self.position.y)
+   self.fire_emitter:update(1.0/60.0)
 
    camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
    camera.rotation = racer.rotation + 0.5
@@ -119,6 +120,9 @@ function Racer:update()
    if self.on_fire_timer > 0 then
       speed = speed * 0.5
       self.on_fire_timer = self.on_fire_timer - 1
+      self.fire_emitter:start()
+   else
+      self.fire_emitter:stop()
    end
 
    -- deal with checkpoints and lap counters
@@ -252,9 +256,15 @@ function Racer:update()
 end
 
 function Racer:draw()
+   love.graphics.setColor(255, 255, 255)
+   if self.on_fire_timer > 0 then
+      local variance = math.abs((self.on_fire_timer % 60) - 30)
+      love.graphics.setColor(128 + variance * 3, 64 + variance * 2, 32)
+   end
    Object.draw(self)
+   love.graphics.setColor(255, 255, 255)
    love.graphics.setBlendMode("additive")
-   love.graphics.draw(self.particle_emitter, 0, 0)
+   love.graphics.draw(self.fire_emitter, 0, 0)
    love.graphics.setBlendMode("alpha")
 end
 
