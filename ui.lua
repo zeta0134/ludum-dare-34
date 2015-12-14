@@ -12,9 +12,11 @@ end
 
 function ui.init()
    ui.minimap_icon = love.graphics.newImage("art/minimap-icon.png")
+   ui.frame = 0
 end
 
 function ui.draw()
+   ui.frame = ui.frame + 1
    -- draw a boost meter!
    love.graphics.setColor(32, 32, 32)
    love.graphics.rectangle("fill", 10,10,20,200)
@@ -75,6 +77,12 @@ function ui.draw()
       local fade_amount = math.abs(player.warp_timer - 30)
       love.graphics.setColor(0, 0, 0, (30 - fade_amount) * 255 / 30)
       love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+   end
+
+   if player.wrong_way then
+      if math.floor((ui.frame % 60) / 30) == 0 then
+         love.graphics.printf("!!! WRONG WAY !!!", 0, 100, love.graphics.getWidth(), "center")
+      end
    end
 
    love.graphics.setColor(255, 255, 255)

@@ -62,14 +62,28 @@ function Racer:load(options)
 
    self.warp_timer = 0
 
+   self.wrong_way = false
+
    options = options or {}
    for k,v in pairs(options) do
       self[k] = v
    end
+
+   -- particles!!
+   self.particle_glow = love.graphics.newImage("art/particle-glow.png")
+   self.particle_emitter = love.graphics.newParticleSystem(self.particle_glow, 1024)
+   self.particle_emitter:setParticleLifetime(1.5,2)
+   self.particle_emitter:setEmissionRate(60)
+   self.particle_emitter:setSpeed(80,100)
+   self.particle_emitter:setLinearDamping(0, 0)
+   self.particle_emitter:emit(0)
 end
 
 function Racer:update()
    Object.update(self)
+
+   self.particle_emitter:setPosition(self.position.x, self.position.y)
+   self.particle_emitter:update(1.0/60.0)
 
    camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
    camera.rotation = racer.rotation + 0.5
@@ -151,6 +165,14 @@ function Racer:update()
       self.last_known_good.rotation = self.rotation
    end
 
+   if pixel_properties.checkpoint then
+      if pixel_properties.checkpoint < self.checkpoint or pixel_properties.checkpoint > self.checkpoint + 2 then
+         self.wrong_way = true
+      else
+         self.wrong_way = false
+      end
+   end
+
    -- handle out of bounds warping
    if self.warp_timer > 0 then
       if self.warp_timer == 30 then
@@ -224,6 +246,9 @@ end
 
 function Racer:draw()
    Object.draw(self)
+   love.graphics.setBlendMode("additive")
+   love.graphics.draw(self.particle_emitter, 0, 0)
+   love.graphics.setBlendMode("alpha")
 end
 
 function Racer.new_racer()
