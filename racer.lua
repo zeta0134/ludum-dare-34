@@ -64,6 +64,10 @@ function Racer:load(options)
 
    self.wrong_way = false
 
+   self.weight = 0.80
+
+   self.momentum = Vector.new()
+
    options = options or {}
    for k,v in pairs(options) do
       self[k] = v
@@ -263,14 +267,16 @@ function Racer:update()
       slide_vector = slide_vector * 1.5
    end
    if key.state == "slide-left" then
-      --thrust = vector_from_angle(self.rotation + slide_vector)
+      thrust = self.momentum * self.weight + thrust * (1.0 - self.weight)
+      thrust = thrust:normalize()
       self.spray_direction = 1.0 - 0.5
-      self.spray_offset = 50.0
+      self.spray_offset = 30.0
       self.drag = self.drag + 1
    elseif key.state == "slide-right" then
-      --thrust = vector_from_angle(self.rotation - slide_vector)
+      thrust = self.momentum * self.weight + thrust * (1.0 - self.weight)
+      thrust = thrust:normalize()
       self.spray_direction = -1.0 + 0.5
-      self.spray_offset = 50.0
+      self.spray_offset = 30.0
       self.drag = self.drag + 1
    else
       if self.drag > 0 then
@@ -320,6 +326,11 @@ function Racer:update()
       self.particles.dust_cloud:start()
    else
       self.particles.dust_cloud:stop()
+   end
+
+   if not (key.state == "slide-left" or key.state == "slide-right") then
+      self.momentum.x = self.velocity.x
+      self.momentum.y = self.velocity.y
    end
 
    for i = 1, self.seed_rate do
