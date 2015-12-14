@@ -42,6 +42,9 @@ end
 function Vector:normalize()
    local result = Vector.new()
    local length = self:length()
+   if length <= 0 then
+      return result
+   end
    result.x = self.x / length
    result.y = self.y / length
    return result

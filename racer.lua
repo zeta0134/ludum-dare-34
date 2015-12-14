@@ -69,6 +69,10 @@ function Racer:load(options)
 
    self.momentum = Vector.new()
 
+   self.machine_acceleration = 0.2
+
+   self.friction = 0.1
+
    options = options or {}
    for k,v in pairs(options) do
       self[k] = v
@@ -151,6 +155,7 @@ function Racer:update()
 
    if not stage.race_active then
       self.velocity = self.velocity * 0.95
+      self.acceleration = 0
       return --STAHP
    end
 
@@ -292,8 +297,19 @@ function Racer:update()
    end
 
    -- Account for drag
-   speed = math.max(speed - self.drag * (self.normal_speed / self.max_drag), 0)
-   self.velocity = thrust * speed
+   local top_speed = math.max(speed - self.drag * (self.normal_speed / self.max_drag), 0)
+   --self.velocity = thrust * speed
+   if self.velocity:length() > top_speed then
+      local new_speed = top_speed * 0.6 + self.velocity:length() * 0.4
+      self.velocity = self.velocity:normalize() * new_speed
+   end
+
+   if self.boost_timer > 0 or self.zipper_timer > 0 then
+      self.acceleration = thrust * (10 * self.machine_acceleration)
+   else
+      self.acceleration = thrust * self.machine_acceleration
+   end
+
    self.sprite:set_frame(0, 0)
    if self.boost_timer > 0 then
       self.sprite:set_frame(0, 1)
@@ -314,7 +330,7 @@ function Racer:update()
       self.rotational_velocity = self.slide_turn_rate
       self.sprite:set_frame(2, 0)
    end
-   
+
    if self.drag == self.max_drag then
       self.rotational_velocity = 0
       self.seed_timer = self.seed_delay

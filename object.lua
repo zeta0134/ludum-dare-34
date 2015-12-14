@@ -8,6 +8,8 @@ Object.velocity = Vector.new()
 Object.acceleration = Vector.new()
 Object.origin = Vector.new()
 
+Object.friction = 0 --
+
 Object.rotation = 0 -- in R * pi
 Object.rotational_velocity = 0
 Object.rotational_acceleration = 0
@@ -29,6 +31,16 @@ end
 function Object:update()
    self.position = self.position + self.velocity
    self.velocity = self.velocity + self.acceleration
+
+   -- apply (bad) friction
+   if self.friction > 0 then
+      local length = self.velocity:length()
+      local new_length = length - self.friction
+      if new_length < 0 then
+         new_length = 0
+      end
+      self.velocity = self.velocity:normalize() * new_length
+   end
 
    self.rotation = self.rotation + self.rotational_velocity
    self.rotational_velocity = self.rotational_velocity + self.rotational_acceleration
