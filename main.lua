@@ -98,9 +98,9 @@ function highscores_draw(title_name)
    local x_center = love.window.getWidth() / 2
    local y_center = love.window.getHeight() / 2
    local y = y_center / 2 + (title_logo:getHeight() / 2)
-   ui.font:draw_text("Best Race:", x_center, y, {centered=true}); y = y + 35
+   ui.font:draw_text("record race:", x_center, y, {centered=true}); y = y + 35
    ui.font:draw_text(ui.lap_time_to_string(highscores:bestRaceTime(title_name)), x_center, y, {centered=true}); y = y + 35
-   ui.font:draw_text("Best Lap:", x_center, y, {centered=true}); y = y + 35
+   ui.font:draw_text("record lap:", x_center, y, {centered=true}); y = y + 35
    ui.font:draw_text(ui.lap_time_to_string(highscores:bestLapTime(title_name)), x_center, y, {centered=true})
 end
 

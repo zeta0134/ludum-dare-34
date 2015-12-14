@@ -17,12 +17,12 @@ function highscores:addScore(course_name, race_time, lap_times)
       self.courses[course_name].lap_time = 0
    end
 
-   if race_time > self.courses[course_name].race_time then
+   if race_time < self.courses[course_name].race_time then
       self.courses[course_name].race_time = race_time
    end
 
    for i = 1, #lap_times do
-      if lap_times[i] > self.courses[course_name].lap_time then
+      if lap_times[i] < self.courses[course_name].lap_time then
          self.courses[course_name].lap_time = lap_times[i]
       end
    end
