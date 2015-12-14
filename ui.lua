@@ -1,3 +1,4 @@
+local Font = require("font")
 local stage = require("stage")
 
 local ui = {}
@@ -13,21 +14,28 @@ end
 function ui.init()
    ui.minimap_icon = love.graphics.newImage("art/minimap-icon.png")
    ui.frame = 0
+
+   ui.bad_font = Font.new()
+   ui.bad_font:load("reallybad_font", "0123456789")
+
+   ui.charge_meter = love.graphics.newImage("art/charge_meter_empty.png")
+   ui.charge_meter_filled = love.graphics.newImage("art/charge_meter_full.png")
 end
 
 function ui.draw()
    ui.frame = ui.frame + 1
    -- draw a boost meter!
-   love.graphics.setColor(32, 32, 32)
-   love.graphics.rectangle("fill", 10,10,20,200)
-   local height = (math.max(player.boost_timer, player.drag) / player.max_drag) * 200
+   love.graphics.setColor(255, 255, 255)
+   love.graphics.draw(ui.charge_meter, love.graphics.getWidth() - 54 - 10, love.graphics.getHeight() - 128 - 10)
+   local height = (math.max(player.boost_timer, player.drag) / player.max_drag) * 128
    if height > 0 then
       if player.boost_timer > player.drag then
          love.graphics.setColor(0, 255, 255)
       else
          love.graphics.setColor(192, 0, 0)
       end
-      love.graphics.rectangle("fill", 10, 10 + 200 - height, 20, height)
+      local quad = love.graphics.newQuad(0, 128 - height, 54, height, 54, 128)
+      love.graphics.draw(ui.charge_meter_filled, quad, love.graphics.getWidth() - 54 - 10, love.graphics.getHeight() - height - 10)
    end
 
    -- draw lap and checkpoint data
@@ -88,6 +96,8 @@ function ui.draw()
 
    love.graphics.setColor(255, 255, 255)
    love.graphics.print("Stage: " .. stage.race_stages[stage.race_stage].name, 300, 10)
+
+   ui.bad_font:draw_text("42-100", 100, 100)
 end
 
 return ui

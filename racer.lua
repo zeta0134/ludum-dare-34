@@ -24,7 +24,8 @@ function Racer:load(options)
    self.rotational_damping = 0.2
 
    self.seed_spread = 15
-   self.seed_rate = 1
+   self.seed_delay = 2
+   self.seed_timer = 0
 
    self.drag = 0
    self.max_drag = 80
@@ -63,6 +64,10 @@ function Racer:load(options)
    self.warp_timer = 0
 
    self.wrong_way = false
+
+   self.weight = 0.80
+
+   self.momentum = Vector.new()
 
    options = options or {}
    for k,v in pairs(options) do
@@ -263,14 +268,16 @@ function Racer:update()
       slide_vector = slide_vector * 1.5
    end
    if key.state == "slide-left" then
-      --thrust = vector_from_angle(self.rotation + slide_vector)
+      thrust = self.momentum * self.weight + thrust * (1.0 - self.weight)
+      thrust = thrust:normalize()
       self.spray_direction = 1.0 - 0.5
-      self.spray_offset = 50.0
+      self.spray_offset = 30.0
       self.drag = self.drag + 1
    elseif key.state == "slide-right" then
-      --thrust = vector_from_angle(self.rotation - slide_vector)
+      thrust = self.momentum * self.weight + thrust * (1.0 - self.weight)
+      thrust = thrust:normalize()
       self.spray_direction = -1.0 + 0.5
-      self.spray_offset = 50.0
+      self.spray_offset = 30.0
       self.drag = self.drag + 1
    else
       if self.drag > 0 then
@@ -307,6 +314,11 @@ function Racer:update()
       self.rotational_velocity = self.slide_turn_rate
       self.sprite:set_frame(2, 0)
    end
+   
+   if self.drag == self.max_drag then
+      self.rotational_velocity = 0
+      self.seed_timer = self.seed_delay
+   end
 
    if key.state == "slide-right" or key.state == "slide-left" then
       -- for drag colors later
@@ -322,13 +334,20 @@ function Racer:update()
       self.particles.dust_cloud:stop()
    end
 
-   for i = 1, self.seed_rate do
+   if not (key.state == "slide-left" or key.state == "slide-right") then
+      self.momentum.x = self.velocity.x
+      self.momentum.y = self.velocity.y
+   end
+
+   self.seed_timer = self.seed_timer - 1
+   if self.seed_timer <= 0 then
       local seed_x = self.position.x + math.random(self.seed_spread * -1, self.seed_spread)
       local seed_y = self.position.y + math.random(self.seed_spread * -1, self.seed_spread)
       local seed_throw = vector_from_angle(self.rotation + self.spray_direction)
       seed_x = seed_x + self.spray_offset * seed_throw.x
       seed_y = seed_y + self.spray_offset * seed_throw.y
       stage:plant_seed(math.floor(seed_x), math.floor(seed_y), 1, math.random(1,2))
+      self.seed_timer = self.seed_delay
    end
 
    self.boost_timer = math.max(self.boost_timer - 1, 0)

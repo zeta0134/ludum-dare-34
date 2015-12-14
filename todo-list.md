@@ -1,3 +1,16 @@
+Sounds
+------
+- [ ] Music: Title Screen and Menus
+- [ ] Music: Racing (bonus: themes for each stage)
+- [ ] SFX: Charging Up (loops near the top; can we frequency slide with code?)
+- [ ] SFX: Boost
+- [ ] SFX: Miss! (Out of Bounds / Warped backwards)
+- [ ] SFX: On fire!
+- [ ] SFX: Sliding. Bonus: per material (dirt, grass, sand, water, rocks)
+- [ ] SFX: Lap Clear
+- [ ] SFX: Race Clear (music here too?)
+- [ ] SFX: 3... 2... 1... RACE!
+
 In the level loader:
 --------------------
 - [x] Base name of the stage, from which it finds all art assets for stitching
@@ -24,10 +37,10 @@ Nice to have:
       are planted while jumping, and no level hazards are considered at all until
       the player lands, including plants and things that would slow you down.
 - [x] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
-- [ ] Wrong way notifier, for helping people realize they're going backwards
-- [ ] A help screen
-- [ ] Redo the Plains. Or, adjust the starting position.
-- [ ] Add out of bounds regions (and hazards?) to the desert.
+- [ ] Wrong way notifier (image), for helping people realize they're going backwards
+- [x] A help screen
+- [x] Redo the Plains. Or, adjust the starting position.
+- [x] Add out of bounds regions (and hazards?) to the desert.
 - [ ] Text for the title screen selections.
 - [ ] Bitmap font for tims/laps/hud.
 
@@ -44,10 +57,10 @@ Riders:
 Feature Creep:
 --------------
 - [x] Minimap
-   - [ ] minimap from svg
+   - [x] minimap from svg
 - [ ] Completing a lap causes all of your plants to bloom at once
 - [ ] Split-screen multiplayer
 - [ ] AI Riders
-- [ ] Particles! (Love has these built in)
-- [ ] Speed Lines when boosting! So it feels faster
+- [x] Particles! (Love has these built in)
+- [x] Speed Lines when boosting! So it feels faster
 - [ ] Ghosts. (STAFF Ghosts?)
