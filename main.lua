@@ -123,6 +123,7 @@ help_frame_map = {
    ['right-slide'] = {2, 0, 0},
    boost = {0, 1, 3}
 }
+
 function help_update()
    local frame = 'straight'
    local i
