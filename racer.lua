@@ -143,7 +143,6 @@ function Racer:update()
 
    if pixel_properties.out_of_bounds and self.warp_timer == 0 then
       self.warp_timer = 60
-      --print("Oh noes!")
    end
 
    if (not pixel_properties.out_of_bounds) and (not pixel_properties.offroad) then
@@ -159,7 +158,6 @@ function Racer:update()
          self.position.x = self.last_known_good.position.x
          self.position.y = self.last_known_good.position.y
          self.rotation = self.last_known_good.rotation
-         print("Warped out!")
       end
       self.warp_timer = self.warp_timer - 1
       speed = 0
