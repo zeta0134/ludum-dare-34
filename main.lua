@@ -68,23 +68,59 @@ function game_draw()
 end
 
 function title_draw()
-   x_center = love.window.getWidth() / 2
-   y_center = love.window.getHeight() / 2
+   local x_center = love.window.getWidth() / 2
+   local y_center = love.window.getHeight() / 2
+   local side_buttons_y = y_center * 1.7
    local background = stage_select[key.title_state]
    background:draw(x_center, y_center, nil, nil, nil, background:getWidth() / 2, background:getHeight() / 2)
    title_logo:draw(x_center, y_center / 2, nil, nil, nil, title_logo:getWidth() / 2, title_logo:getHeight() / 2)
    if key.title_state ~= 'help' then
-      left_button:draw(20, y_center * 1.5, nil, nil, nil, nil, left_button:getHeight() / 2)
+      left_button:draw(20, side_buttons_y, nil, nil, nil, nil, left_button:getHeight() / 2)
    end
    if key.title_state ~= 'exit' then
-      right_button:draw(love.window.getWidth() - 20, y_center * 1.5, nil, nil, nil, right_button:getWidth(), left_button:getHeight() / 2)
+      right_button:draw(love.window.getWidth() - 20, side_buttons_y, nil, nil, nil, right_button:getWidth(), left_button:getHeight() / 2)
    end
    if key.title_state ~= 'help' then
-      both_buttons:draw(x_center, y_center / 4 * 7, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
+      both_buttons:draw(x_center, side_buttons_y, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
    end
    if key.title_state == 'help' then
+      local y = side_buttons_y - 30
+      ui.font:draw_text("choose", love.window.getWidth() - 80, y, {centered=true}); y = y + 35
+      ui.font:draw_text("stage", love.window.getWidth() - 80, y, {centered=true})
       help_buttons:draw(x_center - 100, y_center + 80, nil, nil, nil, both_buttons:getWidth() / 2, both_buttons:getHeight() / 2)
       help_animation:draw(x_center + 50, y_center + 80, -3.1415 / 2, nil, nil, help_animation:getWidth() / 2, help_animation:getHeight() / 2)
+   end
+   local track_index = nil
+   for i, track_name in ipairs(key.title_stages) do
+      if track_name == key.title_state then track_index = i end
+   end
+   local left_text = ''
+   local right_text = ''
+   local middle_text = ''
+   if track_index then
+      left_text = key.title_stages[track_index - 1]
+      right_text = key.title_stages[track_index + 1]
+   end
+   if key.title_state == key.title_stages[1] then
+      left_text = 'help'
+   end
+   if key.title_state == key.title_stages[#key.title_stages] then
+      right_text = 'exit'
+   end
+   if key.title_stages ~= 'help' then
+      middle_text = key.title_state
+   end
+   if key.title_state == 'exit' then left_text = key.title_stages[#key.title_stages] end
+
+   if key.title_state ~= 'help' then
+      local y = side_buttons_y - 15
+      ui.font:draw_text(left_text, 80, y, {centered=true})
+      y = side_buttons_y - 15
+      ui.font:draw_text(right_text, love.window.getWidth() - 80, y, {centered=true})
+      y = side_buttons_y - 30
+      ui.font:draw_text("play", love.window.getWidth() / 2, y, {centered=true})
+      y = y + 35
+      ui.font:draw_text(middle_text, love.window.getWidth() / 2, y, {centered=true})
    end
 
    --love.graphics.print("state: " .. key.title_state, 350, 290)
