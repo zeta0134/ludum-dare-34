@@ -1,3 +1,7 @@
+Known Bugs
+----------
+- [ ] Upon exiting a race while boosted, the boost meter never depletes, and the boost particles never disappear and look quite strange.
+
 Sounds
 ------
 - [ ] Music: Title Screen and Menus
