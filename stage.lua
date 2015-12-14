@@ -19,21 +19,22 @@ function stage:generate_noise_table()
 end
 
 stage.race_stages = {
-   {name="prefade", duration=60},
-   {name="fadein", duration=120},
-   {name="warmup", duration=60},
+   {name="prefade", duration=20},
+   {name="fadein", duration=30},
+   {name="warmup", duration=30},
    {name="3", duration=60},
    {name="2", duration=60},
    {name="1", duration=60},
    {name="GO", active=true, duration=10},
    {name="results", duration=60*10},
-   {name="postfade", duration=120},
+   {name="postfade", duration=30},
    {name="returntotitle", exit=true}
 }
 
 function stage:load(level_properties)
    self.properties = level_properties
    self.image = love.graphics.newImage("levels/".. level_properties.image_name ..".png")
+   self.image_data = love.image.newImageData("levels/".. level_properties.image_name ..".png")
 
    self.flower_sprite = sprites.new("brush")
    self.flower_batch = love.graphics.newSpriteBatch(self.flower_sprite.sheet.image, 1024*1024)
@@ -226,7 +227,7 @@ function stage:update()
       if stage.race_stages[self.race_stage].duration then
          -- this is an auto-advancing race stage; handle its timer and promote
          -- if necessary
-         if self.stage_timer > stage.race_stages[self.race_stage].duration then
+         if self.stage_timer >= stage.race_stages[self.race_stage].duration then
             self.race_stage = self.race_stage + 1
             self.stage_timer = 0
             if stage.race_stages[self.race_stage].active then

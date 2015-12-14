@@ -34,12 +34,12 @@ function Racer:load(options)
 
    self.normal_speed = 5.0
    self.boost_speed = 3.0
-   self.offroad_drag = 0.20 -- percent, applied to current speed.
+   self.offroad_drag = 0.40 -- percent, applied to current speed.
    self.plant_drag = 0.50 -- percent, applied to current speed.
 
    self.slide_vector = 0.25
    self.normal_turn_rate = 0.006
-   self.slide_turn_rate = 0.009
+   self.slide_turn_rate = 0.012
 
    self.spray_direction = 1.0
    self.spray_offset = 5.0
@@ -69,21 +69,77 @@ function Racer:load(options)
       self[k] = v
    end
 
-   -- particles!!
-   self.particle_glow = love.graphics.newImage("art/particle-glow.png")
-   self.particle_emitter = love.graphics.newParticleSystem(self.particle_glow, 1024)
-   self.particle_emitter:setParticleLifetime(1.5,2)
-   self.particle_emitter:setEmissionRate(60)
-   self.particle_emitter:setSpeed(80,100)
-   self.particle_emitter:setLinearDamping(0, 0)
-   self.particle_emitter:stop()
+   -- For being set on fire
+   self.particles = {}
+   self.particle_disc = love.graphics.newImage("art/particle-disc.png")
+   self.particles.fire = love.graphics.newParticleSystem(self.particle_disc, 1024)
+   self.particles.fire:setParticleLifetime(0.5,0.7)
+   self.particles.fire:setEmissionRate(60)
+   self.particles.fire:setLinearAcceleration(-30, -30, 30, 30)
+   self.particles.fire:setAreaSpread("normal", 7, 7)
+   self.particles.fire:setColors(255, 224, 32, 255, 224, 16, 0, 255)
+   self.particles.fire:setSizes(0.5, 0.5, 0.5, 0)
+   self.particles.fire:stop()
+
+   -- For sliding (dust cloud from the ground)
+   self.particles.dust_cloud = love.graphics.newParticleSystem(self.particle_disc, 1024)
+   self.particles.dust_cloud:setParticleLifetime(0.15,0.20)
+   self.particles.dust_cloud:setEmissionRate(120)
+   self.particles.dust_cloud:setSpread(0.25 * math.pi)
+   self.particles.dust_cloud:setSizes(0.5, 0.8, 0)
+   self.particles.dust_cloud:stop()
+
+   -- For boosting and generally being FAST
+   self.particle_speedlines = love.graphics.newImage("art/particle-speed-lines.png")
+   self.particles.boost_lines = love.graphics.newParticleSystem(self.particle_speedlines, 1024)
+   self.particles.boost_lines:setParticleLifetime(0.15,0.20)
+   self.particles.boost_lines:setEmissionRate(120)
+   self.particles.boost_lines:setSizes(1.0, 1.0)
+   self.particles.boost_lines:setColors(192, 192, 192, 128, 128, 128, 128, 128)
+   self.particles.boost_lines:setAreaSpread("normal", 300, 300)
+   self.particles.boost_lines:stop()
+
+   self.particles.boost_exhaust = love.graphics.newParticleSystem(self.particle_disc, 1024)
+   self.particles.boost_exhaust:setParticleLifetime(0.20,0.25)
+   self.particles.boost_exhaust:setEmissionRate(120)
+   self.particles.boost_exhaust:setSpread(0.50 * math.pi)
+   self.particles.boost_exhaust:setSizes(0.4, 0.5, 0.6, 0.0)
+   self.particles.boost_exhaust:setSpeed(10, 20)
+   self.particles.boost_exhaust:stop()
+end
+
+function Racer:start_boost_effect(r1, g1, b1, r2, g2, b2)
+   local current_speed = self.velocity:length() * 60
+   self.particles.boost_lines:setSpeed(current_speed * -1.6, current_speed * -1.8)
+   local particle_rotation = (self.rotation) * math.pi
+   self.particles.boost_lines:setDirection(particle_rotation, particle_rotation)
+   self.particles.boost_lines:setRotation(particle_rotation, particle_rotation)
+   self.particles.boost_lines:start()
+
+   -- invert direction for the exhaust
+   self.particles.boost_exhaust:setDirection(particle_rotation)
+   self.particles.boost_exhaust:setSpeed(current_speed * 0.5, current_speed * 0.6)
+   self.particles.boost_exhaust:setColors(r1, g1, b1, 255, r2, g2, b2, 255)
+   self.particles.boost_exhaust:start()
+
+   camera.zoom = 0.9
+   camera.drag = 0.025
+end
+
+function Racer:stop_boost_effect()
+   self.particles.boost_lines:stop()
+   self.particles.boost_exhaust:stop()
+   camera.zoom = 1.0
+   camera.drag = 0.04
 end
 
 function Racer:update()
    Object.update(self)
 
-   self.particle_emitter:setPosition(self.position.x, self.position.y)
-   self.particle_emitter:update(1.0/60.0)
+   for k,_ in pairs(self.particles) do
+      self.particles[k]:setPosition(self.position.x, self.position.y)
+      self.particles[k]:update(1.0/60.0)
+   end
 
    camera.position = racer.position + vector_from_angle(racer.rotation) * 250.0
    camera.rotation = racer.rotation + 0.5
@@ -99,6 +155,8 @@ function Racer:update()
       boost_speed = math.min(self.boost_speed, (self.boost_speed * self.boost_timer * 4 / self.max_drag))
       speed = speed + boost_speed
       self.seed_spread = 5
+
+      self:start_boost_effect(224, 224, 255, 64, 64, 128)
    else
       self.seed_spread = 15
    end
@@ -114,11 +172,19 @@ function Racer:update()
       -- WHEEEEEE
       speed = speed * (1.0 + zip_factor)
       self.zipper_timer = self.zipper_timer - 1
+      self:start_boost_effect(255, 255, 128, 192, 128, 16)
+   end
+
+   if self.boost_timer == 0 and self.zipper_timer == 0 then
+      self:stop_boost_effect()
    end
 
    if self.on_fire_timer > 0 then
       speed = speed * 0.5
       self.on_fire_timer = self.on_fire_timer - 1
+      self.particles.fire:start()
+   else
+      self.particles.fire:stop()
    end
 
    -- deal with checkpoints and lap counters
@@ -180,6 +246,12 @@ function Racer:update()
          self.position.x = self.last_known_good.position.x
          self.position.y = self.last_known_good.position.y
          self.rotation = self.last_known_good.rotation
+
+         -- move the player backwards a little bit
+         self.position = self.position + vector_from_angle(self.rotation + 1.0) * 100
+      end
+      if self.warp_timer == 29 then
+         camera.delayed_position = camera.position
       end
       self.warp_timer = self.warp_timer - 1
       speed = 0
@@ -191,12 +263,12 @@ function Racer:update()
       slide_vector = slide_vector * 1.5
    end
    if key.state == "slide-left" then
-      thrust = vector_from_angle(self.rotation + slide_vector)
+      --thrust = vector_from_angle(self.rotation + slide_vector)
       self.spray_direction = 1.0 - 0.5
       self.spray_offset = 50.0
       self.drag = self.drag + 1
    elseif key.state == "slide-right" then
-      thrust = vector_from_angle(self.rotation - slide_vector)
+      --thrust = vector_from_angle(self.rotation - slide_vector)
       self.spray_direction = -1.0 + 0.5
       self.spray_offset = 50.0
       self.drag = self.drag + 1
@@ -236,6 +308,20 @@ function Racer:update()
       self.sprite:set_frame(2, 0)
    end
 
+   if key.state == "slide-right" or key.state == "slide-left" then
+      -- for drag colors later
+      local sr, sg, sb = stage.image_data:getPixel(math.floor(self.position.x), math.floor(self.position.y))
+      self.particles.dust_cloud:setColors(
+         sr * 0.9 , sg * 0.9 , sb * 0.9 , 255,
+         sr * 0.8 , sg * 0.8 , sb * 0.8 , 255)
+      self.particles.dust_cloud:setDirection(self.rotation * math.pi + self.spray_direction * 0.6 * math.pi)
+      local particle_speed = self.velocity:length() * 60 * 1.5
+      self.particles.dust_cloud:setSpeed(particle_speed, particle_speed)
+      self.particles.dust_cloud:start()
+   else
+      self.particles.dust_cloud:stop()
+   end
+
    for i = 1, self.seed_rate do
       local seed_x = self.position.x + math.random(self.seed_spread * -1, self.seed_spread)
       local seed_y = self.position.y + math.random(self.seed_spread * -1, self.seed_spread)
@@ -252,10 +338,19 @@ function Racer:update()
 end
 
 function Racer:draw()
+   love.graphics.setColor(255, 255, 255)
+   if self.on_fire_timer > 0 then
+      local variance = math.abs((self.on_fire_timer % 60) - 30)
+      love.graphics.setColor(128 + variance * 3, 64 + variance * 2, 32)
+   end
+   -- under-character effects
+   love.graphics.draw(self.particles.dust_cloud, 0, 0)
+   love.graphics.draw(self.particles.boost_exhaust, 0, 0)
    Object.draw(self)
-   love.graphics.setBlendMode("additive")
-   love.graphics.draw(self.particle_emitter, 0, 0)
-   love.graphics.setBlendMode("alpha")
+   love.graphics.setColor(255, 255, 255)
+   -- on-character effects
+   love.graphics.draw(self.particles.fire, 0, 0)
+   love.graphics.draw(self.particles.boost_lines, 0, 0)
 end
 
 function Racer.new_racer()
