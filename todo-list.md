@@ -24,6 +24,8 @@ Nice to have:
       the player lands, including plants and things that would slow you down.
 - [ ] Frame limit. See [love.timer.sleep](https://love2d.org/wiki/love.timer.sleep) for examples.
 - [ ] Wrong way notifier, for helping people realize they're going backwards
+- [ ] A help screen
+- [ ] Redo the Plains. Or, adjust the starting position.
 
 Seed Placement and Growth:
 --------------------------
