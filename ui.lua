@@ -5,7 +5,7 @@ local sprites = require("sprites")
 local ui = {}
 ui.speed_multiplier = 3.14159265358979
 
-local function lap_time_to_string(time_in_frames)
+function ui.lap_time_to_string(time_in_frames)
    local minutes = math.floor(time_in_frames / (60 * 60))
    local seconds = math.floor(time_in_frames / 60) - (minutes * 60)
    local hundredths = math.floor((time_in_frames % 60) * 100 / 60)
@@ -56,9 +56,9 @@ function ui.draw()
    love.graphics.print("CHECKPOINT: " .. player.checkpoint, 40, 30)
 
    -- draw timers
-   ui.font:draw_text(lap_time_to_string(player.race_timer), 40, 70)
+   ui.font:draw_text(ui.lap_time_to_string(player.race_timer), 40, 70)
    for i = 1, #player.lap_times do
-      ui.font:draw_text(tostring(i) ..": " .. lap_time_to_string(player.lap_times[i]), 40, 120 + i * 28)
+      ui.font:draw_text(tostring(i) ..": " .. ui.lap_time_to_string(player.lap_times[i]), 40, 120 + i * 28)
    end
 
    -- minimap!

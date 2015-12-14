@@ -1,4 +1,6 @@
 local camera = require("camera")
+local Font = require("font")
+local highscores = require("highscores")
 local key = require("key")
 local leaf_types = require("leaf_types")
 local levels = require("levels")
@@ -85,7 +87,21 @@ function title_draw()
       help_animation:draw(x_center + 50, y_center + 80, -3.1415 / 2, nil, nil, help_animation:getWidth() / 2, help_animation:getHeight() / 2)
    end
 
-   love.graphics.print("state: " .. key.title_state, 350, 290)
+   --love.graphics.print("state: " .. key.title_state, 350, 290)
+
+   if highscores.courses[key.title_state] then
+      highscores_draw(key.title_state)
+   end
+end
+
+function highscores_draw(title_name)
+   local x_center = love.window.getWidth() / 2
+   local y_center = love.window.getHeight() / 2
+   local y = y_center / 2 + (title_logo:getHeight() / 2)
+   ui.font:draw_text("Best Race:", x_center, y, {centered=true}); y = y + 35
+   ui.font:draw_text(ui.lap_time_to_string(highscores:bestRaceTime(title_name)), x_center, y, {centered=true}); y = y + 35
+   ui.font:draw_text("Best Lap:", x_center, y, {centered=true}); y = y + 35
+   ui.font:draw_text(ui.lap_time_to_string(highscores:bestLapTime(title_name)), x_center, y, {centered=true})
 end
 
 function button_update()
@@ -151,7 +167,7 @@ function game_update()
 	      love.event.push('quit')
          return
       end
-      init_stage(key.title_state, "Aloe")
+      init_stage(key.title_state, "Oak")
       game_state = 'playing'
    end
 end

@@ -6,7 +6,12 @@ function Font:load(sprite_name, characters)
    self.characters = characters
 end
 
-function Font:draw_text(text, x, y)
+function Font:draw_text(text, x, y, options)
+   options = options or {}
+   -- centered text
+   if options.centered then
+      x = x - (#text * self.sprite.sheet.frame_width) / 2
+   end
    for i = 1, #text do
       -- figure out if we can draw this character, and which sprite frame
       -- it is
