@@ -14,6 +14,34 @@ highscores.courses = {
             staff=true
          }
       }
+   },
+   desert={
+      race_times={
+         [1]={
+            time=5604,
+            staff=true
+         }
+      },
+      lap_times={
+         [1]={
+            time=1762,
+            staff=true
+         }
+      }
+   },
+   volcano={
+      race_times={
+         [1]={
+            time=5297,
+            staff=true
+         }
+      },
+      lap_times={
+         [1]={
+            time=1536,
+            staff=true
+         }
+      }
    }
 }
 

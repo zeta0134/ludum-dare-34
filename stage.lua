@@ -26,7 +26,7 @@ stage.race_stages = {
    {name="2", duration=60, sound="2"},
    {name="1", duration=60, sound="1"},
    {name="GO", active=true, duration=10, sound="go"},
-   {name="results", duration=60*10, sound="time"},
+   {name="results", duration=60*5, sound="time"},
    {name="postfade", duration=30},
    {name="returntotitle", exit=true}
 }

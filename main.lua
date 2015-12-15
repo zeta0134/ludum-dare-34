@@ -160,7 +160,7 @@ function highscores_draw(title_name)
             brightness = 127 + math.abs((frame % 128) - 64) * 2
             love.graphics.setColor(brightness, brightness, brightness)
          elseif race_times[i].staff then
-            love.graphics.setColor(255, 255, 0)
+            love.graphics.setColor(255, 255, 64)
          else
             love.graphics.setColor(255, 255, 255)
          end
@@ -182,7 +182,7 @@ function highscores_draw(title_name)
             brightness = 127 + math.abs((frame % 128) - 64) * 2
             love.graphics.setColor(brightness, brightness, brightness)
          elseif lap_times[i].staff then
-            love.graphics.setColor(255, 255, 0)
+            love.graphics.setColor(255, 255, 64)
          else
             love.graphics.setColor(255, 255, 255)
          end
