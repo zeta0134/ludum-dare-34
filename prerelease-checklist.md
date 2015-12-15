@@ -1,5 +1,5 @@
 - [x] quantize the collision maps
-- [ ] remove all debug drawing
+- [x] remove all debug drawing
 - [x] remove debug printing to console
 - [ ] export all transparent svgs through pinta to remove the "fade to white" alpha
 - [ ] adjust fade in and countdown times
