@@ -48,17 +48,18 @@ function ui.draw()
    love.graphics.setColor(255, 255, 255)
    local display_speed = string.format("%.1f", ui.speed_multiplier * player.velocity:length())
    display_speed = string.rep(" ", 5 - display_speed:len()) .. display_speed
-   ui.font:draw_text(display_speed, love.graphics.getWidth() - 120, love.graphics.getHeight() - 50)
+   ui.font:draw_text(display_speed, love.graphics.getWidth() - 95, love.graphics.getHeight() - 85, {centered=true})
 
    -- draw lap and checkpoint data
    love.graphics.setColor(255, 255, 255)
-   ui.font:draw_text(tostring(player.lap) .. "/" .. stage.properties.laps, 40, 10)
-   love.graphics.print("CHECKPOINT: " .. player.checkpoint, 40, 30)
+   ui.font:draw_text(tostring(player.lap) .. "/" .. stage.properties.laps, love.graphics.getWidth() - 80, 120)
+   -- love.graphics.print("CHECKPOINT: " .. player.checkpoint, 40, 30)
 
    -- draw timers
-   ui.font:draw_text(ui.lap_time_to_string(player.race_timer), 40, 70)
+   ui.font:draw_text(ui.lap_time_to_string(player.race_timer), love.graphics.getWidth() / 2, 30, {centered=true})
+   -- lap times
    for i = 1, #player.lap_times do
-      ui.font:draw_text(tostring(i) ..": " .. ui.lap_time_to_string(player.lap_times[i]), 40, 120 + i * 28)
+      ui.font:draw_text(tostring(i) ..": " .. ui.lap_time_to_string(player.lap_times[i]), 40, love.graphics.getHeight() - (stage.properties.laps - i) * 28)
    end
 
    -- minimap!
@@ -107,7 +108,7 @@ function ui.draw()
    end
 
    love.graphics.setColor(255, 255, 255)
-   love.graphics.print("Stage: " .. stage.race_stages[stage.race_stage].name, 300, 10)
+   -- love.graphics.print("Stage: " .. stage.race_stages[stage.race_stage].name, 300, 10)
 end
 
 return ui
