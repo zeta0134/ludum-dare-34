@@ -19,7 +19,7 @@ local function load_into(dir, t)
    local filename
    for _, filename in ipairs(files) do
       local title = filename:gsub("(.+)%..+", "%1")
-      t[title] = streaming(dir .. filename)
+      t[title] = streaming(dir .. filename)      
    end
 end
 

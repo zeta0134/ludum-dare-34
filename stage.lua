@@ -22,11 +22,11 @@ stage.race_stages = {
    {name="prefade", duration=20},
    {name="fadein", duration=30},
    {name="warmup", duration=30},
-   {name="3", duration=60},
-   {name="2", duration=60},
-   {name="1", duration=60},
-   {name="GO", active=true, duration=10},
-   {name="results", duration=60*10},
+   {name="3", duration=60, sound="3"},
+   {name="2", duration=60, sound="2"},
+   {name="1", duration=60, sound="1"},
+   {name="GO", active=true, duration=10, sound="go"},
+   {name="results", duration=60*10, sound="time"},
    {name="postfade", duration=30},
    {name="returntotitle", exit=true}
 }
@@ -223,6 +223,7 @@ function stage:update()
       if self.seed_sound_delay > 0 then
          self.seed_sound_delay = self.seed_sound_delay - 1
       end
+      self.stage_timer = self.stage_timer + 1
    else
       if stage.race_stages[self.race_stage].exit then
          game_state = "title"
@@ -235,6 +236,9 @@ function stage:update()
             self.stage_timer = 0
             if stage.race_stages[self.race_stage].active then
                self.race_active = true
+            end
+            if stage.race_stages[self.race_stage].sound then
+               sounds.play(stage.race_stages[self.race_stage].sound)
             end
          else
             self.stage_timer = self.stage_timer + 1

@@ -21,6 +21,9 @@ function init_stage(stage_name, leaf_type)
    player = Racer.new_racer()
    player:load(leaf_types[leaf_type])
    stage:load(levels[stage_name])
+   if sounds.music[stage_name] then
+      sounds.play(stage_name)
+   end
 end
 
 function load(f)
@@ -291,6 +294,7 @@ function love.update(dt)
    end
    -- sounds.stop_all()
    if game_state == 'title' then
+      sounds.stop_all()
       key.update_title_state()
       key.help_frame = key.help_frame + 1
       help_update()
