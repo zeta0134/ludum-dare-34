@@ -24,6 +24,7 @@ function ui.init()
    ui.charge_meter_filled = love.graphics.newImage("art/charge_meter_full.png")
 
    ui.wrong_way_sprite = sprites.new("wrong-way")
+   ui.wrong_way_timer = 0
 end
 
 function ui.draw()
@@ -102,6 +103,12 @@ function ui.draw()
    end
 
    if player.wrong_way then
+      ui.wrong_way_timer = ui.wrong_way_timer + 1
+   else
+      ui.wrong_way_timer = 0
+   end
+
+   if ui.wrong_way_timer > 60 then
       if math.floor((ui.frame % 60) / 30) == 0 then
 	 ui.wrong_way_sprite:draw(love.graphics.getWidth() / 2, 0.25 * love.graphics.getHeight(), nil, nil, nil, ui.wrong_way_sprite:getWidth() / 2, ui.wrong_way_sprite:getHeight() / 2)
       end

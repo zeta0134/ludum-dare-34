@@ -4,13 +4,13 @@ highscores.courses = {
    plains={
       race_times={
          [1]={
-            time=999999,
+            time=4704,
             staff=true
          }
       },
       lap_times={
          [1]={
-            time=999999,
+            time=827,
             staff=true
          }
       }
@@ -23,9 +23,7 @@ function highscores:loadFromFile()
    local highscores_lua = love.filesystem.read(self.filename)
    if highscores_lua then
       if #highscores_lua > 0 then
-         print(highscores_lua)
          loadstring(highscores_lua)()
-         print("Read highscores!")
       end
    end
 end
@@ -34,6 +32,12 @@ function serialize(o)
    local output = ""
    if type(o) == "number" then
       output = output .. o
+   elseif type(o) == "boolean" then
+      if o then
+         output = output .. "true"
+      else
+         output = output .. "false"
+      end
    elseif type(o) == "string" then
       output = output .. string.format("%q", o)
    elseif type(o) == "table" then
