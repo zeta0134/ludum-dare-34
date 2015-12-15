@@ -4,7 +4,9 @@ local map = {
    lctrl='left', rctrl='right',
    lshift='left', rshift='right',
    a='left', d='right',
-   left='left', right='right'
+   left='left', right='right',
+   h='left', l='right',
+   f='right', b='left'
 }
 local keys_down = {left=false, right=false}
 function key.down()
@@ -64,6 +66,7 @@ function key.update_driver_state()
    if key.state == 'straight' then
       if key.down() == 'left' then key.state = 'left'
       elseif key.down() == 'right' then key.state = 'right'
+      elseif key.down() == 'both' then key.state = 'slide-right'
       end
    elseif key.state == 'left' then
       if not key.down() then key.state = 'straight'
