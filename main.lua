@@ -51,7 +51,11 @@ function load(f)
    help_animation = sprites.new "oak-player"
 
    love.window.setIcon(sprites.sheets["icon"].image:getData())
-   love.window.setMode(800, 600, {resizable = true})
+   love.window.setMode(800, 600, {
+      resizable = true,
+      minwidth = 600,
+      minheight = 600
+   })
 end
 
 function love.load()
@@ -70,7 +74,7 @@ function game_draw()
    player:draw()
    love.graphics.pop()
 
-   love.graphics.print("state: " .. key.state, 350, 270)
+   -- love.graphics.print("state: " .. key.state, 350, 270)
 end
 
 function title_draw()
@@ -269,8 +273,8 @@ function love.draw()
       game_draw()
       ui.draw()
    end
-   love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 50)
-   love.graphics.print("fps: " .. love.timer.getFPS(), 20, love.window.getHeight() - 30)
+   -- love.graphics.print("frame: " .. frame, 20, love.window.getHeight() - 50)
+   -- love.graphics.print("fps: " .. love.timer.getFPS(), 20, love.window.getHeight() - 30)
 end
 
 frame = 0
