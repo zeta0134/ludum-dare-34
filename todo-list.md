@@ -2,7 +2,7 @@ Known Bugs
 ----------
 - [x] Upon exiting a race while boosted, the boost meter never depletes, and the boost particles never disappear and look quite strange.
 - [x] Ending up out of bounds of the map crashes in racer.lua line 325, trying to pick the color of the dust cloud over nonexistant map.
-- [ ] Pressing both keys from going straight on the same frame locks you going straight; it should do a straight slide.
+- [x] Pressing both keys from going straight on the same frame locks you going straight; it should do a straight slide.
 - [x] Wrong way sign is too eager; should pop up after ~1s of going the wrong way
    - [x] Also prevent this from showing up on race finish
 - [x] It is possible to go out of bounds backwards; the oob logic will then place you further out of bounds. It should try what it's doing (putting you behind where you went off), infront of that, and straight where you went off.
@@ -19,7 +19,7 @@ Sounds (Canceled!)
 - [ ] SFX: Sliding. Bonus: per material (dirt, grass, sand, water, rocks)
 - [ ] SFX: Lap Clear
 - [ ] SFX: Race Clear (music here too?)
-- [ ] SFX: 3... 2... 1... RACE!
+- [x] SFX: 3... 2... 1... RACE!
 
 In the level loader:
 --------------------
@@ -62,7 +62,7 @@ Seed Placement and Growth:
 Riders:
 -------
 - [x] Different sprites for turning, sliding, and boosting
-- [ ] HUD
+- [x] HUD
 - [x] Acceleration! You shouldn't instantly go top speed, nor should you instantly drop speed going over rough terrain!
 
 Feature Creep:
