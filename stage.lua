@@ -223,6 +223,7 @@ function stage:update()
       if self.seed_sound_delay > 0 then
          self.seed_sound_delay = self.seed_sound_delay - 1
       end
+      self.stage_timer = self.stage_timer + 1
    else
       if stage.race_stages[self.race_stage].exit then
          game_state = "title"

@@ -126,7 +126,7 @@ function ui.draw()
    }
    local mapping = countdown_mapping[stage.race_stages[stage.race_stage].name]
    -- this blinks because the countdown isn't always second aligned
-   if mapping and ui.frame % 60 / 30 < 0.9 then
+   if mapping and stage.stage_timer < 50 then
       ui.countdown_font:draw_text(mapping, love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, {centered=true})
    end
 end
