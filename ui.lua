@@ -60,7 +60,7 @@ function ui.draw()
    ui.font:draw_text(ui.lap_time_to_string(player.race_timer), love.graphics.getWidth() / 2, 30, {centered=true})
    -- lap times
    for i = 1, #player.lap_times do
-      ui.font:draw_text(tostring(i) ..": " .. ui.lap_time_to_string(player.lap_times[i]), 40, love.graphics.getHeight() - (stage.properties.laps - i + 1) * 28)
+      ui.font:draw_text(tostring(i) ..": " .. ui.lap_time_to_string(player.lap_times[i]), 20, love.graphics.getHeight() - (stage.properties.laps - i + 1) * 28 - 10)
    end
 
    -- minimap!

@@ -67,7 +67,7 @@ function game_draw()
    player:draw()
    love.graphics.pop()
 
-   love.graphics.print("state: " .. key.state, 350, 270)
+   -- love.graphics.print("state: " .. key.state, 350, 270)
 end
 
 function title_draw()
