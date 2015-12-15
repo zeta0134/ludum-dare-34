@@ -1,15 +1,15 @@
 Known Bugs
 ----------
-- [ ] Upon exiting a race while boosted, the boost meter never depletes, and the boost particles never disappear and look quite strange.
-- [ ] Ending up out of bounds of the map crashes in racer.lua line 325, trying to pick the color of the dust cloud over nonexistant map.
+- [x] Upon exiting a race while boosted, the boost meter never depletes, and the boost particles never disappear and look quite strange.
+- [x] Ending up out of bounds of the map crashes in racer.lua line 325, trying to pick the color of the dust cloud over nonexistant map.
 - [ ] Pressing both keys from going straight on the same frame locks you going straight; it should do a straight slide.
-- [ ] Wrong way sign is too eager; should pop up after ~1s of going the wrong way
-   - [ ] Also prevent this from showing up on race finish
-- [ ] It is possible to go out of bounds backwards; the oob logic will then place you further out of bounds. It should try what it's doing (putting you behind where you went off), infront of that, and straight where you went off.
-- [ ] Final time is one frame too long compared to the lap total.
+- [x] Wrong way sign is too eager; should pop up after ~1s of going the wrong way
+   - [x] Also prevent this from showing up on race finish
+- [x] It is possible to go out of bounds backwards; the oob logic will then place you further out of bounds. It should try what it's doing (putting you behind where you went off), infront of that, and straight where you went off.
+- [x] Final time is one frame too long compared to the lap total.
 
-Sounds
-------
+Sounds (Canceled!)
+------------------
 - [ ] Music: Title Screen and Menus
 - [ ] Music: Racing (bonus: themes for each stage)
 - [ ] SFX: Charging Up (loops near the top; can we frequency slide with code?)
@@ -25,9 +25,9 @@ In the level loader:
 --------------------
 - [x] Base name of the stage, from which it finds all art assets for stitching
 - [ ] Actual level stitching, respecting the maximum texture size of 1024
-      (but no limit on number of loaded textures?)
+      (but no limit on number of loaded textures?) (CANCELED)
 - [x] Level attributes (plant types? growth rate? starting positions?)
-- [ ] Out of Bounds texture (No no no! Wrong way!)
+- [ ] Out of Bounds texture (No no no! Wrong way!) (COLOR, no texture)
 - [x] Going out of bounds (like, OFF the map) should teleport the player to the last
       known good position before they left the map (ie, back on the track)
 - [ ] Differnet plant sprites per-level
@@ -52,7 +52,7 @@ Nice to have:
 - [x] Redo the Plains. Or, adjust the starting position.
 - [x] Add out of bounds regions (and hazards?) to the desert.
 - [x] Text for the title screen selections.
-- [ ] Bitmap font for times/laps/hud.
+- [x] Bitmap font for times/laps/hud.
 
 Seed Placement and Growth:
 --------------------------

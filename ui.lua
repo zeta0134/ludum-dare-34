@@ -31,7 +31,7 @@ function ui.draw()
    ui.frame = ui.frame + 1
    -- draw a boost meter!
    love.graphics.setColor(255, 255, 255)
-   love.graphics.draw(ui.charge_meter, love.graphics.getWidth() - 54 - 10, love.graphics.getHeight() - 128 - 10)
+   love.graphics.draw(ui.charge_meter, love.graphics.getWidth() - ui.charge_meter:getWidth() - 10, love.graphics.getHeight() - ui.charge_meter:getHeight() - 10)
    local height = (math.max(player.boost_timer, player.drag) / player.max_drag) * 128
    if height > 0 then
       if player.boost_timer > player.drag then
@@ -39,8 +39,10 @@ function ui.draw()
       else
          love.graphics.setColor(192, 0, 0)
       end
-      local quad = love.graphics.newQuad(0, 128 - height, 54, height, 54, 128)
-      love.graphics.draw(ui.charge_meter_filled, quad, love.graphics.getWidth() - 54 - 10, love.graphics.getHeight() - height - 10)
+      local quad = love.graphics.newQuad(0, 128 - height, ui.charge_meter_filled:getWidth(), height, 128, 128)
+      love.graphics.setBlendMode('additive')
+      love.graphics.draw(ui.charge_meter_filled, quad, love.graphics.getWidth() - ui.charge_meter_filled:getWidth() - 10, love.graphics.getHeight() - height - 10)
+      love.graphics.setBlendMode('alpha')
    end
 
    -- draw speed!
