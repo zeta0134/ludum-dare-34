@@ -9,7 +9,7 @@ Since you're trying to hurry, you just spread seeds behind you wherever you go. 
 
 ## Playing the game
 
-To play from source, clone this repository and install [LOVE](love2d.org) for your system. On Windows, you can drag the folder onto `love.exe` to run it, or you can change into the cloned directory in a terminal and run `love .`
+To play from source, clone this repository and install [LOVE](love2d.org) 9.2 for your system. On Windows, you can drag the folder onto `love.exe` to run it, or you can change into the cloned directory in a terminal and run `love .`
 
 You can also check the releases for the latest release, we try to build for all available systems.
 
@@ -20,3 +20,11 @@ There are a number of control mappings to the two buttons:
 - A and D
 - H and L
 - B and F
+
+## Credits
+
+- zeta0134 - engine programming, sound editing
+- cromo - menu programming, art, sound effects
+- rgarza533 - music, sound effects
+- robertoszek - testing
+- gboblyn - testing
