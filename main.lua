@@ -48,7 +48,11 @@ function load(f)
    help_animation = sprites.new "oak-player"
 
    love.window.setIcon(sprites.sheets["icon"].image:getData())
-   love.window.setMode(800, 600, {resizable = true})
+   love.window.setMode(800, 600, {
+      resizable = true,
+      minwidth = 600,
+      minheight = 600
+   })
 end
 
 function love.load()
