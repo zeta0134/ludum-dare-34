@@ -19,6 +19,8 @@ function ui.init()
 
    ui.font = Font.new()
    ui.font:load("font", "0123456789:/.!acdeghilnoprstvwxy")
+   ui.countdown_font = Font.new()
+   ui.countdown_font:load("countdown-font", "!123go")
 
    ui.charge_meter = love.graphics.newImage("art/charge_meter_empty.png")
    ui.charge_meter_filled = love.graphics.newImage("art/charge_meter_full.png")
@@ -116,6 +118,17 @@ function ui.draw()
 
    love.graphics.setColor(255, 255, 255)
    -- love.graphics.print("Stage: " .. stage.race_stages[stage.race_stage].name, 300, 10)
+   local countdown_mapping = {
+      ["1"] = "1",
+      ["2"] = "2",
+      ["3"] = "3",
+      GO = "go!"
+   }
+   local mapping = countdown_mapping[stage.race_stages[stage.race_stage].name]
+   -- this blinks because the countdown isn't always second aligned
+   if mapping and ui.frame % 60 / 30 < 0.9 then
+      ui.countdown_font:draw_text(mapping, love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, {centered=true})
+   end
 end
 
 return ui
