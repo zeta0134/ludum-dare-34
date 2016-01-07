@@ -42,7 +42,7 @@ function ui.draw()
          love.graphics.setColor(192, 0, 0)
       end
       local quad = love.graphics.newQuad(0, 128 - height, ui.charge_meter_filled:getWidth(), height, 128, 128)
-      love.graphics.setBlendMode('additive')
+      love.graphics.setBlendMode('add')
       love.graphics.draw(ui.charge_meter_filled, quad, love.graphics.getWidth() - ui.charge_meter_filled:getWidth() - 10, love.graphics.getHeight() - height - 10)
       love.graphics.setBlendMode('alpha')
    end

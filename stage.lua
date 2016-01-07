@@ -252,7 +252,7 @@ function stage:draw()
    love.graphics.draw(self.image)
    if true then
       local old_blend_mode = love.graphics.getBlendMode()
-      love.graphics.setBlendMode("additive")
+      love.graphics.setBlendMode("add")
       love.graphics.setColor(255, 255, 255)
       love.graphics.push()
       love.graphics.scale(seed_scale)
