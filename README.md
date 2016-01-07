@@ -8,7 +8,6 @@ The controls are simple - just move left and right. If you try to go the opposit
 Since you're trying to hurry, you just spread seeds behind you wherever you go. In retrospect, this wasn't the best idea - now you're running into the plants you've already planted the last time you went through here, and running into them slows you down, so try to avoid them. They grow bigger over time, and the bigger they are, the more caught up in them you become.
 
 ## Playing the game
-
 To play from source, clone this repository and install [LOVE](love2d.org) 0.10.0 for your system. On Windows, you can drag the folder onto `love.exe` to run it, or you can change into the cloned directory in a terminal and run `love .`
 
 You can also check the releases for the latest release, we try to build for all available systems.
