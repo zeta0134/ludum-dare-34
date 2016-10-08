@@ -9,11 +9,23 @@ local map = {
    f='right', b='left'
 }
 local keys_down = {left=false, right=false}
+local touches = {}
 function key.down()
    if keys_down.left and keys_down.right then return 'both'
    elseif keys_down.left then return 'left'
    elseif keys_down.right then return 'right'
-   else return nil end
+   else return key.touches_down() end
+end
+
+function key.touches_down()
+  local touch_count = {left=0, right=0}
+  for _, side in pairs(touches) do
+    touch_count[side] = touch_count[side] + 1
+  end
+  if 0 < touch_count.left and 0 < touch_count.right then return 'both'
+  elseif 0 < touch_count.left then return 'left'
+  elseif 0 < touch_count.right then return 'right'
+  else return nil end
 end
 
 local last_keys_down = nil
@@ -56,9 +68,24 @@ function key.keyreleased(key, is_repeat)
    end
 end
 
+function key.on_touch(id, x)
+  local threshold = love.graphics.getWidth() / 2
+  local side = 'left'
+  if threshold < x then
+    side = 'right'
+  end
+  touches[id] = side
+end
+
+function key.on_lift(id)
+  touches[id] = nil
+end
+
 function key.register_handlers(l)
    l.keypressed = key.keypressed
    l.keyreleased = key.keyreleased
+   l.touchpressed = key.on_touch
+   l.touchreleased = key.on_lift
 end
 
 key.state = 'straight'
